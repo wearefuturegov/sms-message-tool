@@ -1,0 +1,40 @@
+{
+  "name": "railsy-nextjs-prisma-example",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+    "dev": "next",
+    "build": "prisma generate && next build",
+    "start": "next start",
+    "test": "jest",
+    "cypress": "cypress open",
+    "schema:load": "prisma db push --preview-feature"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@prisma/client": "^2.19.0",
+    "@reach/dialog": "^0.13.2",
+    "formik": "^2.2.6",
+    "next": "^10.0.9",
+    "next-auth": "^3.13.2",
+    "react": "16.14.0",
+    "react-dom": "16.14.0",
+    "sass": "^1.32.8",
+    "yup": "^0.32.9"
+  },
+  "devDependencies": {
+    "@testing-library/react": "^11.2.5",
+    "cypress": "^6.8.0",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^26.6.3",
+    "prisma": "^2.19.0"
+  },
+  "jest": {
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less|scss|sass)$": "identity-obj-proxy"
+    }
+  }
+}
