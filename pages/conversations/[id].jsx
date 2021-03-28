@@ -1,15 +1,11 @@
+import { useState } from "react"
+import useSWR from "swr"
+import { useRouter } from "next/router"
 import MessageForm from "../../components/MessageForm"
-
-export const getServerSideProps = async ({ params }) => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_HOST}/api/contacts/${params.id}`
-  )
-  const conversation = await res.json()
-  return { props: { conversation } }
-}
+import Message from "../../components/Message"
+import { DateTime } from "luxon"
 
 const handleSubmit = async (id, body) => {
-  console.log(id, body)
   const res = await fetch(
     `${process.env.NEXT_PUBLIC_API_HOST}/api/contacts/${id}/message`,
     {
@@ -22,15 +18,41 @@ const handleSubmit = async (id, body) => {
   const data = await res.json()
 }
 
-const Index = ({ conversation }) => (
-  <>
-    <h1>{conversation.number}</h1>
-    <code>{JSON.stringify(conversation)}</code>
+const Index = () => {
+  const router = useRouter()
+  const { id } = router.query
 
-    <MessageForm
-      onSubmit={values => handleSubmit(conversation.id, values.body)}
-    />
-  </>
-)
+  const { data, error } = useSWR(
+    `${process.env.NEXT_PUBLIC_API_HOST}/api/contacts/${id}`
+  )
+
+  const [openMessage, setOpenMessage] = useState(false)
+
+  let conversation = data
+
+  if (conversation)
+    return (
+      <>
+        <h1 className="visually-hidden">{conversation.number}</h1>
+
+        <ul className="conversation">
+          {conversation.received_messages.map(message => (
+            <Message
+              key={message.id}
+              message={message}
+              openMessage={openMessage}
+              setOpenMessage={setOpenMessage}
+            />
+          ))}
+        </ul>
+
+        <MessageForm
+          onSubmit={values => handleSubmit(conversation.id, values.body)}
+        />
+      </>
+    )
+
+  return <p>Loading...</p>
+}
 
 export default Index

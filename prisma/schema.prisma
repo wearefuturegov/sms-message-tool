@@ -5,25 +5,30 @@ datasource db {
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["createMany"]
+  previewFeatures = ["createMany", "orderByRelation"]
 }
 
 model Message {
   id   Int    @id @default(autoincrement())
   body String
 
-  // for received messages only
+  // 1. for received messages only
   sender   Contact? @relation(name: "sender", fields: [senderId], references: [id])
   senderId Int?
 
-  // for sent messages only
+  // 2. for sent messages only
   recipient   Contact? @relation(name: "recipient", fields: [recipientId], references: [id])
   recipientId Int?
+  // record the app user who sent the message
   user        User?    @relation(fields: [userId], references: [id])
   userId      Int?
 
   createdAt DateTime @default(now()) @map(name: "created_at")
   updatedAt DateTime @updatedAt @map(name: "updated_at")
+
+  // delivery info from notify callback
+  completedAt DateTime?
+  status      String?
 }
 
 model Contact {

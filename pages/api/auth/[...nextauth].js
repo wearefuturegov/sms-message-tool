@@ -6,13 +6,19 @@ import prisma from "../../../lib/prisma"
 const authHandler = (req, res) =>
   NextAuth(req, res, {
     providers: [
-      Providers.Email({
-        sendVerificationRequest: async ({ url }) => {
-          // for local development, just log the token url to the console
-          return await console.log(url)
-        },
+      Providers.Google({
+        clientId: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
       }),
     ],
+
+    callbacks: {
+      // include user id in the session object
+      async session(session, user) {
+        session.user.id = user.id
+        return session
+      },
+    },
 
     adapter: Adapters.Prisma.Adapter({ prisma }),
     secret: process.env.SESSION_SECRET,

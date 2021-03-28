@@ -1,6 +1,9 @@
 import prisma from "../../../../lib/prisma"
+import { verifySession } from "../../../../lib/middleware"
 
 export default async (req, res) => {
+  await verifySession(req, res)
+
   let result
 
   const id = req.query.id
@@ -9,8 +12,16 @@ export default async (req, res) => {
       id: Number(id),
     },
     include: {
-      sent_messages: true,
-      received_messages: true,
+      sent_messages: {
+        include: {
+          user: true,
+        },
+      },
+      received_messages: {
+        include: {
+          user: true,
+        },
+      },
     },
   })
 

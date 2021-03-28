@@ -19,13 +19,16 @@
     "@reach/dialog": "^0.13.2",
     "formik": "^2.2.6",
     "lbh-frontend": "^3.3.1",
+    "luxon": "^1.26.0",
     "next": "^10.0.9",
     "next-auth": "^3.13.2",
     "notifications-node-client": "^5.1.0",
     "react": "16.14.0",
     "react-dom": "16.14.0",
     "sass": "^1.32.8",
-    "yup": "^0.32.9"
+    "swr": "^0.5.4",
+    "yup": "^0.32.9",
+    "yup-phone": "^1.2.19"
   },
   "devDependencies": {
     "@testing-library/react": "^11.2.5",

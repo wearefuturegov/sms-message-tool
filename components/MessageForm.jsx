@@ -12,11 +12,25 @@ const MessageForm = ({ onSubmit }) => {
     >
       {({ touched, errors, isSubmitting }) => (
         <Form>
-          <label htmlFor="body">Body</label>
-          {touched.body && errors.body && <p role="alert">{errors.body}</p>}
-          <Field name="body" id="body" as="textarea" />
+          <label htmlFor="body" className="visually-hidden">
+            Body
+          </label>
+          {touched.body && errors.body && (
+            <p className="govuk-error-message lbh-error-message" role="alert">
+              <span className="govuk-visually-hidden">Error:</span>{" "}
+              {errors.body}
+            </p>
+          )}
+          <Field
+            name="body"
+            id="body"
+            as="textarea"
+            className="govuk-textarea lbh-textarea"
+          />
 
-          <button disabled={isSubmitting}>Send</button>
+          <button disabled={isSubmitting} className="govuk-button lbh-button">
+            Send
+          </button>
         </Form>
       )}
     </Formik>
