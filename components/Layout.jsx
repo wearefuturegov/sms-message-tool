@@ -2,6 +2,7 @@ import { useState } from "react"
 import useSWR from "swr"
 import React from "react"
 import Link from "next/link"
+import NavLink from "../components/NavLink"
 import { useSession, signOut } from "next-auth/client"
 import { useRouter } from "next/router"
 
@@ -76,7 +77,9 @@ const Layout = ({ children }) => {
         <div className="lbh-main-wrapper lbh-container">
           <nav>
             <Link href="new">
-              <a className="lbh-body lbh-link">New conversation</a>
+              <a className="lbh-body lbh-link lbh-link--no-visited-state">
+                New conversation
+              </a>
             </Link>
 
             <form>
@@ -89,19 +92,19 @@ const Layout = ({ children }) => {
                 id="search"
                 type="search"
                 className="govuk-input lbh-input"
-                placeholder="Search for a conversation..."
+                placeholder="Search..."
               />
             </form>
 
-            <ul className="lbh-list">
+            <ul className="conversation-list">
               {contacts.map(contact => (
-                <li key={contact.id}>
-                  <Link href={`/conversations/${contact.id}`}>
-                    <a className="lbh-link">{contact.number}</a>
-                  </Link>
-                  <p className="lbh-body-xs">
-                    {contact.received_messages[0].body}
-                  </p>
+                <li className="conversation-list__item" key={contact.id}>
+                  <NavLink href={`/conversations/${contact.id}`}>
+                    {contact.number}
+                    <span className="lbh-body-xs conversation-list__last-message">
+                      {contact.received_messages[0].body}
+                    </span>
+                  </NavLink>
                 </li>
               ))}
             </ul>
@@ -115,7 +118,7 @@ const Layout = ({ children }) => {
 
   if (!session && !loading) return router.push("/api/auth/signin")
 
-  return <p>Loading...</p>
+  return <p className="lbh-body">Loading...</p>
 }
 
 export default Layout
