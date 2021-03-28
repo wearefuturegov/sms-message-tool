@@ -47,7 +47,7 @@
 .conversation {
   margin-top: 0;
   padding: 25px;
-  background: lbh-colour("lbh-grey-3");
+  background: lbh-colour("lbh-grey-4");
   list-style: none;
 
   &__message {
@@ -68,5 +68,38 @@
       background-image: url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0.5 9.5V0H10L0.5 9.5Z' fill='white'/%3E%3C/svg%3E%0A");
       display: block;
     }
+  }
+}
+
+.conversation-list {
+  font-family: Open Sans, sans-serif;
+  list-style: none;
+
+  &__item {
+    margin-top: 5px;
+  }
+  &__link {
+    display: block;
+    padding: 20px;
+    text-decoration: none;
+
+    &--selected {
+      background: lbh-colour("lbh-grey-4");
+    }
+  }
+  &__last-message {
+    display: block;
+    margin-top: 5px;
+    color: lbh-colour("lbh-secondary-text");
+  }
+}
+
+.message-form {
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  gap: 25px;
+
+  button {
+    margin-top: 0;
   }
 }

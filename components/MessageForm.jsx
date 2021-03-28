@@ -11,7 +11,7 @@ const MessageForm = ({ onSubmit }) => {
       onSubmit={onSubmit}
     >
       {({ touched, errors, isSubmitting }) => (
-        <Form>
+        <Form className="message-form">
           <label htmlFor="body" className="visually-hidden">
             Body
           </label>

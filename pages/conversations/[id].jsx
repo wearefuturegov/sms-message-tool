@@ -52,7 +52,7 @@ const Index = () => {
       </>
     )
 
-  return <p>Loading...</p>
+  return <p className="lbh-body">Loading...</p>
 }
 
 export default Index
