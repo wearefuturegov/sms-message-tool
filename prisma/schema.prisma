@@ -8,13 +8,33 @@ generator client {
   previewFeatures = ["createMany"]
 }
 
-model Post {
-  id        Int     @id @default(autoincrement())
-  title     String
-  content   String?
-  published Boolean @default(false)
-  author    User?   @relation(fields: [authorId], references: [id])
-  authorId  Int?
+model Message {
+  id   Int    @id @default(autoincrement())
+  body String
+
+  // for received messages only
+  sender   Contact? @relation(name: "sender", fields: [senderId], references: [id])
+  senderId Int?
+
+  // for sent messages only
+  recipient   Contact? @relation(name: "recipient", fields: [recipientId], references: [id])
+  recipientId Int?
+  user        User?    @relation(fields: [userId], references: [id])
+  userId      Int?
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
+}
+
+model Contact {
+  id     Int    @id @default(autoincrement())
+  number String @unique
+
+  sent_messages     Message[] @relation(name: "sender")
+  received_messages Message[] @relation(name: "recipient")
+
+  createdAt DateTime @default(now()) @map(name: "created_at")
+  updatedAt DateTime @updatedAt @map(name: "updated_at")
 }
 
 model User {
@@ -25,7 +45,7 @@ model User {
   image         String?
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
-  posts         Post[]
+  messages      Message[]
 
   @@map(name: "users")
 }
