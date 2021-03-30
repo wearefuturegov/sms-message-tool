@@ -12,12 +12,7 @@ export default async (req, res) => {
       id: Number(id),
     },
     include: {
-      sent_messages: {
-        include: {
-          user: true,
-        },
-      },
-      received_messages: {
+      messages: {
         include: {
           user: true,
         },

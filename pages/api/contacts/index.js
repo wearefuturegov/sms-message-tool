@@ -17,14 +17,13 @@ export default async (req, res) => {
     })
   } else {
     // INDEX
-    result = await prisma.contact.findMany({
+    result = await prisma.message.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+      distinct: ["contactId"],
       include: {
-        received_messages: {
-          orderBy: {
-            createdAt: "desc",
-          },
-          take: 1,
-        },
+        contact: true,
       },
     })
   }

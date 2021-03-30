@@ -5,41 +5,34 @@ datasource db {
 
 generator client {
   provider        = "prisma-client-js"
-  previewFeatures = ["createMany", "orderByRelation"]
+  previewFeatures = ["createMany"]
+}
+
+enum Direction {
+  INBOUND
+  OUTBOUND
 }
 
 model Message {
-  id   Int    @id @default(autoincrement())
-  body String
-
-  // 1. for received messages only
-  sender   Contact? @relation(name: "sender", fields: [senderId], references: [id])
-  senderId Int?
-
-  // 2. for sent messages only
-  recipient   Contact? @relation(name: "recipient", fields: [recipientId], references: [id])
-  recipientId Int?
-  // record the app user who sent the message
-  user        User?    @relation(fields: [userId], references: [id])
+  id          Int       @id @default(autoincrement())
+  body        String
+  direction   Direction
+  contact     Contact?  @relation(fields: [contactId], references: [id])
+  contactId   Int?
+  user        User?     @relation(fields: [userId], references: [id])
   userId      Int?
-
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @updatedAt @map(name: "updated_at")
-
-  // delivery info from notify callback
+  createdAt   DateTime  @default(now()) @map(name: "created_at")
+  updatedAt   DateTime  @updatedAt @map(name: "updated_at")
   completedAt DateTime?
   status      String?
 }
 
 model Contact {
-  id     Int    @id @default(autoincrement())
-  number String @unique
-
-  sent_messages     Message[] @relation(name: "sender")
-  received_messages Message[] @relation(name: "recipient")
-
-  createdAt DateTime @default(now()) @map(name: "created_at")
-  updatedAt DateTime @updatedAt @map(name: "updated_at")
+  id        Int       @id @default(autoincrement())
+  number    String    @unique
+  messages  Message[]
+  createdAt DateTime  @default(now()) @map(name: "created_at")
+  updatedAt DateTime  @updatedAt @map(name: "updated_at")
 }
 
 model User {
@@ -67,7 +60,6 @@ model Account {
   accessTokenExpires DateTime? @map(name: "access_token_expires")
   createdAt          DateTime  @default(now()) @map(name: "created_at")
   updatedAt          DateTime  @default(now()) @map(name: "updated_at")
-
 
   @@index([providerAccountId], name: "providerAccountId")
   @@index([providerId], name: "providerId")

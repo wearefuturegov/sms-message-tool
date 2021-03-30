@@ -5,10 +5,11 @@ import Link from "next/link"
 import NavLink from "../components/NavLink"
 import { useSession, signOut } from "next-auth/client"
 import { useRouter } from "next/router"
+import styles from "../styles/Layout.module.scss"
 
 const Layout = ({ children }) => {
   const { data, error } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_HOST}/api/contacts`
+    `${process.env.NEXT_PUBLIC_API_HOST}/api/conversations`
   )
 
   const router = useRouter()
@@ -20,7 +21,7 @@ const Layout = ({ children }) => {
 
   if (contacts && session)
     return (
-      <div className="app">
+      <div className={styles.app}>
         <header className="lbh-header">
           <div className="lbh-header__main">
             <div className="lbh-container lbh-header__wrapper">
@@ -74,7 +75,9 @@ const Layout = ({ children }) => {
           </div>
         </header>
 
-        <div className="lbh-main-wrapper lbh-container">
+        <div
+          className={`lbh-main-wrapper lbh-container ${styles["app__content-area"]}`}
+        >
           <nav>
             <Link href="new">
               <a className="lbh-body lbh-link lbh-link--no-visited-state">
@@ -109,7 +112,11 @@ const Layout = ({ children }) => {
               ))}
             </ul>
           </nav>
-          <main id="main-content" role="main" className="app__pane">
+          <main
+            id="main-content"
+            role="main"
+            className={styles["app__right-pane"]}
+          >
             {children}
           </main>
         </div>

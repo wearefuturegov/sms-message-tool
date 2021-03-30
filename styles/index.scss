@@ -10,45 +10,14 @@
   width: 1px;
 }
 
-.lbh-main-wrapper {
-  display: grid;
-  grid-template-columns: 1fr 3fr;
-  gap: 25px;
-}
-
-.app {
-  margin-top: 0;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  min-height: 0;
-
-  .lbh-main-wrapper {
-    flex: 1;
-    min-height: 0;
-  }
-
-  &__pane {
-    flex: 1;
-    margin-top: 0;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    min-height: 0;
-  }
-
-  .conversation {
-    flex: 1;
-    overflow: scroll;
-    min-height: 0;
-  }
-}
-
 .conversation {
   margin-top: 0;
   padding: 25px;
   background: lbh-colour("lbh-grey-4");
   list-style: none;
+  flex: 1;
+  overflow: scroll;
+  min-height: 0;
 
   &__message {
     padding: 10px;
@@ -85,6 +54,7 @@
 
     &--selected {
       background: lbh-colour("lbh-grey-4");
+      color: lbh-colour("lbh-text") !important;
     }
   }
   &__last-message {

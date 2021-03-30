@@ -12,7 +12,8 @@ export default async (req, res) => {
     const result = await prisma.message.create({
       data: {
         body: body,
-        recipient: {
+        direction: "OUTBOUND",
+        contact: {
           connect: {
             id: Number(id),
           },
@@ -24,7 +25,7 @@ export default async (req, res) => {
         },
       },
       include: {
-        recipient: true,
+        contact: true,
       },
     })
     await sendMessage(result.recipient.number, body, result.id)
