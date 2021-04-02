@@ -12,6 +12,13 @@ enum Direction {
   OUTBOUND
 }
 
+model Team {
+  id                  Int      @id @default(autoincrement())
+  outOfHoursAutoreply Boolean
+  outOfHoursMessage   String?
+  messageTemplates    String[]
+}
+
 model Message {
   id          Int       @id @default(autoincrement())
   body        String

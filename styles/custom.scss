@@ -1,0 +1,194 @@
+@import "node_modules/lbh-frontend/lbh/settings/all";
+
+// main conversation message area
+.conversation {
+  margin-top: 0;
+  padding: 25px;
+  background: lbh-colour("lbh-grey-4");
+  list-style: none;
+  flex: 1;
+  overflow: scroll;
+  min-height: 0;
+
+  &__message {
+    padding: 10px;
+    background: white;
+    border-radius: 5px;
+    max-width: 250px;
+    position: relative;
+
+    &:before {
+      content: "";
+      position: absolute;
+      bottom: -10px;
+      left: -0.5px;
+      width: 15px;
+      height: 15px;
+      background-size: cover;
+      background-image: url("data:image/svg+xml,%3Csvg width='10' height='10' viewBox='0 0 10 10' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0.5 9.5V0H10L0.5 9.5Z' fill='white'/%3E%3C/svg%3E%0A");
+      display: block;
+    }
+  }
+}
+
+// new message form
+.message-form {
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  gap: 15px;
+
+  button {
+    margin-top: 0;
+  }
+}
+
+// conversation list view in left pane
+.conversation-list {
+  font-family: Open Sans, sans-serif;
+  list-style: none;
+  margin-top: 10px;
+
+  &__item {
+    margin-top: 5px;
+  }
+  &__link {
+    display: block;
+    padding: 15px;
+    text-decoration: none;
+
+    &--selected {
+      background: lbh-colour("lbh-grey-4");
+      color: lbh-colour("lbh-text") !important;
+    }
+  }
+  &__last-message {
+    display: block;
+    margin-top: 5px;
+    color: lbh-colour("lbh-secondary-text");
+  }
+}
+
+// dialog
+[data-reach-dialog-overlay] {
+  z-index: 4;
+}
+
+.dialog {
+  position: relative;
+  max-width: 500px;
+  width: 70%;
+  margin: 7vh auto;
+  border: 4px solid lbh-colour("lbh-text");
+
+  &__title {
+    margin-top: 0;
+  }
+
+  &__close {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    display: inline-flex;
+
+    svg {
+      margin-top: 0;
+      path {
+        fill: lbh-colour("lbh-text");
+      }
+    }
+
+    &:focus,
+    &:active {
+      outline: 3px solid lbh-colour("lbh-primary-focus");
+      background: lbh-colour("lbh-primary-focus");
+    }
+  }
+}
+
+// overall layout
+.app-layout {
+  @media screen and (min-width: 40.0625em) {
+    padding-top: 2.25rem;
+  }
+  @media screen and (min-width: 800px) {
+    display: grid;
+    grid-template-columns: 1fr 3fr;
+    gap: 30px;
+  }
+
+  // margin-top: 0;
+  // height: 100vh;
+  // display: flex;
+  // flex-direction: column;
+  // min-height: 0;
+  // &__content-area {
+  //   display: grid !important;
+  //   flex: 1;
+  //   min-height: 0;
+  //   grid-template-columns: 1fr 3fr;
+  //   gap: 25px;
+  // }
+  // &__right-pane {
+  //   flex: 1;
+  //   margin-top: 0;
+  //   width: 100%;
+  //   display: flex;
+  //   flex-direction: column;
+  //   min-height: 0;
+  // }
+}
+
+// sidebar nav
+.new-conversation-link {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+
+  &:hover svg rect {
+    fill: lbh-colour("lbh-link-hover");
+  }
+  &:active svg rect {
+    fill: lbh-colour("lbh-link-active");
+  }
+  &:focus svg rect {
+    fill: lbh-colour("lbh-text");
+  }
+}
+
+.search-form {
+  position: relative;
+
+  input {
+    padding-right: 40px;
+  }
+  button {
+    margin-top: 0;
+    position: absolute;
+    border: none;
+    background: none;
+    top: 0px;
+    right: 0px;
+    bottom: 0px;
+    display: inline-flex;
+    padding: 12px;
+    cursor: pointer;
+    &:hover {
+      svg * {
+        fill: lbh-colour("lbh-secondary-text");
+      }
+    }
+    &:focus {
+      background: lbh-colour("lbh-primary-focus");
+      outline: none;
+    }
+  }
+
+  svg {
+    margin-top: 0;
+  }
+}

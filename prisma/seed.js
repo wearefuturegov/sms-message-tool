@@ -2,6 +2,15 @@ const { PrismaClient } = require("@prisma/client")
 const prisma = new PrismaClient()
 
 const main = async () => {
+  await prisma.team.deleteMany({})
+  await prisma.team.createMany({
+    data: [
+      {
+        name: "Example team",
+      },
+    ],
+  })
+
   await prisma.contact.deleteMany({})
   await prisma.contact.createMany({
     data: [

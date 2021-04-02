@@ -3,7 +3,9 @@ import Link from "next/link"
 import useSWR, { mutate } from "swr"
 import { useRouter } from "next/router"
 import { DateTime } from "luxon"
+import parsePhoneNumber from "libphonenumber-js"
 
+import DashboardLayout from "../../components/_DashboardLayout"
 import MessageForm from "../../components/MessageForm"
 import Message from "../../components/Message"
 import ContactForm from "../../components/ContactForm"
@@ -40,7 +42,10 @@ const Index = () => {
   const { id } = router.query
 
   const { data, error } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_HOST}/api/conversations/${id}`
+    `${process.env.NEXT_PUBLIC_API_HOST}/api/conversations/${id}`,
+    {
+      refreshInterval: 30000,
+    }
   )
 
   const [openMessage, setOpenMessage] = useState(false)
@@ -49,17 +54,33 @@ const Index = () => {
 
   if (conversation)
     return (
-      <>
-        <h1 className="govuk-visually-hidden">{conversation.number}</h1>
-
-        <Link
-          href={{
-            pathname: router.asPath,
-            query: { edit: true },
-          }}
-        >
-          Edit contact
-        </Link>
+      <DashboardLayout>
+        <header>
+          {conversation.nickname ? (
+            <>
+              <h1 className="lbh-heading-h4">{conversation.nickname}</h1>
+              <p className="lbh-body-xs">
+                {parsePhoneNumber(conversation.number, "GB").formatNational()} |
+                Last message recieved XX
+              </p>
+            </>
+          ) : (
+            <>
+              <h1 className="lbh-heading-h4">
+                {parsePhoneNumber(conversation.number, "GB").formatNational()}
+              </h1>
+              <p className="lbh-body-xs">Last message recieved XX</p>
+            </>
+          )}
+          <Link
+            href={{
+              pathname: router.asPath,
+              query: { edit: true },
+            }}
+          >
+            Edit
+          </Link>
+        </header>
 
         {conversation.messages ? (
           <ul className="conversation">
@@ -90,7 +111,7 @@ const Index = () => {
             onSubmit={values => handleContactUpdate(conversation.id, values)}
           />
         </Dialog>
-      </>
+      </DashboardLayout>
     )
 
   return <p className="lbh-body">Loading...</p>

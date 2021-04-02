@@ -1,5 +1,9 @@
-import Link from "next/link"
+import DashboardLayout from "../components/_DashboardLayout"
 
-const Index = ({ contacts }) => <p>Start chatting</p>
+const Index = ({ contacts }) => (
+  <DashboardLayout>
+    <p>Start chatting</p>
+  </DashboardLayout>
+)
 
 export default Index
