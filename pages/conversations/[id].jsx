@@ -41,7 +41,7 @@ const Index = () => {
   const router = useRouter()
   const { id } = router.query
 
-  const { data, error } = useSWR(
+  const { data: conversation } = useSWR(
     `${process.env.NEXT_PUBLIC_API_HOST}/api/conversations/${id}`,
     {
       refreshInterval: 30000,
@@ -49,8 +49,6 @@ const Index = () => {
   )
 
   const [openMessage, setOpenMessage] = useState(false)
-
-  let conversation = data
 
   if (conversation)
     return (

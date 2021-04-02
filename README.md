@@ -40,5 +40,6 @@ Suitable for Vercel, Netlify, Heroku and anywhere else you can host a Next.js ap
 - add metadata to contact
 - unread notifications (readBy array on contact)
 - load more messages/conversations
+- archive conversations (unarchive on new message)
 
 - support for multiple isolated teams/organisations

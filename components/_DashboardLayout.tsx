@@ -27,7 +27,7 @@ const DashboardLayout = ({
 }: {
   children: React.ReactChild
 }): React.ReactElement | Promise<boolean> => {
-  const { data, error } = useSWR(
+  const { data } = useSWR(
     `${process.env.NEXT_PUBLIC_API_HOST}/api/conversations`,
     {
       refreshInterval: 30000,
