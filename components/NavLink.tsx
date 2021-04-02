@@ -2,7 +2,12 @@ import React from "react"
 import Link from "next/link"
 import { useRouter } from "next/router"
 
-const NavLink = ({ href, children }) => {
+interface Props {
+  href: string
+  children: React.ReactChild
+}
+
+const NavLink = ({ href, children }: Props): React.ReactElement => {
   const router = useRouter()
 
   let className = "lbh-link lbh-link--no-visited-state conversation-list__link"

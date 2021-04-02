@@ -8,7 +8,27 @@ const statusLabel = {
   "technical-failure": "Failed to send",
 }
 
-const Message = ({ message, openMessage, setOpenMessage }) => (
+interface Message {
+  id: number
+  body: string
+  status: string
+  completedAt: Date
+  user: {
+    name: string
+  }
+}
+
+interface Props {
+  message: Message
+  openMessage: number | boolean
+  setOpenMessage: (number) => void
+}
+
+const Message = ({
+  message,
+  openMessage,
+  setOpenMessage,
+}: Props): React.ReactElement => (
   <li
     className="lbh-body conversation__message"
     role="button"
