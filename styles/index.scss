@@ -73,3 +73,7 @@
     margin-top: 0;
   }
 }
+
+[data-reach-dialog-overlay] {
+  z-index: 4;
+}

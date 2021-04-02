@@ -19,6 +19,7 @@
     "@reach/dialog": "^0.13.2",
     "formik": "^2.2.6",
     "lbh-frontend": "^3.3.1",
+    "libphonenumber-js": "^1.9.15",
     "luxon": "^1.26.0",
     "next": "^10.0.9",
     "next-auth": "^3.13.2",
@@ -32,10 +33,14 @@
   },
   "devDependencies": {
     "@testing-library/react": "^11.2.5",
+    "@types/next-auth": "^3.13.0",
+    "@types/node": "^14.14.37",
+    "@types/react": "^17.0.3",
     "cypress": "^6.8.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^26.6.3",
-    "prisma": "^2.19.0"
+    "prisma": "^2.19.0",
+    "typescript": "^4.2.3"
   },
   "jest": {
     "moduleNameMapper": {

@@ -28,7 +28,7 @@ export default async (req, res) => {
         contact: true,
       },
     })
-    await sendMessage(result.recipient.number, body, result.id)
+    await sendMessage(result.contact.number, body, result.id)
     res.json(result)
   } else {
     res.status(401)
