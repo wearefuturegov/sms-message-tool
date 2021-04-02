@@ -1,15 +1,6 @@
-@import "node_modules/lbh-frontend/lbh/all";
+@import "node_modules/lbh-frontend/lbh/settings/all";
 
-.visually-hidden {
-  clip: rect(0 0 0 0);
-  clip-path: inset(50%);
-  height: 1px;
-  overflow: hidden;
-  position: absolute;
-  white-space: nowrap;
-  width: 1px;
-}
-
+// main conversation message area
 .conversation {
   margin-top: 0;
   padding: 25px;
@@ -40,16 +31,29 @@
   }
 }
 
+// new message form
+.message-form {
+  display: grid;
+  grid-template-columns: 4fr 1fr;
+  gap: 15px;
+
+  button {
+    margin-top: 0;
+  }
+}
+
+// conversation list view in left pane
 .conversation-list {
   font-family: Open Sans, sans-serif;
   list-style: none;
+  margin-top: 10px;
 
   &__item {
     margin-top: 5px;
   }
   &__link {
     display: block;
-    padding: 20px;
+    padding: 15px;
     text-decoration: none;
 
     &--selected {
@@ -64,16 +68,43 @@
   }
 }
 
-.message-form {
-  display: grid;
-  grid-template-columns: 4fr 1fr;
-  gap: 25px;
-
-  button {
-    margin-top: 0;
-  }
-}
-
+// dialog
 [data-reach-dialog-overlay] {
   z-index: 4;
+}
+
+.dialog {
+  position: relative;
+  max-width: 500px;
+  width: 70%;
+  margin: 7vh auto;
+  border: 4px solid lbh-colour("lbh-text");
+
+  &__title {
+    margin-top: 0;
+  }
+
+  &__close {
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    border: none;
+    background: none;
+    padding: 0;
+    cursor: pointer;
+    display: inline-flex;
+
+    svg {
+      margin-top: 0;
+      path {
+        fill: lbh-colour("lbh-text");
+      }
+    }
+
+    &:focus,
+    &:active {
+      outline: 3px solid lbh-colour("lbh-primary-focus");
+      background: lbh-colour("lbh-primary-focus");
+    }
+  }
 }

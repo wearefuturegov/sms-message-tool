@@ -47,7 +47,12 @@ const Layout = ({
             className={`lbh-main-wrapper lbh-container ${styles["app__content-area"]}`}
           >
             <nav>
-              <Link href={{ query: { new_conversation: true } }}>
+              <Link
+                href={{
+                  pathname: router.asPath,
+                  query: { new_conversation: true },
+                }}
+              >
                 <a className="lbh-body lbh-link lbh-link--no-visited-state">
                   New conversation
                 </a>
@@ -55,7 +60,7 @@ const Layout = ({
 
               <SearchForm query={query} setQuery={setQuery} />
 
-              <h2 className="lbh-heading-h5">Conversations</h2>
+              <h2 className="lbh-heading-h6">Recent conversations</h2>
               <ul className="conversation-list">
                 {data.conversations.map(conversation => (
                   <ConversationTile
@@ -67,7 +72,7 @@ const Layout = ({
                 ))}
               </ul>
 
-              <h2 className="lbh-heading-h5">Never messaged</h2>
+              <h2 className="lbh-heading-h6">Never messaged</h2>
               <ul className="conversation-list">
                 {data.neverMessaged.map(contact => (
                   <ConversationTile

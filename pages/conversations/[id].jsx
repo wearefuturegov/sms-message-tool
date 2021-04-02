@@ -1,22 +1,38 @@
 import { useState } from "react"
+import Link from "next/link"
 import useSWR, { mutate } from "swr"
 import { useRouter } from "next/router"
-import MessageForm from "../../components/MessageForm"
-import Message from "../../components/Message"
 import { DateTime } from "luxon"
 
-const handleSubmit = async (id, body) => {
+import MessageForm from "../../components/MessageForm"
+import Message from "../../components/Message"
+import ContactForm from "../../components/ContactForm"
+import Dialog from "../../components/Dialog"
+
+const handleSubmit = async (id, values) => {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_HOST}/api/conversations/${id}/message`,
+    `${process.env.NEXT_PUBLIC_API_HOST}/api/conversations/${id}/send`,
     {
       method: "POST",
-      body: JSON.stringify({
-        body,
-      }),
+      body: JSON.stringify(values),
     }
   )
   const data = await res.json()
   mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/conversations/${id}`)
+  mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/conversations`)
+}
+
+const handleContactUpdate = async (id, values) => {
+  const res = await fetch(
+    `${process.env.NEXT_PUBLIC_API_HOST}/api/contacts/${id}`,
+    {
+      method: "PUT",
+      body: JSON.stringify(values),
+    }
+  )
+  const data = await res.json()
+  mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/conversations/${id}`)
+  mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/conversations`)
 }
 
 const Index = () => {
@@ -34,22 +50,46 @@ const Index = () => {
   if (conversation)
     return (
       <>
-        <h1 className="visually-hidden">{conversation.number}</h1>
+        <h1 className="govuk-visually-hidden">{conversation.number}</h1>
 
-        <ul className="conversation">
-          {conversation.messages.map(message => (
-            <Message
-              key={message.id}
-              message={message}
-              openMessage={openMessage}
-              setOpenMessage={setOpenMessage}
-            />
-          ))}
-        </ul>
+        <Link
+          href={{
+            pathname: router.asPath,
+            query: { edit: true },
+          }}
+        >
+          Edit contact
+        </Link>
+
+        {conversation.messages ? (
+          <ul className="conversation">
+            {conversation.messages.map(message => (
+              <Message
+                key={message.id}
+                message={message}
+                openMessage={openMessage}
+                setOpenMessage={setOpenMessage}
+              />
+            ))}
+          </ul>
+        ) : (
+          <p>Send a message</p>
+        )}
 
         <MessageForm
-          onSubmit={values => handleSubmit(conversation.id, values.body)}
+          onSubmit={values => handleSubmit(conversation.id, values)}
         />
+
+        <Dialog
+          title="Edit contact"
+          isOpen={!!router.query.edit}
+          onDismiss={() => router.back()}
+        >
+          <ContactForm
+            initialValues={conversation}
+            onSubmit={values => handleContactUpdate(conversation.id, values)}
+          />
+        </Dialog>
       </>
     )
 

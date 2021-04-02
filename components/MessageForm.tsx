@@ -16,21 +16,23 @@ const MessageForm = ({ onSubmit }: Props): React.ReactElement => {
     >
       {({ touched, errors, isSubmitting }) => (
         <Form className="message-form">
-          <label htmlFor="body" className="visually-hidden">
-            Body
-          </label>
-          {touched.body && errors.body && (
-            <p className="govuk-error-message lbh-error-message" role="alert">
-              <span className="govuk-visually-hidden">Error:</span>{" "}
-              {errors.body}
-            </p>
-          )}
-          <Field
-            name="body"
-            id="body"
-            as="textarea"
-            className="govuk-textarea lbh-textarea"
-          />
+          <div className="govuk-form-group lbh-form-group">
+            <label htmlFor="body" className="govuk-visually-hidden">
+              Body
+            </label>
+            {touched.body && errors.body && (
+              <p className="govuk-error-message lbh-error-message" role="alert">
+                <span className="govuk-visually-hidden">Error:</span>{" "}
+                {errors.body}
+              </p>
+            )}
+            <Field
+              name="body"
+              id="body"
+              as="textarea"
+              className="govuk-textarea lbh-textarea"
+            />
+          </div>
 
           <button disabled={isSubmitting} className="govuk-button lbh-button">
             Send

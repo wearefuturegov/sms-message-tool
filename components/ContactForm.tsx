@@ -43,18 +43,27 @@ const Field = ({
   </div>
 )
 
+interface InitialValues {
+  number: string
+  nickname: string
+}
+
 interface FormProps {
+  initialValues?: InitialValues
   onSubmit: (values: any) => Promise<void>
 }
 
-const MessageForm = ({ onSubmit }: FormProps): React.ReactElement => {
+const MessageForm = ({
+  initialValues = {
+    nickname: "",
+    number: "",
+  },
+  onSubmit,
+}: FormProps): React.ReactElement => {
   return (
     <Formik
       validationSchema={contactSchema}
-      initialValues={{
-        number: "",
-        nickname: "",
-      }}
+      initialValues={initialValues}
       onSubmit={onSubmit}
     >
       {({ touched, errors, isSubmitting }) => (
@@ -74,7 +83,7 @@ const MessageForm = ({ onSubmit }: FormProps): React.ReactElement => {
           />
 
           <button disabled={isSubmitting} className="govuk-button lbh-button">
-            Create
+            Save changes
           </button>
         </Form>
       )}

@@ -12,30 +12,33 @@ export default async (req, res) => {
   //   destination_number: '07984404642',
   //   message: 'respond',
   //   date_received: '2021-04-01T23:00:49.000000Z'
-  // }
+  // }s
 
   if (req.method === "POST") {
     verifyCallbackToken(req, res)
-
-    const { id, source_number, message, date_received } = JSON.parse(req.body)
-
+    const { id, source_number, message, date_received } = req.body
+    // 1. find contact by number
+    const contact = await prisma.contact.findFirst({
+      where: {
+        number: parsePhoneNumber(source_number, "GB").number,
+      },
+      select: {
+        id: true,
+      },
+    })
+    // 2. add message to that contact and the current user
     await prisma.message.create({
       data: {
         body: message,
         direction: "INBOUND",
+        completedAt: date_received,
         contact: {
           connect: {
-            // id: Number(id), ??????????????
-          },
-        },
-        user: {
-          connect: {
-            id: session.user.id,
+            id: contact.id,
           },
         },
       },
     })
-
     res.status(200).send("OK")
   }
 }

@@ -4,14 +4,19 @@ import parsePhoneNumber from "libphonenumber-js"
 
 export default async (req, res) => {
   try {
-    if (req.method === "POST") {
-      // CREATE
+    if (req.method === "PUT") {
+      // UPDATE
       await verifySession(req, res)
+
+      const id = req.query.id
       const { nickname, number } = JSON.parse(req.body)
-      const result = await prisma.contact.create({
+      const result = await prisma.contact.update({
         data: {
           nickname,
           number: parsePhoneNumber(number, "GB").number,
+        },
+        where: {
+          id: Number(id),
         },
       })
       res.json(result)
