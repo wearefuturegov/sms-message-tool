@@ -43,11 +43,11 @@ const Field = ({
   </div>
 )
 
-const MessageForm = ({
-  onSubmit,
-}: {
+interface FormProps {
   onSubmit: (values: any) => Promise<void>
-}): React.ReactElement => {
+}
+
+const MessageForm = ({ onSubmit }: FormProps): React.ReactElement => {
   return (
     <Formik
       validationSchema={contactSchema}

@@ -1,7 +1,11 @@
 import { Formik, Form, Field } from "formik"
 import { messageSchema } from "../lib/validators"
 
-const MessageForm = ({ onSubmit }) => {
+interface Props {
+  onSubmit: (values: any) => Promise<void>
+}
+
+const MessageForm = ({ onSubmit }: Props): React.ReactElement => {
   return (
     <Formik
       validationSchema={messageSchema}

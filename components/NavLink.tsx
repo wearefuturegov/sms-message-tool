@@ -4,7 +4,7 @@ import { useRouter } from "next/router"
 
 interface Props {
   href: string
-  children: React.ReactChild
+  children: React.ReactChild[]
 }
 
 const NavLink = ({ href, children }: Props): React.ReactElement => {

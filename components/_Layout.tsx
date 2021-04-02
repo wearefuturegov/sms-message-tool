@@ -14,20 +14,21 @@ import SearchForm from "./SearchForm"
 import Header from "./Header"
 import { sign } from "node:crypto"
 
-const handleSubmit = async (number) => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_HOST}/api/contacts/`,
-    {
-      method: "POST",
-      body: JSON.stringify({
-        number,
-      }),
-    }
-  )
+const handleSubmit = async number => {
+  const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/contacts/`, {
+    method: "POST",
+    body: JSON.stringify({
+      number,
+    }),
+  })
   const data = await res.json()
 }
 
-const Layout = ({ children }: { children: React.ReactChild }): React.ReactElement | Promise<boolean> => {
+const Layout = ({
+  children,
+}: {
+  children: React.ReactChild
+}): React.ReactElement | Promise<boolean> => {
   const { data, error } = useSWR(
     `${process.env.NEXT_PUBLIC_API_HOST}/api/conversations`
   )
@@ -52,10 +53,7 @@ const Layout = ({ children }: { children: React.ReactChild }): React.ReactElemen
                 </a>
               </Link>
 
-              <SearchForm
-                query={query}
-                setQuery={setQuery}
-              />
+              <SearchForm query={query} setQuery={setQuery} />
 
               <h2 className="lbh-heading-h5">Conversations</h2>
               <ul className="conversation-list">
@@ -79,7 +77,6 @@ const Layout = ({ children }: { children: React.ReactChild }): React.ReactElemen
                   />
                 ))}
               </ul>
-
             </nav>
             <main
               id="main-content"

@@ -16,7 +16,9 @@ const Dialog = ({
   title,
 }: Props): React.ReactElement => (
   <ReachDialog isOpen={isOpen} onDismiss={onDismiss} aria-label={title}>
-    <button onClick={onDismiss}>Close</button>
+    <button onClick={onDismiss}>
+      <span className="govuk-visually-hidden">Close</span>
+    </button>
     <h2>{title}</h2>
     {children}
   </ReachDialog>

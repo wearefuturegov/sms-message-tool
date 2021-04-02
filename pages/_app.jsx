@@ -1,5 +1,5 @@
 import { Provider } from "next-auth/client"
-import Layout from "../components/Layout"
+import Layout from "../components/_Layout"
 import "../styles/index.scss"
 
 const App = ({ Component, pageProps }) => {
