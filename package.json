@@ -1,5 +1,5 @@
 {
-  "name": "railsy-nextjs-prisma-example",
+  "name": "sms-message-tool",
   "version": "1.0.0",
   "description": "",
   "scripts": {
@@ -16,7 +16,7 @@
   "author": "",
   "license": "MIT",
   "dependencies": {
-    "@prisma/client": "^2.19.0",
+    "@prisma/client": "^2.20.1",
     "@reach/dialog": "^0.13.2",
     "formik": "^2.2.6",
     "lbh-frontend": "^3.3.1",
@@ -40,7 +40,7 @@
     "cypress": "^6.8.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^26.6.3",
-    "prisma": "^2.19.0",
+    "prisma": "^2.20.1",
     "typescript": "^4.2.3"
   },
   "jest": {
