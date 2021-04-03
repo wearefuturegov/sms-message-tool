@@ -12,10 +12,10 @@ const Index = ({ conversation }) => {
     }
   }
 
-  useEffect(() => {
-    ref.current.addEventListener("scroll", trackScroll)
-    return () => ref.current.removeEventListener("scroll", trackScroll)
-  })
+  // useEffect(() => {
+  //   ref.current.addEventListener("scroll", trackScroll)
+  //   return () => ref.current.removeEventListener("scroll", trackScroll)
+  // })
 
   //   scroll to latest messages whenever new messages arrive
   useEffect(() => {
@@ -27,9 +27,9 @@ const Index = ({ conversation }) => {
       {conversation.messages.map(message => (
         <Message
           key={message.id}
-          message={message}
           openMessage={openMessage}
           setOpenMessage={setOpenMessage}
+          message={message}
         />
       ))}
     </ul>

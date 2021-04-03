@@ -1,9 +1,8 @@
-import { useState } from "react"
 import Link from "next/link"
 import useSWR, { mutate } from "swr"
 import { useRouter } from "next/router"
-import { DateTime } from "luxon"
-import parsePhoneNumber from "libphonenumber-js"
+import { prettyDate, prettyPhone } from "../../lib/formatters"
+import Head from "next/head"
 
 import DashboardLayout from "../../components/_DashboardLayout"
 import MessageForm from "../../components/MessageForm"
@@ -49,29 +48,40 @@ const Index = () => {
     }
   )
 
-  const [openMessage, setOpenMessage] = useState(false)
-
   if (conversation)
     return (
       <DashboardLayout>
+        <Head>
+          <title>
+            {conversation.nickname || prettyPhone(conversation.number)} | SMS |
+            Hackney Council
+          </title>
+        </Head>
         <header className="conversation-header">
           <h1 className="lbh-heading-h4 conversation-header__headline">
-            {conversation.nickname || conversation.number}
+            {conversation.nickname || prettyPhone(conversation.number)}
           </h1>
           <p className="lbh-body-xs conversation-header__caption">
-            {conversation.nickname &&
-              `${parsePhoneNumber(
-                conversation.number,
-                "GB"
-              ).formatNational()} | `}
-            Last message recieved XX |{" "}
+            {conversation.nickname && `${prettyPhone(conversation.number)} | `}
+
+            {conversation?.messages[0] ? (
+              <>
+                Last message {prettyDate(conversation?.messages[0]?.createdAt)}{" "}
+                |{" "}
+              </>
+            ) : (
+              <>Contact created {prettyDate(conversation?.createdAt)} | </>
+            )}
+
             <Link
               href={{
                 pathname: router.asPath,
                 query: { edit: true },
               }}
             >
-              <a className="lbh-link lbh-link--no-visited-state">Change</a>
+              <a className="lbh-link lbh-link--no-visited-state">
+                Change details
+              </a>
             </Link>
           </p>
         </header>

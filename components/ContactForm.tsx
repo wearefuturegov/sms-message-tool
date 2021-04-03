@@ -17,6 +17,7 @@ interface FieldProps {
   errors: FormikErrors<FormValues>
   name: string
   label: string
+  type?: string
 }
 
 // single reusable form field
@@ -25,6 +26,7 @@ const Field = ({
   errors,
   name,
   label,
+  ...props
 }: FieldProps): React.ReactElement => (
   <div
     className={`govuk-form-group lbh-form-group ${
@@ -39,7 +41,12 @@ const Field = ({
         <span className="govuk-visually-hidden">Error:</span> {errors[name]}
       </p>
     )}
-    <RawField name={name} id={name} className="govuk-input lbh-input" />
+    <RawField
+      name={name}
+      id={name}
+      className="govuk-input lbh-input"
+      {...props}
+    />
   </div>
 )
 
@@ -80,6 +87,7 @@ const MessageForm = ({
             errors={errors}
             name="number"
             label="Mobile number"
+            type="tel"
           />
 
           <button disabled={isSubmitting} className="govuk-button lbh-button">

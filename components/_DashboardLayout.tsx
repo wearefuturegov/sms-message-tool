@@ -3,7 +3,6 @@ import useSWR from "swr"
 import { useSession } from "next-auth/client"
 import { useRouter } from "next/router"
 import Link from "next/link"
-import parsePhoneNumber from "libphonenumber-js"
 
 import ConversationTile from "./ConversationTile"
 import Dialog from "./Dialog"

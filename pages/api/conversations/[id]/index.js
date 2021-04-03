@@ -13,6 +13,9 @@ export default async (req, res) => {
     },
     include: {
       messages: {
+        orderBy: {
+          createdAt: "desc",
+        },
         include: {
           user: true,
         },

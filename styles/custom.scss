@@ -2,11 +2,12 @@
 
 // main conversation message area
 .conversation-header {
-  margin-bottom: 10px;
+  margin-bottom: 15px;
   text-align: right;
 
   &__caption {
     margin-top: 7px;
+    color: lbh-colour("lbh-secondary-text");
   }
 }
 
@@ -21,6 +22,7 @@
 
   display: flex;
   flex-direction: column;
+  flex-flow: column-reverse;
 
   // firefox overflow scroll fix
   // see: https://stackoverflow.com/questions/29986977/firefox-ignores-padding-when-using-overflowscroll
@@ -37,36 +39,74 @@
     max-width: 300px;
     position: relative;
     align-self: flex-end;
+    margin-top: 20px;
+    position: relative;
+    padding-right: 40px;
+    z-index: 2;
 
     * {
       margin-top: 0;
       color: lbh-colour("lbh-text-white");
     }
 
-    &:before {
-      content: "";
+    .conversation__speech-bubble-root {
       position: absolute;
       bottom: -7px;
       right: 0px;
       height: 12px;
       width: 12px;
       background-size: cover;
-      background-image: url("data:image/svg+xml,%3Csvg width='21' height='21' viewBox='0 0 21 21' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M20.5 21V0.5H0L20.5 21Z' fill='%2300664F'/%3E%3C/svg%3E%0A");
       display: block;
+      z-index: 1;
     }
 
     &--inbound {
-      background: lbh-colour("lbh-text-white") !important;
+      background: lbh-colour("lbh-text-white");
       align-self: flex-start;
       * {
         color: lbh-colour("lbh-text");
       }
-      &:before {
+      .conversation__speech-bubble-root {
         right: inherit;
         left: 0px;
-        background-image: url("data:image/svg+xml,%3Csvg width='21' height='21' viewBox='0 0 21 21' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 21V0.5H20.5L0 21Z' fill='white'/%3E%3C/svg%3E%0A");
+      }
+      summary svg path {
+        stroke: lbh-colour("lbh-text");
       }
     }
+
+    &:hover summary {
+      opacity: 1;
+    }
+
+    &:focus-within {
+      box-shadow: 0px 0px 0px 3px lbh-colour("lbh-primary-focus");
+
+      &:before {
+        filter: drop-shadow(0px 0px 0px 3px red);
+      }
+    }
+  }
+
+  &__details[open] svg {
+    transform: rotate(180deg);
+  }
+
+  &__summary {
+    cursor: pointer;
+    display: block;
+    position: absolute;
+    right: 10px;
+    top: 8px;
+    opacity: 0;
+    &:focus {
+      outline: none;
+      opacity: 1;
+    }
+  }
+
+  &__metadata {
+    margin-top: 10px;
   }
 }
 
@@ -85,7 +125,7 @@
 .conversation-list {
   font-family: Open Sans, sans-serif;
   list-style: none;
-  margin-top: 20px;
+  margin-top: 30px;
   flex: 1;
   overflow: scroll;
   min-height: 0;
@@ -120,8 +160,8 @@
 }
 
 [data-reach-dialog-content] {
-  width: 70%;
-  margin: 7vh auto;
+  width: 70% !important;
+  margin: 7vh auto !important;
 }
 
 .dialog {
