@@ -4,11 +4,13 @@ import parsePhoneNumber from "libphonenumber-js"
 
 export default async (req, res) => {
   try {
+    await verifySession(req, res)
+    let result
+
     if (req.method === "POST") {
       // CREATE
-      await verifySession(req, res)
       const { nickname, number } = JSON.parse(req.body)
-      const result = await prisma.contact.create({
+      result = await prisma.contact.create({
         data: {
           nickname,
           number: parsePhoneNumber(number, "GB").number,
@@ -16,7 +18,28 @@ export default async (req, res) => {
       })
       res.json(result)
     } else {
-      res.status(401)
+      // INDEX/SEARCH
+      const { q } = req.query
+      result = await prisma.contact.findMany({
+        where: {
+          OR: [
+            {
+              nickname: {
+                contains: q,
+                mode: "insensitive",
+              },
+            },
+            {
+              number: {
+                // trim leading 0 to account for some phone formatting weirdness
+                contains: q.startsWith("0") ? q.slice(1) : q,
+                mode: "insensitive",
+              },
+            },
+          ],
+        },
+      })
+      res.json(result)
     }
   } catch (e) {
     console.error(e)
