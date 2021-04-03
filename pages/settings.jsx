@@ -1,10 +1,9 @@
-import DashboardLayout from "../components/_DashboardLayout"
 import SettingsForm from "../components/SettingsForm"
 
 const handleSubmit = async values => {}
 
 const Settings = () => (
-  <div>
+  <>
     <h1>Settings</h1>
     <SettingsForm
       onSubmit={handleSubmit}
@@ -15,7 +14,7 @@ const Settings = () => (
         messageTemplates: [],
       }}
     />
-  </div>
+  </>
 )
 
 export default Settings

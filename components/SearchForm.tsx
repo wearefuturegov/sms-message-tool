@@ -9,7 +9,7 @@ const SearchForm = ({ query, setQuery }): React.ReactElement => (
       id="search"
       type="search"
       className="govuk-input lbh-input"
-      placeholder="Search..."
+      placeholder="Search contacts..."
     />
 
     <button>

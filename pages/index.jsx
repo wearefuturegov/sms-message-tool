@@ -1,9 +1,7 @@
 import DashboardLayout from "../components/_DashboardLayout"
 
-const Index = ({ contacts }) => (
-  <DashboardLayout>
-    <p>Start chatting</p>
-  </DashboardLayout>
-)
+const Index = ({ contacts }) => <p>Start chatting</p>
+
+Index.Layout = DashboardLayout
 
 export default Index

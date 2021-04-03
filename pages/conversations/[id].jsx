@@ -37,7 +37,7 @@ const handleContactUpdate = async (id, values) => {
   mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/conversations`)
 }
 
-const Index = () => {
+const ConversationPage = () => {
   const router = useRouter()
 
   // fix for: https://github.com/vercel/next.js/discussions/11484
@@ -55,7 +55,7 @@ const Index = () => {
   )
 
   return (
-    <DashboardLayout>
+    <>
       {conversation && (
         <>
           <Head>
@@ -113,8 +113,10 @@ const Index = () => {
         </>
       )}
       <MessageForm onSubmit={values => handleSubmit(conversation.id, values)} />
-    </DashboardLayout>
+    </>
   )
 }
 
-export default Index
+ConversationPage.Layout = DashboardLayout
+
+export default ConversationPage
