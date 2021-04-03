@@ -10,9 +10,12 @@ const MessageForm = ({ onSubmit }: Props): React.ReactElement => {
     <Formik
       validationSchema={messageSchema}
       initialValues={{
-        body: "message i'd like to send",
+        body: "",
       }}
-      onSubmit={onSubmit}
+      onSubmit={async (values, { resetForm }) => {
+        await onSubmit(values)
+        resetForm()
+      }}
     >
       {({ touched, errors, isSubmitting }) => (
         <Form className="message-form">
@@ -20,17 +23,22 @@ const MessageForm = ({ onSubmit }: Props): React.ReactElement => {
             <label htmlFor="body" className="govuk-visually-hidden">
               Body
             </label>
+
             {touched.body && errors.body && (
-              <p className="govuk-error-message lbh-error-message" role="alert">
+              <p className="govuk-visually-hidden" role="alert">
                 <span className="govuk-visually-hidden">Error:</span>{" "}
                 {errors.body}
               </p>
             )}
+
             <Field
               name="body"
               id="body"
               as="textarea"
-              className="govuk-textarea lbh-textarea"
+              placeholder="Write a message..."
+              className={`govuk-textarea lbh-textarea ${
+                touched.body && errors.body && `govuk-textarea--error `
+              }`}
             />
           </div>
 

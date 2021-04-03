@@ -10,7 +10,7 @@ import Dialog from "./Dialog"
 import ContactForm from "./ContactForm"
 
 import SearchForm from "./SearchForm"
-import NewConversationLink from "./NewConversationLink"
+import NewContactLink from "./NewContactLink"
 
 const handleSubmit = async number => {
   const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/contacts/`, {
@@ -38,54 +38,59 @@ const DashboardLayout = ({
   const [session, loading] = useSession()
   const [query, setQuery] = useState("")
 
-  if (data?.conversations && session)
-    return (
-      <>
-        <nav>
-          <NewConversationLink />
+  return (
+    <>
+      <nav className="app-layout__left">
+        <NewContactLink />
 
-          <SearchForm query={query} setQuery={setQuery} />
+        <SearchForm query={query} setQuery={setQuery} />
 
-          <h2 className="lbh-heading-h6">Recent conversations</h2>
-          <ul className="conversation-list">
-            {data.conversations.map(conversation => (
-              <ConversationTile
-                id={conversation.contact.id}
-                key={conversation.contact.id}
-                nickname={conversation.contact.nickname}
-                number={conversation.contact.number}
-                preview={conversation.body}
-              />
-            ))}
-          </ul>
+        <ul className="conversation-list">
+          <li className="lbh-heading-h6">
+            Recent conversations
+            <ul className="conversation-list__sub-list">
+              {data?.conversations &&
+                data.conversations.map(conversation => (
+                  <ConversationTile
+                    id={conversation.contact.id}
+                    key={conversation.contact.id}
+                    nickname={conversation.contact.nickname}
+                    number={conversation.contact.number}
+                    preview={conversation.body}
+                  />
+                ))}
+            </ul>
+          </li>
 
-          <h2 className="lbh-heading-h6">Never messaged</h2>
-          <ul className="conversation-list">
-            {data.neverMessaged.map(contact => (
-              <ConversationTile
-                id={contact.id}
-                key={contact.id}
-                nickname={contact.nickname}
-                number={contact.number}
-              />
-            ))}
-          </ul>
-        </nav>
-        <div>{children}</div>
+          <li className="lbh-heading-h6">
+            Never messaged
+            <ul className="conversation-list__sub-list">
+              {data?.neverMessaged &&
+                data.neverMessaged.map(contact => (
+                  <ConversationTile
+                    id={contact.id}
+                    key={contact.id}
+                    nickname={contact.nickname}
+                    number={contact.number}
+                  />
+                ))}
+            </ul>
+          </li>
+        </ul>
+      </nav>
+      <div className="app-layout__right">{children}</div>
 
-        <Dialog
-          title="New contact"
-          isOpen={!!router.query.new_conversation}
-          onDismiss={() => router.back()}
-        >
-          <ContactForm onSubmit={values => handleSubmit(values.number)} />
-        </Dialog>
-      </>
-    )
+      <Dialog
+        title="New contact"
+        isOpen={!!router.query.new_conversation}
+        onDismiss={() => router.back()}
+      >
+        <ContactForm onSubmit={values => handleSubmit(values.number)} />
+      </Dialog>
+    </>
+  )
 
   if (!session && !loading) return router.push("/api/auth/signin")
-
-  return <p className="lbh-body">Loading...</p>
 }
 
 export default DashboardLayout

@@ -7,6 +7,7 @@ import parsePhoneNumber from "libphonenumber-js"
 
 import DashboardLayout from "../../components/_DashboardLayout"
 import MessageForm from "../../components/MessageForm"
+import Conversation from "../../components/Conversation"
 import Message from "../../components/Message"
 import ContactForm from "../../components/ContactForm"
 import Dialog from "../../components/Dialog"
@@ -53,52 +54,36 @@ const Index = () => {
   if (conversation)
     return (
       <DashboardLayout>
-        <header>
-          {conversation.nickname ? (
-            <>
-              <h1 className="lbh-heading-h4">{conversation.nickname}</h1>
-              <p className="lbh-body-xs">
-                {parsePhoneNumber(conversation.number, "GB").formatNational()} |
-                Last message recieved XX
-              </p>
-            </>
-          ) : (
-            <>
-              <h1 className="lbh-heading-h4">
-                {parsePhoneNumber(conversation.number, "GB").formatNational()}
-              </h1>
-              <p className="lbh-body-xs">Last message recieved XX</p>
-            </>
-          )}
-          <Link
-            href={{
-              pathname: router.asPath,
-              query: { edit: true },
-            }}
-          >
-            Edit
-          </Link>
+        <header className="conversation-header">
+          <h1 className="lbh-heading-h4 conversation-header__headline">
+            {conversation.nickname || conversation.number}
+          </h1>
+          <p className="lbh-body-xs conversation-header__caption">
+            {conversation.nickname &&
+              `${parsePhoneNumber(
+                conversation.number,
+                "GB"
+              ).formatNational()} | `}
+            Last message recieved XX |{" "}
+            <Link
+              href={{
+                pathname: router.asPath,
+                query: { edit: true },
+              }}
+            >
+              <a className="lbh-link lbh-link--no-visited-state">Change</a>
+            </Link>
+          </p>
         </header>
 
         {conversation.messages ? (
-          <ul className="conversation">
-            {conversation.messages.map(message => (
-              <Message
-                key={message.id}
-                message={message}
-                openMessage={openMessage}
-                setOpenMessage={setOpenMessage}
-              />
-            ))}
-          </ul>
+          <Conversation conversation={conversation} />
         ) : (
           <p>Send a message</p>
         )}
-
         <MessageForm
           onSubmit={values => handleSubmit(conversation.id, values)}
         />
-
         <Dialog
           title="Edit contact"
           isOpen={!!router.query.edit}

@@ -1,7 +1,7 @@
 import { useRouter } from "next/router"
 import Link from "next/link"
 
-const NewConversationLink = () => {
+const NewContactLink = () => {
   const router = useRouter()
   return (
     <Link
@@ -11,7 +11,7 @@ const NewConversationLink = () => {
       }}
     >
       <a className="lbh-body lbh-link lbh-link--no-visited-state new-conversation-link">
-        New conversation
+        New contact
         <svg
           width="15"
           height="15"
@@ -34,4 +34,4 @@ const NewConversationLink = () => {
   )
 }
 
-export default NewConversationLink
+export default NewContactLink

@@ -11,6 +11,7 @@ interface Message {
   id: number
   body: string
   status: string
+  direction: string
   completedAt: Date
   user: {
     name: string
@@ -29,12 +30,18 @@ const Message = ({
   setOpenMessage,
 }: Props): React.ReactElement => (
   <li
-    className="lbh-body conversation__message"
+    className={`lbh-body conversation__message ${
+      message.direction === "INBOUND" && `conversation__message--inbound`
+    }`}
     role="button"
     aria-expanded={openMessage === message.id}
     onClick={() => setOpenMessage(message.id)}
   >
-    <p>{message.body}</p>
+    <span className="govuk-visually-hidden">
+      {message.direction === "INBOUND" ? "Received:" : "Sent:"}
+    </span>
+
+    <p className="lbh-body">{message.body}</p>
     {openMessage === message.id && (
       <>
         <p className="lbh-body-xs">
