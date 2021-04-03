@@ -5,3 +5,13 @@ $lbh-global-styles: true;
 .lbh-error-message + .lbh-input {
   margin-top: 6px;
 }
+
+button.lbh-link {
+  @include lbh-body-m;
+  color: lbh-colour("lbh-link");
+  border: none;
+  background: none;
+  cursor: pointer;
+  text-decoration: underline;
+  padding: 0;
+}

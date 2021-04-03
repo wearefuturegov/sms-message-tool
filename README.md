@@ -33,21 +33,22 @@ Suitable for Vercel, Netlify, Heroku and anywhere else you can host a Next.js ap
 
 ## Now
 
-1. fix bug with "just sent" messages
-2. load more messages and conversations
-3. fix inconsistent focus state for message bubbles
-4. fix bug with entire layout reloading while session is fetched
+1. ~~fix inconsistent focus state for message bubbles~~ (DONE)
+2. ~~fix bug with entire layout reloading while session is fetched~~ (DONE)
+3. refactor layouts
+4. settings form
 5. search conversations
+6. fix bug with "just sent" messages
+7. load more messages and conversations
+8. loading skeletons
 
 ## Next
 
 1. quick reply templates (array per organisation)
 2. auto signature (custom content per user, checkbox on/off)
 3. out of hours autoreply (custom content, checkbox on/off with background job processing)
-
-4. unread notifications ()
-5. load more messages/conversations
-6. archive conversations (unarchive on new message)
+4. unread notifications
+5. archive conversations (unarchive on new message)
 
 # Later
 

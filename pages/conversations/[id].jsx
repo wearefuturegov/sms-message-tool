@@ -39,7 +39,13 @@ const handleContactUpdate = async (id, values) => {
 
 const Index = () => {
   const router = useRouter()
-  const { id } = router.query
+
+  // fix for: https://github.com/vercel/next.js/discussions/11484
+  let id
+  id = router.query.id
+  if (!id && typeof window !== "undefined") {
+    id = window.location.pathname.split("/").pop()
+  }
 
   const { data: conversation } = useSWR(
     `${process.env.NEXT_PUBLIC_API_HOST}/api/conversations/${id}`,
@@ -48,66 +54,67 @@ const Index = () => {
     }
   )
 
-  if (conversation)
-    return (
-      <DashboardLayout>
-        <Head>
-          <title>
-            {conversation.nickname || prettyPhone(conversation.number)} | SMS |
-            Hackney Council
-          </title>
-        </Head>
-        <header className="conversation-header">
-          <h1 className="lbh-heading-h4 conversation-header__headline">
-            {conversation.nickname || prettyPhone(conversation.number)}
-          </h1>
-          <p className="lbh-body-xs conversation-header__caption">
-            {conversation.nickname && `${prettyPhone(conversation.number)} | `}
+  return (
+    <DashboardLayout>
+      {conversation && (
+        <>
+          <Head>
+            <title>
+              {conversation.nickname || prettyPhone(conversation.number)} | SMS
+              | Hackney Council
+            </title>
+          </Head>
 
-            {conversation?.messages[0] ? (
-              <>
-                Last message {prettyDate(conversation?.messages[0]?.createdAt)}{" "}
-                |{" "}
-              </>
-            ) : (
-              <>Contact created {prettyDate(conversation?.createdAt)} | </>
-            )}
+          <header className="conversation-header">
+            <h1 className="lbh-heading-h4 conversation-header__headline">
+              {conversation.nickname || prettyPhone(conversation.number)}
+            </h1>
+            <p className="lbh-body-xs conversation-header__caption">
+              {conversation.nickname &&
+                `${prettyPhone(conversation.number)} | `}
 
-            <Link
-              href={{
-                pathname: router.asPath,
-                query: { edit: true },
-              }}
-            >
-              <a className="lbh-link lbh-link--no-visited-state">
-                Change details
-              </a>
-            </Link>
-          </p>
-        </header>
+              {conversation?.messages[0] ? (
+                <>
+                  Last message{" "}
+                  {prettyDate(conversation?.messages[0]?.createdAt)} |{" "}
+                </>
+              ) : (
+                <>Contact created {prettyDate(conversation?.createdAt)} | </>
+              )}
 
-        {conversation.messages ? (
-          <Conversation conversation={conversation} />
-        ) : (
-          <p>Send a message</p>
-        )}
-        <MessageForm
-          onSubmit={values => handleSubmit(conversation.id, values)}
-        />
-        <Dialog
-          title="Edit contact"
-          isOpen={!!router.query.edit}
-          onDismiss={() => router.back()}
-        >
-          <ContactForm
-            initialValues={conversation}
-            onSubmit={values => handleContactUpdate(conversation.id, values)}
-          />
-        </Dialog>
-      </DashboardLayout>
-    )
+              <Link
+                href={{
+                  pathname: router.asPath,
+                  query: { edit: true },
+                }}
+              >
+                <a className="lbh-link lbh-link--no-visited-state">
+                  Change details
+                </a>
+              </Link>
+            </p>
+          </header>
 
-  return <p className="lbh-body">Loading...</p>
+          {conversation.messages ? (
+            <Conversation conversation={conversation} />
+          ) : (
+            <p>Send a message</p>
+          )}
+          <Dialog
+            title="Edit contact"
+            isOpen={!!router.query.edit}
+            onDismiss={() => router.back()}
+          >
+            <ContactForm
+              initialValues={conversation}
+              onSubmit={values => handleContactUpdate(conversation.id, values)}
+            />
+          </Dialog>
+        </>
+      )}
+      <MessageForm onSubmit={values => handleSubmit(conversation.id, values)} />
+    </DashboardLayout>
+  )
 }
 
 export default Index

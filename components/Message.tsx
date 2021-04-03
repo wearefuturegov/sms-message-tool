@@ -28,7 +28,8 @@ const Metadata = ({ message }: { message: Message }) => (
     ) : (
       <>
         <p className="lbh-body-xs">
-          Sent {prettyDate(message.createdAt)} by {message.user.name}
+          Sent {prettyDate(message.createdAt)} by{" "}
+          <strong>{message.user.name}</strong>
         </p>
         {message.completedAt && (
           <p className="lbh-body-xs">
@@ -82,7 +83,7 @@ const Message = ({
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
-            <path d="M2 2L8.5 8L15 2" stroke="white" stroke-width="2" />
+            <path d="M2 2L8.5 8L15 2" stroke="white" strokeWidth="2" />
           </svg>
 
           <span className="govuk-visually-hidden">Details</span>

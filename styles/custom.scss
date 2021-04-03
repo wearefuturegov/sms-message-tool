@@ -78,14 +78,6 @@
     &:hover summary {
       opacity: 1;
     }
-
-    &:focus-within {
-      box-shadow: 0px 0px 0px 3px lbh-colour("lbh-primary-focus");
-
-      &:before {
-        filter: drop-shadow(0px 0px 0px 3px red);
-      }
-    }
   }
 
   &__details[open] svg {
@@ -94,14 +86,21 @@
 
   &__summary {
     cursor: pointer;
-    display: block;
     position: absolute;
     right: 10px;
-    top: 8px;
+    top: 18px;
     opacity: 0;
+    display: flex;
+    padding: 3px 1px;
+
     &:focus {
-      outline: none;
+      outline: 3px solid lbh-colour("lbh-primary-focus");
+      background: lbh-colour("lbh-primary-focus");
       opacity: 1;
+
+      svg path {
+        stroke: lbh-colour("lbh-text");
+      }
     }
   }
 

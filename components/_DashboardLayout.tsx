@@ -37,59 +37,62 @@ const DashboardLayout = ({
   const [session, loading] = useSession()
   const [query, setQuery] = useState("")
 
-  return (
-    <>
-      <nav className="app-layout__left">
-        <NewContactLink />
+  if (session)
+    return (
+      <>
+        <nav className="app-layout__left">
+          <NewContactLink />
 
-        <SearchForm query={query} setQuery={setQuery} />
+          <SearchForm query={query} setQuery={setQuery} />
 
-        <ul className="conversation-list">
-          <li className="lbh-heading-h6">
-            Recent conversations
-            <ul className="conversation-list__sub-list">
-              {data?.conversations &&
-                data.conversations.map(conversation => (
-                  <ConversationTile
-                    id={conversation.contact.id}
-                    key={conversation.contact.id}
-                    nickname={conversation.contact.nickname}
-                    number={conversation.contact.number}
-                    preview={conversation.body}
-                  />
-                ))}
-            </ul>
-          </li>
+          <ul className="conversation-list">
+            <li className="lbh-heading-h6">
+              Recent conversations
+              <ul className="conversation-list__sub-list">
+                {data?.conversations &&
+                  data.conversations.map(conversation => (
+                    <ConversationTile
+                      id={conversation.contact.id}
+                      key={conversation.contact.id}
+                      nickname={conversation.contact.nickname}
+                      number={conversation.contact.number}
+                      preview={conversation.body}
+                    />
+                  ))}
+              </ul>
+            </li>
 
-          <li className="lbh-heading-h6">
-            Never messaged
-            <ul className="conversation-list__sub-list">
-              {data?.neverMessaged &&
-                data.neverMessaged.map(contact => (
-                  <ConversationTile
-                    id={contact.id}
-                    key={contact.id}
-                    nickname={contact.nickname}
-                    number={contact.number}
-                  />
-                ))}
-            </ul>
-          </li>
-        </ul>
-      </nav>
-      <div className="app-layout__right">{children}</div>
+            <li className="lbh-heading-h6">
+              Never messaged
+              <ul className="conversation-list__sub-list">
+                {data?.neverMessaged &&
+                  data.neverMessaged.map(contact => (
+                    <ConversationTile
+                      id={contact.id}
+                      key={contact.id}
+                      nickname={contact.nickname}
+                      number={contact.number}
+                    />
+                  ))}
+              </ul>
+            </li>
+          </ul>
+        </nav>
+        <div className="app-layout__right">{children}</div>
 
-      <Dialog
-        title="New contact"
-        isOpen={!!router.query.new_conversation}
-        onDismiss={() => router.back()}
-      >
-        <ContactForm onSubmit={values => handleSubmit(values.number)} />
-      </Dialog>
-    </>
-  )
+        <Dialog
+          title="New contact"
+          isOpen={!!router.query.new_conversation}
+          onDismiss={() => router.back()}
+        >
+          <ContactForm onSubmit={values => handleSubmit(values.number)} />
+        </Dialog>
+      </>
+    )
 
   if (!session && !loading) return router.push("/api/auth/signin")
+
+  return <p>Loading...</p>
 }
 
 export default DashboardLayout
