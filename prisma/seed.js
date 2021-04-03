@@ -6,7 +6,7 @@ const main = async () => {
   await prisma.team.createMany({
     data: [
       {
-        name: "Example team",
+        outOfHoursAutoreply: true,
       },
     ],
   })
