@@ -7,6 +7,8 @@ const main = async () => {
     data: [
       {
         outOfHoursAutoreply: true,
+        outOfHoursMessage:
+          "We're out of the office right now. We will reply to your message as soon as we can. Our normal hours are 9-5 weekdays.",
       },
     ],
   })
