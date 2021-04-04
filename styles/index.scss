@@ -15,3 +15,15 @@ button.lbh-link {
   text-decoration: underline;
   padding: 0;
 }
+
+.lbh-button--add {
+  svg {
+    margin-right: 10px;
+  }
+  svg rect {
+    fill: lbh-colour("lbh-primary-button");
+  }
+  &:hover svg rect {
+    fill: lbh-colour("lbh-secondary-button");
+  }
+}

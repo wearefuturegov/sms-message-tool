@@ -9,6 +9,38 @@
     margin-top: 7px;
     color: lbh-colour("lbh-secondary-text");
   }
+
+  &--skeleton {
+    min-height: 55px;
+    div {
+      background-color: lbh-colour("lbh-grey-4");
+      width: 150px;
+      height: 24px;
+      border-radius: 5px;
+      animation: shimmer 1.2s infinite;
+      margin-top: 0;
+      margin-left: auto;
+
+      &:last-of-type {
+        animation-delay: 0.6s;
+        width: 250px;
+        height: 14px;
+        margin-top: 15px;
+      }
+    }
+  }
+}
+
+@keyframes shimmer {
+  to {
+    background-color: lbh-colour("lbh-grey-4");
+  }
+  50% {
+    background: lbh-colour("lbh-grey-3");
+  }
+  to {
+    background-color: lbh-colour("lbh-grey-4");
+  }
 }
 
 .conversation {
@@ -28,7 +60,7 @@
   // see: https://stackoverflow.com/questions/29986977/firefox-ignores-padding-when-using-overflowscroll
   &:after {
     content: "";
-    padding-bottom: 25px;
+    padding-bottom: 5px;
     display: block;
   }
 

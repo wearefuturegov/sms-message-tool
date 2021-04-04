@@ -13,10 +13,24 @@ const authHandler = (req, res) =>
     ],
 
     callbacks: {
-      // include user id in the session object
+      // include extra info in the session object
       async session(session, user) {
         session.user.id = user.id
+        session.user.signature = user.signature
         return session
+      },
+
+      // restrict to hackney accounts
+      async signIn(user, account, profile) {
+        if (
+          account.provider === "google" &&
+          profile.verified_email === true &&
+          profile.email.endsWith(process.env.ALLOWED_DOMAIN)
+        ) {
+          return true
+        } else {
+          return false
+        }
       },
     },
 

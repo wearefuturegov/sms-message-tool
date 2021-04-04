@@ -15,7 +15,7 @@ enum Direction {
 
 model Team {
   id                  Int      @id @default(autoincrement())
-  outOfHoursAutoreply Boolean
+  outOfHoursAutoreply Boolean  @default(false)
   outOfHoursMessage   String?
   messageTemplates    String[]
 }
@@ -52,6 +52,7 @@ model User {
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
   messages      Message[]
+  signature     Boolean   @default(false)
 
   @@map(name: "users")
 }

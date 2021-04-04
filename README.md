@@ -36,7 +36,7 @@ Suitable for Vercel, Netlify, Heroku and anywhere else you can host a Next.js ap
 1. ~~fix inconsistent focus state for message bubbles~~ (DONE)
 2. ~~fix bug with entire layout reloading while session is fetched~~ (DONE)
 3. ~~refactor layouts~~ (DONE)
-4. settings form
+4. ~~settings form~~ (DONE)
 5. search conversations (API DONE)
 6. fix bug with "just sent" messages
 7. load more messages and conversations

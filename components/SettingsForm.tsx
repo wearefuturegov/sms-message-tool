@@ -7,7 +7,7 @@ import {
   FormikTouched,
 } from "formik"
 import React from "react"
-import { messageSchema } from "../lib/validators"
+import { settingsSchema } from "../lib/validators"
 
 interface FormValues {
   signature: boolean
@@ -29,7 +29,13 @@ interface Props {
   initialValues?: FormValues
 }
 
-const CheckboxField = ({ name, label }) => (
+interface CheckboxProps {
+  name: string
+  label: string
+  hint?: string
+}
+
+const CheckboxField = ({ name, label, hint }: CheckboxProps) => (
   <div className="govuk-form-group lbh-form-group">
     <div className="govuk-checkboxes lbh-checkboxes">
       <div className="govuk-checkboxes__item">
@@ -38,10 +44,19 @@ const CheckboxField = ({ name, label }) => (
           id={name}
           type="checkbox"
           className="govuk-checkboxes__input"
+          aria-describedby={hint ? `${name}-hint` : false}
         />
         <label className="govuk-label govuk-checkboxes__label" htmlFor={name}>
           {label}
         </label>
+        {hint && (
+          <span
+            id={`${name}-hint`}
+            className="govuk-hint govuk-checkboxes__hint lbh-hint"
+          >
+            {hint}
+          </span>
+        )}
       </div>
     </div>
   </div>
@@ -52,34 +67,36 @@ const SettingsForm = ({
   onSubmit,
 }: Props): React.ReactElement => (
   <Formik
-    validationSchema={messageSchema}
+    validationSchema={settingsSchema}
     initialValues={initialValues}
     onSubmit={onSubmit}
+    enableReinitialize={true}
   >
     {({ values, touched, errors, isSubmitting }) => (
       <Form>
-        <h2>Personal signature</h2>
+        {JSON.stringify(errors)}
+        <h2>Signature</h2>
 
         <CheckboxField
-          label="Include my name at the end of my messages?"
+          label="Include your first name at the end of messages you send"
           name="signature"
+          hint="This setting only affects you."
         />
 
-        <h3>Team settings</h3>
-        <p className="lbh-body">These settings affect everyone in your team.</p>
-        <h3>Out of hours</h3>
+        <h2>Out of hours</h2>
 
         <p className="lbh-body">
-          Office hours are weekdays between 9am and 5pm.
+          Office hours are weekdays between 9am and 5pm. Bank holidays are not
+          supported yet.
         </p>
 
         <CheckboxField
-          label="Automatically reply to messages sent outside office hours?"
-          name="outOfHoursAutoReply"
+          label="Automatically reply to messages received outside office hours"
+          name="outOfHoursAutoreply"
         />
 
         <label htmlFor="outOfHoursReply" className="govuk-label lbh-label">
-          Our of hours reply
+          Reply message
         </label>
 
         {touched.outOfHoursReply && errors.outOfHoursReply && (
@@ -90,8 +107,8 @@ const SettingsForm = ({
         )}
 
         <Field
-          name="outOfHoursReply"
-          id="outOfHoursReply"
+          name="outOfHoursMessage"
+          id="outOfHoursMessage"
           as="textarea"
           className={`govuk-textarea lbh-textarea ${
             touched.outOfHoursReply &&
@@ -100,7 +117,7 @@ const SettingsForm = ({
           }`}
         />
 
-        <h3>Quick reply templates</h3>
+        <h2>Quick reply templates</h2>
 
         <p className="lbh-body">
           Storing common replies as templates can save your team time.
@@ -109,11 +126,11 @@ const SettingsForm = ({
         <FieldArray
           name="messageTemplates"
           render={arrayHelpers => (
-            <>
+            <div>
               {values?.messageTemplates?.map((template, i) => (
                 <div key={i}>
                   <Field
-                    name={`messageTemplate.${i}`}
+                    name={`messageTemplates.${i}`}
                     as="textarea"
                     className="govuk-textarea lbh-textarea"
                   />
@@ -128,14 +145,36 @@ const SettingsForm = ({
               ))}
               <button
                 type="button"
-                className="govuk-button govuk-button--secondary lbh-button lbh-button--secondary"
+                className="govuk-button govuk-button--secondary lbh-button lbh-button--secondary lbh-button--add"
                 onClick={() => arrayHelpers.push("")}
               >
+                <svg
+                  width="11"
+                  height="11"
+                  viewBox="0 0 11 11"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <rect
+                    x="4.5293"
+                    y="11"
+                    width="11"
+                    height="1.94118"
+                    transform="rotate(-90 4.5293 11)"
+                    fill="#00664F"
+                  />
+                  <rect
+                    y="4.52942"
+                    width="11"
+                    height="1.94118"
+                    fill="#00664F"
+                  />
+                </svg>
                 {values?.messageTemplates?.length > 0
                   ? "Add another template"
                   : "Add a template"}
               </button>
-            </>
+            </div>
           )}
         />
 

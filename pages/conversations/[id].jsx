@@ -56,7 +56,7 @@ const ConversationPage = () => {
 
   return (
     <>
-      {conversation && (
+      {conversation ? (
         <>
           <Head>
             <title>
@@ -110,6 +110,14 @@ const ConversationPage = () => {
               onSubmit={values => handleContactUpdate(conversation.id, values)}
             />
           </Dialog>
+        </>
+      ) : (
+        <>
+          <div className="conversation-header conversation-header--skeleton">
+            <div></div>
+            <div></div>
+          </div>
+          <ul className="conversation"></ul>
         </>
       )}
       <MessageForm onSubmit={values => handleSubmit(conversation.id, values)} />
