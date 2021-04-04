@@ -1,54 +1,6 @@
-import {
-  Formik,
-  Form,
-  FormikErrors,
-  FormikTouched,
-  Field as RawField,
-} from "formik"
+import { Formik, Form } from "formik"
 import { contactSchema } from "../lib/validators"
-
-interface FormValues {
-  number: string
-  nickname?: string
-}
-
-interface FieldProps {
-  touched: FormikTouched<FormValues>
-  errors: FormikErrors<FormValues>
-  name: string
-  label: string
-  type?: string
-}
-
-// single reusable form field
-const Field = ({
-  touched,
-  errors,
-  name,
-  label,
-  ...props
-}: FieldProps): React.ReactElement => (
-  <div
-    className={`govuk-form-group lbh-form-group ${
-      touched[name] && errors[name] && "govuk-form-group--error"
-    }`}
-  >
-    <label htmlFor="number" className="govuk-label lbh-label">
-      {label}
-    </label>
-    {touched[name] && errors[name] && (
-      <p className="govuk-error-message lbh-error-message" role="alert">
-        <span className="govuk-visually-hidden">Error:</span> {errors[name]}
-      </p>
-    )}
-    <RawField
-      name={name}
-      id={name}
-      className="govuk-input lbh-input"
-      {...props}
-    />
-  </div>
-)
+import TextField from "./TextField"
 
 interface InitialValues {
   number: string
@@ -75,14 +27,14 @@ const MessageForm = ({
     >
       {({ touched, errors, isSubmitting }) => (
         <Form className="contact-form">
-          <Field
+          <TextField
             touched={touched}
             errors={errors}
             name="nickname"
             label="Nickname"
           />
 
-          <Field
+          <TextField
             touched={touched}
             errors={errors}
             name="number"

@@ -1,4 +1,5 @@
 import { prettyDate } from "../lib/formatters"
+import { Prisma } from "@prisma/client"
 
 const statusLabel = {
   delivered: "Delivered",
@@ -7,19 +8,11 @@ const statusLabel = {
   "technical-failure": "Failed to send",
 }
 
-interface Message {
-  id: number
-  body: string
-  status: string
-  direction: string
-  completedAt: Date
-  createdAt: Date
-  user: {
-    name: string
-  }
-}
+type MessageWithUser = Prisma.MessageGetPayload<{
+  include: { user: true }
+}>
 
-const Metadata = ({ message }: { message: Message }) => (
+const Metadata = ({ message }: { message: MessageWithUser }) => (
   <div className="conversation__metadata">
     {message.direction === "INBOUND" ? (
       <p className="lbh-body-xs">
@@ -43,7 +36,7 @@ const Metadata = ({ message }: { message: Message }) => (
 )
 
 interface Props {
-  message: Message
+  message: MessageWithUser
   openMessage: number | boolean
   setOpenMessage: (number) => void
 }

@@ -38,6 +38,17 @@ export default async (req, res) => {
             },
           ],
         },
+        include: {
+          messages: {
+            orderBy: {
+              createdAt: "desc",
+            },
+            take: 1,
+          },
+        },
+        orderBy: {
+          updatedAt: "desc",
+        },
       })
       res.json(result)
     }

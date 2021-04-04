@@ -75,7 +75,7 @@ const ConversationPage = () => {
 
               {conversation?.messages[0] ? (
                 <>
-                  Last message{" "}
+                  Last messaged{" "}
                   {prettyDate(conversation?.messages[0]?.createdAt)} |{" "}
                 </>
               ) : (

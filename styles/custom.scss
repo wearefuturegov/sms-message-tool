@@ -244,7 +244,7 @@
     min-height: 0;
     flex: 1;
     @media screen and (min-width: 40.0625em) {
-      padding-top: 2.25rem;
+      padding-top: 2rem;
       padding-bottom: 1.5rem;
     }
     @media screen and (min-width: 800px) {
@@ -305,6 +305,8 @@
     display: inline-flex;
     padding: 12px;
     cursor: pointer;
+    justify-content: center;
+    align-items: center;
     &:hover {
       svg * {
         fill: lbh-colour("lbh-secondary-text");
@@ -318,5 +320,22 @@
 
   svg {
     margin-top: 0;
+  }
+}
+
+.no-results {
+  color: lbh-colour("lbh-secondary-text");
+  text-align: center;
+}
+
+.repeater-field {
+  @media screen and (min-width: 40.0625em) {
+    display: flex;
+    flex-direction: row;
+
+    *:last-child {
+      margin-top: 0px;
+      margin-left: 20px;
+    }
   }
 }

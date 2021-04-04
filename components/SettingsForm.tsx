@@ -8,6 +8,7 @@ import {
 } from "formik"
 import React from "react"
 import { settingsSchema } from "../lib/validators"
+import CheckboxField from "./CheckboxField"
 
 interface FormValues {
   signature: boolean
@@ -29,39 +30,6 @@ interface Props {
   initialValues?: FormValues
 }
 
-interface CheckboxProps {
-  name: string
-  label: string
-  hint?: string
-}
-
-const CheckboxField = ({ name, label, hint }: CheckboxProps) => (
-  <div className="govuk-form-group lbh-form-group">
-    <div className="govuk-checkboxes lbh-checkboxes">
-      <div className="govuk-checkboxes__item">
-        <Field
-          name={name}
-          id={name}
-          type="checkbox"
-          className="govuk-checkboxes__input"
-          aria-describedby={hint ? `${name}-hint` : false}
-        />
-        <label className="govuk-label govuk-checkboxes__label" htmlFor={name}>
-          {label}
-        </label>
-        {hint && (
-          <span
-            id={`${name}-hint`}
-            className="govuk-hint govuk-checkboxes__hint lbh-hint"
-          >
-            {hint}
-          </span>
-        )}
-      </div>
-    </div>
-  </div>
-)
-
 const SettingsForm = ({
   initialValues,
   onSubmit,
@@ -74,7 +42,6 @@ const SettingsForm = ({
   >
     {({ values, touched, errors, isSubmitting }) => (
       <Form>
-        {JSON.stringify(errors)}
         <h2>Signature</h2>
 
         <CheckboxField
@@ -117,18 +84,20 @@ const SettingsForm = ({
           }`}
         />
 
-        <h2>Quick reply templates</h2>
-
-        <p className="lbh-body">
-          Storing common replies as templates can save your team time.
-        </p>
-
         <FieldArray
           name="messageTemplates"
           render={arrayHelpers => (
-            <div>
+            <fieldset>
+              <legend className="govuk-!-margin-top-7">
+                <h2>Quick reply templates</h2>
+              </legend>
+
+              <p className="lbh-body">
+                Storing common replies as templates can save your team time.
+              </p>
+
               {values?.messageTemplates?.map((template, i) => (
-                <div key={i}>
+                <div className="repeater-field" key={i}>
                   <Field
                     name={`messageTemplates.${i}`}
                     as="textarea"
@@ -174,11 +143,14 @@ const SettingsForm = ({
                   ? "Add another template"
                   : "Add a template"}
               </button>
-            </div>
+            </fieldset>
           )}
         />
 
-        <button disabled={isSubmitting} className="govuk-button lbh-button">
+        <button
+          disabled={isSubmitting}
+          className="govuk-button lbh-button govuk-!-margin-top-8"
+        >
           Save changes
         </button>
       </Form>
