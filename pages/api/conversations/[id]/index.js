@@ -5,10 +5,7 @@ export default async (req, res) => {
   await verifySession(req, res)
   const { id, olderThan } = req.query
 
-  let result
-
-  const dbQuery = {
-    take: 5,
+  const result = await prisma.message.findMany({
     where: {
       contact: {
         id: Number(id),
@@ -17,21 +14,15 @@ export default async (req, res) => {
     orderBy: {
       createdAt: "desc",
     },
-  }
-
-  if (olderThan) {
-    result = await prisma.message.findMany({
-      skip: 1,
-      cursor: {
-        createdAt: olderThan,
-      },
-      ...dbQuery,
-    })
-  } else {
-    result = await prisma.message.findMany({
-      ...dbQuery,
-    })
-  }
+    take: 5,
+    // handle pagination
+    skip: olderThan ? 1 : 0,
+    cursor: olderThan
+      ? {
+          createdAt: olderThan,
+        }
+      : false,
+  })
 
   res.json(result)
 }

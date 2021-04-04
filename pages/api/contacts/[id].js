@@ -4,13 +4,15 @@ import parsePhoneNumber from "libphonenumber-js"
 
 export default async (req, res) => {
   try {
+    await verifySession(req, res)
+
+    let result
+    const id = req.query.id
+
     if (req.method === "PUT") {
       // UPDATE
-      await verifySession(req, res)
-
-      const id = req.query.id
       const { nickname, number } = JSON.parse(req.body)
-      const result = await prisma.contact.update({
+      result = await prisma.contact.update({
         data: {
           nickname,
           number: parsePhoneNumber(number, "GB").number,
@@ -19,10 +21,16 @@ export default async (req, res) => {
           id: Number(id),
         },
       })
-      res.json(result)
     } else {
-      res.status(401)
+      // SHOW
+      result = await prisma.contact.findUnique({
+        where: {
+          id: Number(id),
+        },
+      })
     }
+
+    res.json(result)
   } catch (e) {
     console.error(e)
     res.status(500).json({ error: e })
