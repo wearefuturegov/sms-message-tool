@@ -19,6 +19,25 @@ Suitable for Vercel, Netlify, Heroku and anywhere else you can host a Next.js ap
 4. Ask them to enable support for incoming messages
 5. Add the callback URLs for delivered and incoming messages, using the secret you set in `NOTIFY_CALLBACK_TOKEN`. These will end in `.../api/callbacks/message-delivered` and `.../api/callbacks/message-received`
 
+## API
+
+All data is read and operated on through the internal API, which is at `/api`. It checks for a valid authentication cookie. The endpoints are:
+
+- `/auth`
+- `/callbacks` these endpoints check for a Notify-held token rather than an authentication cookie.
+  - `POST /message-delivered` used by Notify to update a message's delivery status
+  - `POST /message-received` used by Notify to update about inbound messages
+- `/contacts`
+  - `GET` search for contacts using `?q=` query parameter
+  - `POST` create a new contact
+- `/contacts/:id`
+  - `PUT` update the contact with that ID
+- `/conversations`
+  - `GET` recent conversations with recent messages
+- `/conversations/:id`
+  - `GET` all messages exchanged with the contact with that ID
+  - `POST /send` send a new message to the contact with that ID
+
 ## User needs
 
 - as an officer, i need to record metadata against a contact (eg. their name)

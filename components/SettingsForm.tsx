@@ -6,6 +6,7 @@ import {
   FormikErrors,
   FormikTouched,
 } from "formik"
+import { isValidNumber } from "libphonenumber-js"
 import React from "react"
 import { settingsSchema } from "../lib/validators"
 import CheckboxField from "./CheckboxField"
@@ -30,6 +31,32 @@ interface Props {
   initialValues?: FormValues
 }
 
+const ReplyTemplate = ({ touched, errors, i, arrayHelpers }) => (
+  <div className="repeater-field">
+    <div className="repeater-field__inner">
+      {touched && errors && (
+        <p className="govuk-error-message lbh-error-message" role="alert">
+          <span className="govuk-visually-hidden">Error:</span> {errors}
+        </p>
+      )}
+      <Field
+        name={`messageTemplates.${i}`}
+        as="textarea"
+        className={`govuk-textarea lbh-textarea ${
+          touched && errors && "govuk-textarea--error"
+        }`}
+      />
+    </div>
+    <button
+      type="button"
+      className="govuk-link lbh-link"
+      onClick={() => arrayHelpers.remove(i)}
+    >
+      Remove
+    </button>
+  </div>
+)
+
 const SettingsForm = ({
   initialValues,
   onSubmit,
@@ -40,8 +67,25 @@ const SettingsForm = ({
     onSubmit={onSubmit}
     enableReinitialize={true}
   >
-    {({ values, touched, errors, isSubmitting }) => (
+    {({ values, touched, errors, isSubmitting, isValid, submitCount }) => (
       <Form>
+        {/* {JSON.stringify(isValid)} */}
+        {!isValid && submitCount > 0 && (
+          <div
+            className="govuk-error-summary lbh-error-summary"
+            aria-labelledby="error-summary-title"
+            role="alert"
+            tabIndex={-1}
+            data-module="govuk-error-summary"
+          >
+            <h2 className="govuk-error-summary__title" id="error-summary-title">
+              Your settings couldn't be saved
+            </h2>
+
+            <p>Check your answers and try again.</p>
+          </div>
+        )}
+
         <h2>Signature</h2>
 
         <CheckboxField
@@ -97,21 +141,17 @@ const SettingsForm = ({
               </p>
 
               {values?.messageTemplates?.map((template, i) => (
-                <div className="repeater-field" key={i}>
-                  <Field
-                    name={`messageTemplates.${i}`}
-                    as="textarea"
-                    className="govuk-textarea lbh-textarea"
-                  />
-                  <button
-                    type="button"
-                    className="govuk-link lbh-link"
-                    onClick={() => arrayHelpers.remove(i)}
-                  >
-                    Remove
-                  </button>
-                </div>
+                <ReplyTemplate
+                  errors={errors.messageTemplates && errors.messageTemplates[i]}
+                  touched={
+                    touched.messageTemplates && touched.messageTemplates[i]
+                  }
+                  i={i}
+                  key={i}
+                  arrayHelpers={arrayHelpers}
+                />
               ))}
+
               <button
                 type="button"
                 className="govuk-button govuk-button--secondary lbh-button lbh-button--secondary lbh-button--add"

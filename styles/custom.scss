@@ -333,7 +333,11 @@
     display: flex;
     flex-direction: row;
 
-    *:last-child {
+    &__inner {
+      width: 100%;
+    }
+
+    button:last-child {
       margin-top: 0px;
       margin-left: 20px;
     }

@@ -2,7 +2,8 @@ $lbh-global-styles: true;
 
 @import "node_modules/lbh-frontend/lbh/all";
 
-.lbh-error-message + .lbh-input {
+.lbh-error-message + .lbh-input,
+.lbh-error-message + .lbh-textarea {
   margin-top: 6px;
 }
 
