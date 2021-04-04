@@ -1,21 +1,21 @@
 import { useState, useEffect, useRef } from "react"
 import Message from "./Message"
 
-const Index = ({ conversation }) => {
+const Index = ({ conversation, loadMore }): React.ReactElement => {
   const [openMessage, setOpenMessage] = useState(false)
 
   const ref = useRef(null)
 
   const trackScroll = e => {
     if (e.target.scrollTop === 0) {
-      // TODO: load more
+      loadMore()
     }
   }
 
-  // useEffect(() => {
-  //   ref.current.addEventListener("scroll", trackScroll)
-  //   return () => ref.current.removeEventListener("scroll", trackScroll)
-  // })
+  useEffect(() => {
+    ref.current.addEventListener("scroll", trackScroll)
+    return () => ref.current.removeEventListener("scroll", trackScroll)
+  })
 
   //   scroll to latest messages whenever new messages arrive
   useEffect(() => {

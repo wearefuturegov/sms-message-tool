@@ -14,7 +14,7 @@ const SearchForm = ({ onSubmit, onClear, searching }): React.ReactElement => (
     }}
     onSubmit={onSubmit}
   >
-    {({ touched, errors, isSubmitting, resetForm }) => (
+    {({ touched, errors, isSubmitting, resetForm, submitCount }) => (
       <Form className="search-form">
         <label className="govuk-visually-hidden" htmlFor="search">
           Search by name or phone number
@@ -25,7 +25,7 @@ const SearchForm = ({ onSubmit, onClear, searching }): React.ReactElement => (
           id="search"
           type="search"
           className={`govuk-input lbh-input ${
-            touched.query && errors.query && `govuk-input--error`
+            errors.query && submitCount > 0 && `govuk-input--error`
           }`}
           placeholder="Search contacts..."
           aria-invalid={errors.query}
