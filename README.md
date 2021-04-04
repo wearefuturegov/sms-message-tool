@@ -59,15 +59,16 @@ All data is read and operated on through the internal API, which is at `/api`. I
 5. ~~search conversations~~ (DONE)
 6. ~~fix bug with "just sent" messages~~ (DONE)
 7. load more messages and conversations
-8. loading skeletons
-9. proper custom login screen
+8. proper custom login screen (IN PROGRESS)
+9. loading skeletons (IN PROGRESS)
 
 ## Next
 
 1. quick reply templates (array per organisation)
 2. auto signature (custom content per user, checkbox on/off)
 3. out of hours autoreply (custom content, checkbox on/off with background job processing)
-4. unread notifications
+
+4. unread message notices
 5. archive conversations (unarchive on new message)
 
 # Later

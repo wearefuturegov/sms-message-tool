@@ -79,7 +79,7 @@ const ConversationPage = () => {
                   {prettyDate(conversation?.messages[0]?.createdAt)} |{" "}
                 </>
               ) : (
-                <>Contact created {prettyDate(conversation?.createdAt)} | </>
+                "Never messaged | "
               )}
 
               <Link

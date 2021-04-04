@@ -69,23 +69,6 @@ const SettingsForm = ({
   >
     {({ values, touched, errors, isSubmitting, isValid, submitCount }) => (
       <Form>
-        {/* {JSON.stringify(isValid)} */}
-        {!isValid && submitCount > 0 && (
-          <div
-            className="govuk-error-summary lbh-error-summary"
-            aria-labelledby="error-summary-title"
-            role="alert"
-            tabIndex={-1}
-            data-module="govuk-error-summary"
-          >
-            <h2 className="govuk-error-summary__title" id="error-summary-title">
-              Your settings couldn't be saved
-            </h2>
-
-            <p>Check your answers and try again.</p>
-          </div>
-        )}
-
         <h2>Signature</h2>
 
         <CheckboxField
@@ -111,7 +94,7 @@ const SettingsForm = ({
         </label>
 
         {touched.outOfHoursReply && errors.outOfHoursReply && (
-          <p className="govuk-visually-hidden" role="alert">
+          <p className="govuk-error-message lbh-error-message" role="alert">
             <span className="govuk-visually-hidden">Error:</span>{" "}
             {errors.outOfHoursReply}
           </p>
@@ -193,6 +176,15 @@ const SettingsForm = ({
         >
           Save changes
         </button>
+
+        {!isValid && submitCount > 0 && (
+          <p
+            className="govuk-error-message lbh-error-message govuk-!-margin-top-3"
+            role="alert"
+          >
+            Your changes couldn't be saved. Check your answers and try again.
+          </p>
+        )}
       </Form>
     )}
   </Formik>
