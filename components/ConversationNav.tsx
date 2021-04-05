@@ -7,18 +7,22 @@ const ConversationNav = ({
   neverMessaged,
 }): React.ReactElement => {
   const [searching, setSearching] = useState(false)
+  const [loading, setLoading] = useState(false)
   const [results, setResults] = useState([])
 
   const handleSearch = async values => {
     setSearching(true)
+    setLoading(true)
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_HOST}/api/contacts?q=${values.query}`
     )
     setResults(await res.json())
+    setLoading(false)
   }
 
   const handleClear = async () => {
     setSearching(false)
+    setLoading(false)
     setResults([])
   }
 
@@ -30,7 +34,7 @@ const ConversationNav = ({
         searching={searching}
       />
 
-      {searching ? (
+      {searching && !loading ? (
         <>
           {results.length > 0 ? (
             <div className="conversation-list">

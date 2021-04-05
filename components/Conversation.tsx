@@ -1,66 +1,69 @@
 import { useState, useEffect, useRef } from "react"
 import Message from "./Message"
-import { useRouter } from "next/router"
-import { useSWRInfinite } from "swr"
 
-const Index = (): React.ReactElement => {
+const Index = ({ data, size, setSize }): React.ReactElement => {
   const [openMessage, setOpenMessage] = useState(false)
-
-  const router = useRouter()
-  const { id } = router.query
-
-  const { data, size, setSize } = useSWRInfinite(
-    (pageIndex, previousPageData) => {
-      // last page
-      if (previousPageData && !previousPageData.messages) return null
-
-      // first page
-      if (pageIndex === 0)
-        return `${process.env.NEXT_PUBLIC_API_HOST}/api/conversations/${id}`
-
-      // every other page
-      return previousPageData.nextCursor
-    }
-  )
+  const [atLatest, setAtLatest] = useState(true)
 
   const ref = useRef(null)
 
-  // scroll to latest messages whenever new messages arrive
-  useEffect(() => {
-    // this should only trigger when new messages arrive, rather than loading old stuff
+  const goToLatest = () => {
     ref.current.scrollTop = ref.current.scrollHeight
-  }, [])
+  }
+
+  const trackScroll = e => {
+    // maths to work out if we're more than a page of scrolling from the bottom of the screen?
+    setAtLatest(
+      ref.current.scrollTop + ref.current.clientHeight >=
+        ref.current.scrollHeight - ref.current.clientHeight
+    )
+  }
+
+  // scroll to latest messages whenever new messages arrive
+  useEffect(goToLatest, [])
+
+  // TODO: fix the ref.current not defined error
+  // useEffect(() => {
+  //   ref.current.addEventListener("scroll", trackScroll)
+  //   return () => ref.current.removeEventListener("scroll", trackScroll)
+  // })
 
   return (
-    <div className="conversation" ref={ref}>
-      {data && (
-        <>
-          {data[data.length - 1].nextCursor ? (
-            <button
-              className="govuk-link lbh-link conversation__load-more"
-              onClick={() => setSize(size + 1)}
-            >
-              Load older messages
-            </button>
-          ) : (
-            <p className="conversation__no-older">No older messages</p>
-          )}
+    <>
+      <div className="conversation" ref={ref}>
+        {data[data.length - 1].nextCursor ? (
+          <button
+            className="govuk-link lbh-link conversation__load-more"
+            onClick={() => setSize(size + 1)}
+          >
+            Load older messages
+          </button>
+        ) : (
+          <p className="lbh-body-xs conversation__no-older">
+            Showing oldest messages
+          </p>
+        )}
 
-          <ul className="conversation__inner">
-            {data?.map(page =>
-              page?.messages?.map(message => (
-                <Message
-                  key={message.id}
-                  openMessage={openMessage}
-                  setOpenMessage={setOpenMessage}
-                  message={message}
-                />
-              ))
-            )}
-          </ul>
-        </>
-      )}
-    </div>
+        <ul className="conversation__inner">
+          {data?.map(page =>
+            page?.messages?.map(message => (
+              <Message
+                key={message.id}
+                openMessage={openMessage}
+                setOpenMessage={setOpenMessage}
+                message={message}
+              />
+            ))
+          )}
+        </ul>
+
+        {!atLatest && (
+          <button className="conversation__scroll-to-end" onClick={goToLatest}>
+            Go to latest messages
+          </button>
+        )}
+      </div>
+    </>
   )
 }
 

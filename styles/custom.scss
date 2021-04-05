@@ -44,12 +44,14 @@
 }
 
 .conversation {
+  position: relative;
   margin-top: 0;
   padding: 5px 25px 25px 25px;
   background: lbh-colour("lbh-grey-3");
   flex: 1;
   overflow: scroll;
   min-height: 0;
+  scroll-behavior: smooth;
 
   &__inner {
     display: flex;
@@ -57,6 +59,13 @@
     flex-flow: column-reverse;
     list-style: none;
     margin-top: 0;
+  }
+
+  &__scroll-to-end {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
   }
 
   // firefox overflow scroll fix
@@ -119,11 +128,12 @@
   &__no-older {
     display: block;
     width: auto;
-    margin: 20px auto;
+    margin: 30px auto 20px auto;
   }
 
   &__no-older {
     text-align: center;
+    color: lbh-colour("lbh-secondary-text");
   }
 
   &__details[open] svg {

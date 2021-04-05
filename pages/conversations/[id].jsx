@@ -1,5 +1,5 @@
 import Link from "next/link"
-import useSWR, { mutate } from "swr"
+import useSWR, { mutate, useSWRInfinite } from "swr"
 import { useRouter } from "next/router"
 import { prettyDate, prettyPhone } from "../../lib/formatters"
 import Head from "next/head"
@@ -11,32 +11,6 @@ import Message from "../../components/Message"
 import ContactForm from "../../components/ContactForm"
 import Dialog from "../../components/Dialog"
 
-const handleSubmit = async (id, values) => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_HOST}/api/conversations/${id}/send`,
-    {
-      method: "POST",
-      body: JSON.stringify(values),
-    }
-  )
-  const data = await res.json()
-  mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/conversations/${id}`)
-  mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/conversations`)
-}
-
-const handleContactUpdate = async (id, values) => {
-  const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_HOST}/api/contacts/${id}`,
-    {
-      method: "PUT",
-      body: JSON.stringify(values),
-    }
-  )
-  const data = await res.json()
-  mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/conversations/${id}`)
-  mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/conversations`)
-}
-
 const ConversationPage = () => {
   const router = useRouter()
 
@@ -47,13 +21,59 @@ const ConversationPage = () => {
     id = window.location.pathname.split("/").pop()
   }
 
+  // get contact
   const { data: contact } = useSWR(
     `${process.env.NEXT_PUBLIC_API_HOST}/api/contacts/${id}`
   )
 
+  // get messages
+  const {
+    data: messages,
+    size,
+    setSize,
+    mutate: mutateMessages,
+  } = useSWRInfinite((pageIndex, previousPageData) => {
+    // last page
+    if (previousPageData && !previousPageData.messages) return null
+
+    // first page
+    if (pageIndex === 0)
+      return `${process.env.NEXT_PUBLIC_API_HOST}/api/conversations/${id}`
+
+    // every other page
+    return previousPageData.nextCursor
+  })
+
+  const handleSubmit = async (id, values) => {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_HOST}/api/conversations/${id}/send`,
+      {
+        method: "POST",
+        body: JSON.stringify(values),
+      }
+    )
+    const data = await res.json()
+    mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/conversations/${id}`)
+    mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/conversations`)
+    mutateMessages()
+  }
+
+  const handleContactUpdate = async (id, values) => {
+    const res = await fetch(
+      `${process.env.NEXT_PUBLIC_API_HOST}/api/contacts/${id}`,
+      {
+        method: "PUT",
+        body: JSON.stringify(values),
+      }
+    )
+    const data = await res.json()
+    mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/contact/${id}`)
+    mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/conversations`)
+  }
+
   return (
     <>
-      {contact ? (
+      {contact && messages ? (
         <>
           <Head>
             <title>
@@ -68,15 +88,15 @@ const ConversationPage = () => {
             </h1>
             <p className="lbh-body-xs conversation-header__caption">
               {contact.nickname && `${prettyPhone(contact.number)} | `}
-              {/* 
-              {conversation?.messages[0] ? (
+
+              {messages[0] ? (
                 <>
                   Last messaged{" "}
-                  {prettyDate(conversation?.messages[0]?.createdAt)} |{" "}
+                  {prettyDate(messages[0]?.messages[0]?.createdAt)} |{" "}
                 </>
               ) : (
                 "Never messaged | "
-              )} */}
+              )}
 
               <Link
                 href={{
@@ -91,11 +111,19 @@ const ConversationPage = () => {
             </p>
           </header>
 
-          {/* {conversation.messages ? ( */}
-          <Conversation />
-          {/* ) : (
-            <p>Send a message</p>
-          )} */}
+          {/* {JSON.stringify(messages)}
+          {console.log(messages)} */}
+
+          {messages[0]?.messages?.length !== 0 ? (
+            <Conversation data={messages} size={size} setSize={setSize} />
+          ) : (
+            <div className="conversation">
+              <p className="lbh-body-xs conversation__no-older">
+                No messages to show
+              </p>
+            </div>
+          )}
+
           <Dialog
             title="Edit contact"
             isOpen={!!router.query.edit}

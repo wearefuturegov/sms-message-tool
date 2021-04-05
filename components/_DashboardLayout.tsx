@@ -69,7 +69,6 @@ const DashboardLayout = ({
 
   return (
     <>
-      {" "}
       <Header />
       <main
         id="main-content"

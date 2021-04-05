@@ -21,11 +21,11 @@ export default async (req, res) => {
     },
     take: perPage + 1,
     // handle pagination
-    ...(cursor && {
-      cursor: {
-        id: Number(cursor),
-      },
-    }),
+    cursor: cursor
+      ? {
+          id: Number(cursor),
+        }
+      : undefined,
   })
 
   // if we got fewer than six results, we're on the final page
