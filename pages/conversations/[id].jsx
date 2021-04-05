@@ -47,32 +47,28 @@ const ConversationPage = () => {
     id = window.location.pathname.split("/").pop()
   }
 
-  const { data: conversation } = useSWR(
-    `${process.env.NEXT_PUBLIC_API_HOST}/api/conversations/${id}`,
-    {
-      refreshInterval: 30000,
-    }
+  const { data: contact } = useSWR(
+    `${process.env.NEXT_PUBLIC_API_HOST}/api/contacts/${id}`
   )
 
   return (
     <>
-      {conversation ? (
+      {contact ? (
         <>
           <Head>
             <title>
-              {conversation.nickname || prettyPhone(conversation.number)} | SMS
-              | Hackney Council
+              {contact.nickname || prettyPhone(contact.number)} | SMS | Hackney
+              Council
             </title>
           </Head>
 
           <header className="conversation-header">
             <h1 className="lbh-heading-h4 conversation-header__headline">
-              {conversation.nickname || prettyPhone(conversation.number)}
+              {contact.nickname || prettyPhone(contact.number)}
             </h1>
             <p className="lbh-body-xs conversation-header__caption">
-              {conversation.nickname &&
-                `${prettyPhone(conversation.number)} | `}
-
+              {contact.nickname && `${prettyPhone(contact.number)} | `}
+              {/* 
               {conversation?.messages[0] ? (
                 <>
                   Last messaged{" "}
@@ -80,7 +76,7 @@ const ConversationPage = () => {
                 </>
               ) : (
                 "Never messaged | "
-              )}
+              )} */}
 
               <Link
                 href={{
@@ -95,19 +91,19 @@ const ConversationPage = () => {
             </p>
           </header>
 
-          {conversation.messages ? (
-            <Conversation conversation={conversation} />
-          ) : (
+          {/* {conversation.messages ? ( */}
+          <Conversation />
+          {/* ) : (
             <p>Send a message</p>
-          )}
+          )} */}
           <Dialog
             title="Edit contact"
             isOpen={!!router.query.edit}
             onDismiss={() => router.back()}
           >
             <ContactForm
-              initialValues={conversation}
-              onSubmit={values => handleContactUpdate(conversation.id, values)}
+              initialValues={contact}
+              onSubmit={values => handleContactUpdate(contact.id, values)}
             />
           </Dialog>
         </>
@@ -120,7 +116,7 @@ const ConversationPage = () => {
           <ul className="conversation"></ul>
         </>
       )}
-      <MessageForm onSubmit={values => handleSubmit(conversation.id, values)} />
+      <MessageForm onSubmit={values => handleSubmit(contact.id, values)} />
     </>
   )
 }

@@ -16,7 +16,7 @@ const Metadata = ({ message }: { message: MessageWithUser }) => (
   <div className="conversation__metadata">
     {message.direction === "INBOUND" ? (
       <p className="lbh-body-xs">
-        Received {message.completedAt && prettyDate(message.completedAt)}
+        Received {prettyDate(message.completedAt || message.createdAt)}
       </p>
     ) : (
       <>

@@ -3,7 +3,9 @@ import { verifySession } from "../../../../lib/middleware"
 
 export default async (req, res) => {
   await verifySession(req, res)
-  const { id, olderThan } = req.query
+  const { id, cursor } = req.query
+
+  const perPage = 10
 
   const result = await prisma.message.findMany({
     where: {
@@ -11,18 +13,35 @@ export default async (req, res) => {
         id: Number(id),
       },
     },
+    include: {
+      user: true,
+    },
     orderBy: {
       createdAt: "desc",
     },
-    take: 5,
+    take: perPage + 1,
     // handle pagination
-    skip: olderThan ? 1 : 0,
-    cursor: olderThan
-      ? {
-          createdAt: olderThan,
-        }
-      : false,
+    ...(cursor && {
+      cursor: {
+        id: Number(cursor),
+      },
+    }),
   })
 
-  res.json(result)
+  // if we got fewer than six results, we're on the final page
+  let onLastPage = result.length < 5
+  let nextCursor
+
+  // remove the sixth result and store its id, if it exists
+  if (!onLastPage) {
+    nextCursor = result[result.length - 1].id
+    result.pop()
+  }
+
+  res.json({
+    nextCursor: onLastPage
+      ? null
+      : `${process.env.NEXT_PUBLIC_API_HOST}/api/conversations/${id}?cursor=${nextCursor}`,
+    messages: result,
+  })
 }
