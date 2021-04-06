@@ -49,7 +49,7 @@
   padding: 5px 25px 25px 25px;
   background: lbh-colour("lbh-grey-3");
   flex: 1;
-  overflow: scroll;
+  overflow-y: auto;
   min-height: 0;
   scroll-behavior: smooth;
 
@@ -182,7 +182,7 @@
   list-style: none;
   margin-top: 30px;
   flex: 1;
-  overflow: scroll;
+  overflow-y: auto;
   min-height: 0;
 
   &__sub-list {
