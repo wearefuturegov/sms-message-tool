@@ -3,56 +3,40 @@ import Message from "./Message"
 
 const Index = ({ data, size, setSize }): React.ReactElement => {
   const [openMessage, setOpenMessage] = useState(false)
-  const [atLatest, setAtLatest] = useState(true)
+  const [atLatest, setAtLatest] = useState(false)
 
-  const containerRef = useRef(null)
   const ref = useRef(null)
+  const intersectorRef = useRef(null)
 
   const goToLatest = () => {
     ref.current.scrollTop = ref.current.scrollHeight
   }
 
-  // const trackScroll = e => {
-  //   // maths to work out if we're more than a page of scrolling from the bottom of the screen?
-  //   setAtLatest(
-  //     ref.current.scrollTop + ref.current.clientHeight >=
-  //       ref.current.scrollHeight - ref.current.clientHeight
-  //   )
-  // }
-
-  // scroll to latest messages whenever new messages arrive
-  useEffect(goToLatest, [])
-
-  // TODO: fix the ref.current not defined error
-  // useEffect(() => {
-  //   ref.current.addEventListener("scroll", trackScroll)
-  //   return () => ref.current.removeEventListener("scroll", trackScroll)
-  // })
-
-  const scrollCallback = entries => {
-    console.log(entries)
-    // if (entries[0].isIntersecting) {
-    console.log(entries[0].intersectionRatio)
-    // }
-  }
-
+  // show and hide the "scroll to latest" button
   useEffect(() => {
-    const scroll = new IntersectionObserver(scrollCallback, {
-      root: containerRef.current,
-    })
-    scroll.observe(ref.current!)
-    return () => {
-      scroll.disconnect()
-    }
+    const scroll = new IntersectionObserver(
+      entries => {
+        setAtLatest(!entries[0].isIntersecting)
+      },
+      {
+        root: ref.current,
+      }
+    )
+    scroll.observe(intersectorRef.current)
+    return () => scroll.disconnect()
   })
 
+  // scroll to latest messages when loading
+  useEffect(goToLatest, [])
+
   return (
-    <>
-      <div className="conversation" ref={containerRef}>
+    <div className="conversation-holder">
+      <div className="conversation" ref={ref}>
         {data[data.length - 1].nextCursor ? (
           <button
             className="govuk-link lbh-link conversation__load-more"
             onClick={() => setSize(size + 1)}
+            ref={intersectorRef}
           >
             Load older messages
           </button>
@@ -62,7 +46,7 @@ const Index = ({ data, size, setSize }): React.ReactElement => {
           </p>
         )}
 
-        <ul className="conversation__inner" ref={ref}>
+        <ul className="conversation__inner">
           {data?.map(page =>
             page?.messages?.map(message => (
               <Message
@@ -74,14 +58,26 @@ const Index = ({ data, size, setSize }): React.ReactElement => {
             ))
           )}
         </ul>
-
-        {!atLatest && (
-          <button className="conversation__scroll-to-end" onClick={goToLatest}>
-            Go to latest messages
-          </button>
-        )}
       </div>
-    </>
+
+      {!atLatest && (
+        <button
+          className="conversation-holder__scroll-to-end"
+          onClick={goToLatest}
+        >
+          <svg
+            width="17"
+            height="11"
+            viewBox="0 0 17 11"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path d="M2 2L8.5 8L15 2" stroke="white" strokeWidth="2" />
+          </svg>
+          <span className="govuk-visually-hidden">Go to latest messages</span>
+        </button>
+      )}
+    </div>
   )
 }
 
