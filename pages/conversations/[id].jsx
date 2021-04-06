@@ -117,9 +117,6 @@ const ConversationPage = () => {
             </p>
           </header>
 
-          {/* {JSON.stringify(messages)}
-          {console.log(messages)} */}
-
           {messages[0]?.messages?.length !== 0 ? (
             <Conversation data={messages} size={size} setSize={setSize} />
           ) : (
