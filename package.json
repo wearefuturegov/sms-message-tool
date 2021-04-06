@@ -31,7 +31,7 @@
     "swr": "^0.5.4",
     "yup": "^0.32.9",
     "yup-phone": "^1.2.19",
-        "prisma": "^2.20.1",
+    "prisma": "^2.20.1"
   },
   "devDependencies": {
     "@testing-library/react": "^11.2.5",
