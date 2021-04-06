@@ -25,13 +25,13 @@
     "next": "^10.0.9",
     "next-auth": "^3.13.2",
     "notifications-node-client": "^5.1.0",
+    "prisma": "^2.20.1",
     "react": "^17.0.1",
     "react-dom": "^17.0.1",
     "sass": "^1.32.8",
     "swr": "^0.5.4",
     "yup": "^0.32.9",
-    "yup-phone": "^1.2.19",
-    "prisma": "^2.20.1"
+    "yup-phone": "^1.2.19"
   },
   "devDependencies": {
     "@testing-library/react": "^11.2.5",
