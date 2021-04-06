@@ -95,7 +95,7 @@ const ConversationPage = () => {
             <p className="lbh-body-xs conversation-header__caption">
               {contact.nickname && `${prettyPhone(contact.number)} | `}
 
-              {messages[0]?.length > 0 ? (
+              {messages[0]?.messages?.length > 0 ? (
                 <>
                   Last messaged{" "}
                   {prettyDate(messages[0]?.messages[0]?.createdAt)} |{" "}
