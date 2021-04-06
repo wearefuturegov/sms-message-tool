@@ -2,9 +2,8 @@ import prisma from "../../../lib/prisma"
 import { verifySession } from "../../../lib/middleware"
 import parsePhoneNumber from "libphonenumber-js"
 
-export default async (req, res) => {
+export default verifySession(async (req, res) => {
   try {
-    await verifySession(req, res)
     let result
 
     if (req.method === "POST") {
@@ -56,4 +55,4 @@ export default async (req, res) => {
     console.error(e)
     res.status(500).json({ error: e })
   }
-}
+})

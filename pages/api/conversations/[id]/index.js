@@ -1,8 +1,7 @@
 import prisma from "../../../../lib/prisma"
 import { verifySession } from "../../../../lib/middleware"
 
-export default async (req, res) => {
-  await verifySession(req, res)
+export default verifySession(async (req, res) => {
   const { id, cursor } = req.query
 
   const perPage = 10
@@ -44,4 +43,4 @@ export default async (req, res) => {
       : `${process.env.NEXT_PUBLIC_API_HOST}/api/conversations/${id}?cursor=${nextCursor}`,
     messages: result,
   })
-}
+})

@@ -1,10 +1,8 @@
 import prisma from "../../../lib/prisma"
 import { verifySession } from "../../../lib/middleware"
 
-export default async (req, res) => {
+export default verifySession(async (req, res) => {
   try {
-    await verifySession(req, res)
-
     const conversations = await prisma.message.findMany({
       orderBy: {
         createdAt: "desc",
@@ -28,4 +26,4 @@ export default async (req, res) => {
     console.error(e)
     res.status(500).json({ error: e })
   }
-}
+})

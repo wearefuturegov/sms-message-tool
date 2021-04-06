@@ -1,10 +1,8 @@
 import prisma from "../../../lib/prisma"
 import { verifySession } from "../../../lib/middleware"
 
-export default async (req, res) => {
+export default verifySession(async (req, res, session) => {
   try {
-    const session = await verifySession(req, res)
-
     if (req.method === "POST") {
       const {
         teamId,
@@ -42,4 +40,4 @@ export default async (req, res) => {
     console.error(e)
     res.status(500).json({ error: e })
   }
-}
+})

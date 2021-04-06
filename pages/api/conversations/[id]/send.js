@@ -2,9 +2,7 @@ import prisma from "../../../../lib/prisma"
 import { sendMessage } from "../../../../lib/notify"
 import { verifySession } from "../../../../lib/middleware"
 
-export default async (req, res) => {
-  const session = await verifySession(req, res)
-
+export default verifySession(async (req, res, session) => {
   if (req.method === "POST") {
     const { body } = JSON.parse(req.body)
     const { id } = req.query
@@ -33,4 +31,4 @@ export default async (req, res) => {
   } else {
     res.status(401)
   }
-}
+})
