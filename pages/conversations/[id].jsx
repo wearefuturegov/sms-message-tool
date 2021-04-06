@@ -32,17 +32,22 @@ const ConversationPage = () => {
     size,
     setSize,
     mutate: mutateMessages,
-  } = useSWRInfinite((pageIndex, previousPageData) => {
-    // last page
-    if (previousPageData && !previousPageData.messages) return null
+  } = useSWRInfinite(
+    (pageIndex, previousPageData) => {
+      // last page
+      if (previousPageData && !previousPageData.messages) return null
 
-    // first page
-    if (pageIndex === 0)
-      return `${process.env.NEXT_PUBLIC_API_HOST}/api/conversations/${id}`
+      // first page
+      if (pageIndex === 0)
+        return `${process.env.NEXT_PUBLIC_API_HOST}/api/conversations/${id}`
 
-    // every other page
-    return previousPageData.nextCursor
-  })
+      // every other page
+      return previousPageData.nextCursor
+    },
+    {
+      refreshInterval: 30000,
+    }
+  )
 
   const handleSubmit = async (id, values) => {
     const res = await fetch(
