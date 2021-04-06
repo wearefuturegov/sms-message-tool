@@ -8,16 +8,12 @@ const Index = ({ data, size, setSize }): React.ReactElement => {
   const ref = useRef(null)
   const intersectorRef = useRef(null)
 
-  const goToLatest = () => {
-    ref.current.scrollTop = ref.current.scrollHeight
-  }
+  const goToLatest = () => (ref.current.scrollTop = ref.current.scrollHeight)
 
   // show and hide the "scroll to latest" button
   useEffect(() => {
     const scroll = new IntersectionObserver(
-      entries => {
-        setAtLatest(!entries[0].isIntersecting)
-      },
+      entries => setAtLatest(!entries[0].isIntersecting),
       {
         root: ref.current,
       }

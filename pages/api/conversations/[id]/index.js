@@ -4,7 +4,7 @@ import { verifySession } from "../../../../lib/middleware"
 export default verifySession(async (req, res) => {
   const { id, cursor } = req.query
 
-  const perPage = 10
+  const perPage = 20
 
   const result = await prisma.message.findMany({
     where: {
