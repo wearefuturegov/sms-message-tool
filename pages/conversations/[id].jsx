@@ -123,7 +123,7 @@ const ConversationPage = () => {
           {messages[0]?.messages?.length !== 0 ? (
             <Conversation data={messages} size={size} setSize={setSize} />
           ) : (
-            <div className="conversation">
+            <div className="conversation-holder">
               <p className="lbh-body-xs conversation__no-older">
                 No messages to show
               </p>
@@ -147,7 +147,7 @@ const ConversationPage = () => {
             <div></div>
             <div></div>
           </div>
-          <ul className="conversation"></ul>
+          <div className="conversation-holder"></div>
         </>
       )}
       <MessageForm onSubmit={values => handleSubmit(contact.id, values)} />

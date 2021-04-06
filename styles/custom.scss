@@ -49,30 +49,22 @@
   min-height: 0;
   overflow: hidden;
   display: flex;
+  margin-top: 0;
+  background: lbh-colour("lbh-grey-3");
 
   &__scroll-to-end {
     position: absolute;
     bottom: 20px;
     left: 50%;
     transform: translateX(-50%);
-
     display: flex;
-    border: none;
     padding: 10px;
-    background: lbh-colour("lbh-link");
-    cursor: pointer;
-
-    &:hover {
-      background: lbh-colour("lbh-link-hover");
-    }
-    &:active {
-      background: lbh-colour("lbh-link-active");
-    }
-    &:focus {
-      outline: 3px solid lbh-colour("lbh-primary-focus");
-    }
-
     animation: fadeUpIn 0.1s ease-out;
+
+    &:active {
+      top: inherit;
+      bottom: 18px;
+    }
   }
 }
 
@@ -89,9 +81,7 @@
 
 .conversation {
   position: relative;
-  margin-top: 0;
   padding: 5px 25px 25px 25px;
-  background: lbh-colour("lbh-grey-3");
   overflow-y: auto;
   scroll-behavior: smooth;
   min-height: 0;

@@ -20,7 +20,7 @@ const Index = ({ data, size, setSize }): React.ReactElement => {
     )
     scroll.observe(intersectorRef.current)
     return () => scroll.disconnect()
-  })
+  }, [])
 
   // scroll to latest messages when loading
   useEffect(goToLatest, [])
@@ -28,19 +28,21 @@ const Index = ({ data, size, setSize }): React.ReactElement => {
   return (
     <div className="conversation-holder">
       <div className="conversation" ref={ref}>
-        {data[data.length - 1].nextCursor ? (
-          <button
-            className="govuk-link lbh-link conversation__load-more"
-            onClick={() => setSize(size + 1)}
-            ref={intersectorRef}
-          >
-            Load older messages
-          </button>
-        ) : (
-          <p className="lbh-body-xs conversation__no-older">
-            Showing oldest messages
-          </p>
-        )}
+        <div ref={intersectorRef}>
+          {data[data.length - 1].nextCursor ? (
+            <button
+              className="govuk-link lbh-link conversation__load-more"
+              onClick={() => setSize(size + 1)}
+              ref={intersectorRef}
+            >
+              Load older messages
+            </button>
+          ) : (
+            <p className="lbh-body-xs conversation__no-older">
+              Showing oldest messages
+            </p>
+          )}
+        </div>
 
         <ul className="conversation__inner">
           {data?.map(page =>
@@ -58,7 +60,7 @@ const Index = ({ data, size, setSize }): React.ReactElement => {
 
       {!atLatest && (
         <button
-          className="conversation-holder__scroll-to-end"
+          className="govuk-button lbh-button conversation-holder__scroll-to-end"
           onClick={goToLatest}
         >
           <svg
