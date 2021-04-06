@@ -25,17 +25,17 @@ const authHandler = (req, res) =>
       },
 
       // restrict to hackney accounts
-      // async signIn(user, account, profile) {
-      //   if (
-      //     account.provider === "google" &&
-      //     profile.verified_email === true &&
-      //     // profile.email.endsWith(process.env.ALLOWED_DOMAIN)
-      //   ) {
-      //     return true
-      //   } else {
-      //     return false
-      //   }
-      // },
+      async signIn(user, account, profile) {
+        if (
+          account.provider === "google" &&
+          profile.verified_email === true &&
+          profile.email.endsWith(process.env.ALLOWED_DOMAIN)
+        ) {
+          return true
+        } else {
+          return false
+        }
+      },
     },
 
     adapter: Adapters.Prisma.Adapter({ prisma }),

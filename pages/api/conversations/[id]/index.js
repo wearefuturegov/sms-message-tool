@@ -28,11 +28,11 @@ export default async (req, res) => {
       : undefined,
   })
 
-  // if we got fewer than six results, we're on the final page
-  let onLastPage = result.length < 5
+  // if we got fewer than the requested number of results, we're on the final page
+  let onLastPage = result.length < perPage
   let nextCursor
 
-  // remove the sixth result and store its id, if it exists
+  // remove the extra result and store its id, if it exists
   if (!onLastPage) {
     nextCursor = result[result.length - 1].id
     result.pop()
