@@ -1,16 +1,10 @@
-import {
-  Formik,
-  Form,
-  Field,
-  FieldArray,
-  FormikErrors,
-  FormikTouched,
-} from "formik"
+import { Formik, Form, FieldArray, FormikErrors, FormikTouched } from "formik"
 import { isValidNumber } from "libphonenumber-js"
 import React from "react"
 import { settingsSchema } from "../lib/validators"
 import CheckboxField from "./CheckboxField"
 import TextareaField from "./TextareaField"
+import ReplyTemplateField from "./ReplyTemplateField"
 
 interface FormValues {
   useSignature: boolean
@@ -32,32 +26,6 @@ interface Props {
   onSubmit: (values: any) => Promise<void>
   initialValues?: FormValues
 }
-
-const ReplyTemplate = ({ touched, errors, i, arrayHelpers }) => (
-  <div className="repeater-field">
-    <div className="repeater-field__inner">
-      {touched && errors && (
-        <p className="govuk-error-message lbh-error-message" role="alert">
-          <span className="govuk-visually-hidden">Error:</span> {errors}
-        </p>
-      )}
-      <Field
-        name={`messageTemplates.${i}`}
-        as="textarea"
-        className={`govuk-textarea lbh-textarea ${
-          touched && errors && "govuk-textarea--error"
-        }`}
-      />
-    </div>
-    <button
-      type="button"
-      className="govuk-link lbh-link"
-      onClick={() => arrayHelpers.remove(i)}
-    >
-      Remove
-    </button>
-  </div>
-)
 
 const SettingsForm = ({
   initialValues,
@@ -82,8 +50,8 @@ const SettingsForm = ({
         <TextareaField
           name="signature"
           label="Signature text"
-          touched={touched.signature}
-          errors={errors.signature}
+          touched={touched}
+          errors={errors}
         />
 
         <h2>Out of hours</h2>
@@ -101,8 +69,8 @@ const SettingsForm = ({
         <TextareaField
           name="outOfHoursMessage"
           label="Reply message"
-          touched={touched.outOfHoursMessage}
-          errors={errors.outOfHoursMessage}
+          touched={touched}
+          errors={errors}
         />
 
         <FieldArray
@@ -118,7 +86,7 @@ const SettingsForm = ({
               </p>
 
               {values?.messageTemplates?.map((template, i) => (
-                <ReplyTemplate
+                <ReplyTemplateField
                   errors={errors.messageTemplates && errors.messageTemplates[i]}
                   touched={
                     touched.messageTemplates && touched.messageTemplates[i]

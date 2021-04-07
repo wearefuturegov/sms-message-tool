@@ -1,4 +1,4 @@
-import { Field } from "formik"
+import { Field, FormikTouched, FormikErrors } from "formik"
 
 interface Props {
   touched
@@ -18,9 +18,9 @@ const TextareaField = ({
       {label}
     </label>
 
-    {touched && errors && (
+    {touched[name] && errors[name] && (
       <p className="govuk-error-message lbh-error-message" role="alert">
-        <span className="govuk-visually-hidden">Error:</span> {errors}
+        <span className="govuk-visually-hidden">Error:</span> {errors[name]}
       </p>
     )}
 
@@ -29,7 +29,7 @@ const TextareaField = ({
       id={name}
       as="textarea"
       className={`govuk-textarea lbh-textarea ${
-        touched && errors && `govuk-textarea--error `
+        touched[name] && errors[name] && `govuk-textarea--error `
       }`}
     />
   </>

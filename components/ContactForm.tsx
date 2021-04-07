@@ -7,7 +7,7 @@ interface InitialValues {
   nickname: string
 }
 
-interface FormProps {
+interface Props {
   initialValues?: InitialValues
   onSubmit: (values: any) => Promise<void>
 }
@@ -18,7 +18,7 @@ const MessageForm = ({
     number: "",
   },
   onSubmit,
-}: FormProps): React.ReactElement => {
+}: Props): React.ReactElement => {
   return (
     <Formik
       validationSchema={contactSchema}
