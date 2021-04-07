@@ -12,9 +12,9 @@ const authHandler = (req, res) =>
       }),
     ],
 
-    // pages: {
-    //   signIn: "/auth/signin",
-    // },
+    pages: {
+      signIn: "/auth/signin",
+    },
 
     callbacks: {
       // include extra info in the session object

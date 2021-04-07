@@ -9,7 +9,6 @@ export const getServerSideProps = async context => {
       Location: req.__NEXT_INIT_QUERY.callbackUrl || "/",
     })
     res.end()
-    // return
   }
 
   const lproviders = await providers()
