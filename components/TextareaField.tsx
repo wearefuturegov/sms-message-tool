@@ -1,6 +1,18 @@
 import { Field } from "formik"
 
-const TextareaField = ({ touched, errors, label, name }) => (
+interface Props {
+  touched
+  errors
+  label: string
+  name: string
+}
+
+const TextareaField = ({
+  touched,
+  errors,
+  label,
+  name,
+}: Props): React.ReactElement => (
   <>
     <label htmlFor={name} className="govuk-label lbh-label">
       {label}

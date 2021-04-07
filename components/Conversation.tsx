@@ -1,7 +1,13 @@
 import { useState, useEffect, useRef } from "react"
 import Message from "./Message"
 
-const Index = ({ data, size, setSize }): React.ReactElement => {
+interface Props {
+  data
+  size: number
+  setSize: (number) => void
+}
+
+const Index = ({ data, size, setSize }: Props): React.ReactElement => {
   const [openMessage, setOpenMessage] = useState(false)
   const [atLatest, setAtLatest] = useState(true)
 

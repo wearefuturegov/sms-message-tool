@@ -3,9 +3,9 @@ import MessageForm from "./MessageForm"
 
 const submitHandler = jest.fn()
 
-describe("PostForm", () => {
+describe("MessageForm", () => {
   it("renders the correct fields", () => {
-    render(<MessageForm />)
+    render(<MessageForm onSubmit={null} />)
     expect(screen.getByLabelText("Body"))
   })
 

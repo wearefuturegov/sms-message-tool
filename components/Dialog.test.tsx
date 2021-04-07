@@ -4,7 +4,7 @@ import { render, screen } from "@testing-library/react"
 describe("Layout", () => {
   it("renders correctly when open", () => {
     render(
-      <Dialog isOpen={true} title="Example title">
+      <Dialog onDismiss={null} isOpen={true} title="Example title">
         Foo
       </Dialog>
     )

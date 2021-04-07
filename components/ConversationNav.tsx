@@ -2,10 +2,15 @@ import { useState } from "react"
 import SearchForm from "./SearchForm"
 import ConversationTile from "./ConversationTile"
 
+interface Props {
+  conversations
+  neverMessaged
+}
+
 const ConversationNav = ({
   conversations,
   neverMessaged,
-}): React.ReactElement => {
+}: Props): React.ReactElement => {
   const [searching, setSearching] = useState(false)
   const [loading, setLoading] = useState(false)
   const [results, setResults] = useState([])
