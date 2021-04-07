@@ -59,8 +59,9 @@ All data is read and operated on through the internal API, which is at `/api`. I
 5. ~~search conversations~~ (DONE)
 6. ~~fix bug with "just sent" messages~~ (DONE)
 7. ~~fix bug with search hanging on "no results" while loading~~ (DONE)
-8. load more messages (IN PROGRESS)
-9. proper custom login screen (IN PROGRESS)
+8. ~~proper custom login screen~~ (DONE)
+
+9. load more messages (IN PROGRESS)
 10. loading skeletons (IN PROGRESS)
 
 ## Next

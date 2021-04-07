@@ -52,7 +52,8 @@ model User {
   createdAt     DateTime  @default(now()) @map(name: "created_at")
   updatedAt     DateTime  @updatedAt @map(name: "updated_at")
   messages      Message[]
-  signature     Boolean   @default(false)
+  useSignature  Boolean   @default(false)
+  signature     String?
 
   @@map(name: "users")
 }

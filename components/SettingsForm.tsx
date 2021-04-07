@@ -10,9 +10,11 @@ import { isValidNumber } from "libphonenumber-js"
 import React from "react"
 import { settingsSchema } from "../lib/validators"
 import CheckboxField from "./CheckboxField"
+import TextareaField from "./TextareaField"
 
 interface FormValues {
-  signature: boolean
+  useSignature: boolean
+  signature: string
   outOfHoursAutoreply: boolean
   outOfHoursMessage: string
   messageTemplates: string[]
@@ -73,8 +75,15 @@ const SettingsForm = ({
 
         <CheckboxField
           label="Include your first name at the end of messages you send"
-          name="signature"
+          name="useSignature"
           hint="This setting only affects you."
+        />
+
+        <TextareaField
+          name="signature"
+          label="Signature text"
+          touched={touched.signature}
+          errors={errors.signature}
         />
 
         <h2>Out of hours</h2>
@@ -89,26 +98,11 @@ const SettingsForm = ({
           name="outOfHoursAutoreply"
         />
 
-        <label htmlFor="outOfHoursReply" className="govuk-label lbh-label">
-          Reply message
-        </label>
-
-        {touched.outOfHoursReply && errors.outOfHoursReply && (
-          <p className="govuk-error-message lbh-error-message" role="alert">
-            <span className="govuk-visually-hidden">Error:</span>{" "}
-            {errors.outOfHoursReply}
-          </p>
-        )}
-
-        <Field
+        <TextareaField
           name="outOfHoursMessage"
-          id="outOfHoursMessage"
-          as="textarea"
-          className={`govuk-textarea lbh-textarea ${
-            touched.outOfHoursReply &&
-            errors.outOfHoursReply &&
-            `govuk-textarea--error `
-          }`}
+          label="Reply message"
+          touched={touched.outOfHoursMessage}
+          errors={errors.outOfHoursMessage}
         />
 
         <FieldArray

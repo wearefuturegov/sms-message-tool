@@ -35,6 +35,7 @@ const Settings = () => {
         <SettingsForm
           onSubmit={values => handleSubmit(team.id, values)}
           initialValues={{
+            useSignature: session?.user?.useSignature,
             signature: session?.user?.signature,
             outOfHoursAutoreply: team?.outOfHoursAutoreply,
             outOfHoursMessage: team?.outOfHoursMessage,

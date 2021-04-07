@@ -1,4 +1,4 @@
-import useSWR from "swr"
+import useSWR, { mutate } from "swr"
 import { useSession } from "next-auth/client"
 import { Router, useRouter } from "next/router"
 import Link from "next/link"
@@ -26,17 +26,19 @@ const DashboardLayout = ({
   const router = useRouter()
   const [session, loading] = useSession()
 
-  const handleSubmit = async number => {
+  const handleSubmit = async ({ number, nickname }) => {
     const res = await fetch(
       `${process.env.NEXT_PUBLIC_API_HOST}/api/contacts/`,
       {
         method: "POST",
         body: JSON.stringify({
           number,
+          nickname,
         }),
       }
     )
     const data = await res.json()
+    mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/conversations`)
     router.push(`/conversations/${data.id}`)
   }
 
@@ -63,7 +65,7 @@ const DashboardLayout = ({
             isOpen={!!router.query.new_conversation}
             onDismiss={() => router.back()}
           >
-            <ContactForm onSubmit={values => handleSubmit(values.number)} />
+            <ContactForm onSubmit={handleSubmit} />
           </Dialog>
         </main>
       </div>

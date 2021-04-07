@@ -6,6 +6,7 @@ export default verifySession(async (req, res, session) => {
     if (req.method === "POST") {
       const {
         teamId,
+        useSignature,
         signature,
         outOfHoursAutoreply,
         outOfHoursMessage,
@@ -18,6 +19,7 @@ export default verifySession(async (req, res, session) => {
             id: session.user.id,
           },
           data: {
+            useSignature,
             signature,
           },
         }),
