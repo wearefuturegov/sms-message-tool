@@ -34,7 +34,7 @@ const Index = ({ data, size, setSize }): React.ReactElement => {
         <div ref={intersectorRef}>
           {data[data.length - 1].nextCursor ? (
             <button
-              className="govuk-link lbh-link conversation__load-more"
+              className="govuk-button lbh-button govuk-button--secondary lbh-button--secondary conversation__load-more"
               onClick={() => setSize(size + 1)}
               ref={intersectorRef}
             >

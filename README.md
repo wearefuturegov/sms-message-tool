@@ -61,8 +61,8 @@ All data is read and operated on through the internal API, which is at `/api`. I
 7. ~~fix bug with search hanging on "no results" while loading~~ (DONE)
 8. ~~proper custom login screen~~ (DONE)
 
-9. load more messages (IN PROGRESS)
-10. loading skeletons (IN PROGRESS)
+9. improve load more messages (IN PROGRESS)
+10. improve loading skeletons (IN PROGRESS)
 
 ## Next
 

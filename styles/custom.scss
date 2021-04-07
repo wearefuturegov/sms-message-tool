@@ -52,6 +52,11 @@
   margin-top: 0;
   background: lbh-colour("lbh-grey-3");
 
+  &--no-messages {
+    align-items: center;
+    justify-content: center;
+  }
+
   &__scroll-to-end {
     position: absolute;
     bottom: 20px;
@@ -153,7 +158,6 @@
   &__load-more,
   &__no-older {
     display: block;
-    width: auto;
     margin: 30px auto 20px auto;
   }
 

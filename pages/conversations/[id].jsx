@@ -120,7 +120,7 @@ const ConversationPage = () => {
           {messages[0]?.messages?.length !== 0 ? (
             <Conversation data={messages} size={size} setSize={setSize} />
           ) : (
-            <div className="conversation-holder">
+            <div className="conversation-holder conversation-holder--no-messages">
               <p className="lbh-body-xs conversation__no-older">
                 No messages to show
               </p>
