@@ -3,12 +3,13 @@ import Message from "./Message"
 
 const Index = ({ data, size, setSize }): React.ReactElement => {
   const [openMessage, setOpenMessage] = useState(false)
-  const [atLatest, setAtLatest] = useState(false)
+  const [atLatest, setAtLatest] = useState(true)
 
   const ref = useRef(null)
   const intersectorRef = useRef(null)
 
-  const goToLatest = () => (ref.current.scrollTop = ref.current.scrollHeight)
+  const goToLatest = () =>
+    ref.current.scrollTo({ top: ref.current.scrollHeight, behavior: "smooth" })
 
   // show and hide the "scroll to latest" button
   useEffect(() => {
@@ -23,7 +24,9 @@ const Index = ({ data, size, setSize }): React.ReactElement => {
   }, [])
 
   // scroll to latest messages when loading
-  useEffect(goToLatest, [])
+  useEffect(() => {
+    ref.current.scrollTo({ top: ref.current.scrollHeight })
+  }, [])
 
   return (
     <div className="conversation-holder">
