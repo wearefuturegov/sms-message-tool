@@ -135,17 +135,21 @@ const ConversationPage = () => {
               onSubmit={values => handleContactUpdate(contact.id, values)}
             />
 
-            <p>
-              <code>{JSON.stringify(contact?.metadata)}</code>
-            </p>
-            <p>
-              <a
-                className="govuk-link lbh-link lbh-link--no-visited-state"
-                href={`https://social-care-service-staging.hackney.gov.uk/people/${contact?.metadata.mosaicId}`}
-              >
-                See on case recording app
-              </a>
-            </p>
+            {contact.metadata && (
+              <>
+                <p>
+                  <code>{JSON.stringify(contact?.metadata)}</code>
+                </p>
+                <p>
+                  <a
+                    className="govuk-link lbh-link lbh-link--no-visited-state"
+                    href={`https://social-care-service-staging.hackney.gov.uk/people/${contact?.metadata?.mosaicId}`}
+                  >
+                    See on case recording app
+                  </a>
+                </p>
+              </>
+            )}
           </Dialog>
         </>
       ) : (

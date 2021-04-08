@@ -11,38 +11,32 @@ export const getServerSideProps = async context => {
     res.end()
   }
 
-  const lproviders = await providers()
+  const activeProviders = await providers()
   return {
-    props: { lproviders },
+    props: { provider: Object.values(activeProviders)[0] },
   }
 }
 
-const SignIn = ({ lproviders }) => (
+const SignIn = ({ provider }) => (
   <>
     <h1 className="lbh-heading-h1">Sign in</h1>
-    <p className="lbh-body">Please log in with your Hackney email account.</p>
-
-    {Object.values(lproviders).map(provider => (
-      <div key={provider.name}>
-        <button
-          onClick={() => signIn(provider.id)}
-          className="govuk-button lbh-button  lbh-button--start govuk-button--start"
-        >
-          Sign in with {provider.name}
-          <svg
-            className="govuk-button__start-icon"
-            xmlns="http://www.w3.org/2000/svg"
-            width="17.5"
-            height="19"
-            viewBox="0 0 33 40"
-            role="presentation"
-            focusable="false"
-          >
-            <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
-          </svg>
-        </button>
-      </div>
-    ))}
+    <button
+      onClick={() => signIn(provider.id)}
+      className="govuk-button lbh-button  lbh-button--start govuk-button--start"
+    >
+      Sign in with Google
+      <svg
+        className="govuk-button__start-icon"
+        xmlns="http://www.w3.org/2000/svg"
+        width="17.5"
+        height="19"
+        viewBox="0 0 33 40"
+        role="presentation"
+        focusable="false"
+      >
+        <path fill="currentColor" d="M0 0h13l20 20-20 20H0l20-20z" />
+      </svg>
+    </button>
 
     <p className="lbh-body">Please log in with your Hackney email account.</p>
     <p className="lbh-body">
