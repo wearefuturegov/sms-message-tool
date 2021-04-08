@@ -1,7 +1,6 @@
-import Link from "next/link"
 import useSWR, { mutate, useSWRInfinite } from "swr"
 import { useRouter } from "next/router"
-import { prettyDate, prettyPhone } from "../../lib/formatters"
+import { prettyPhone } from "../../lib/formatters"
 import Head from "next/head"
 
 import DashboardLayout from "../../components/_DashboardLayout"
@@ -10,6 +9,7 @@ import Conversation from "../../components/Conversation"
 import Message from "../../components/Message"
 import ContactForm from "../../components/ContactForm"
 import Dialog from "../../components/Dialog"
+import ContactHeader from "../../components/ContactHeader"
 
 const ConversationPage = () => {
   const router = useRouter()
@@ -88,34 +88,7 @@ const ConversationPage = () => {
             </title>
           </Head>
 
-          <header className="conversation-header">
-            <h1 className="lbh-heading-h4 conversation-header__headline">
-              {contact.nickname || prettyPhone(contact.number)}
-            </h1>
-            <p className="lbh-body-xs conversation-header__caption">
-              {contact.nickname && `${prettyPhone(contact.number)} | `}
-
-              {messages[0]?.messages?.length > 0 ? (
-                <>
-                  Last messaged{" "}
-                  {prettyDate(messages[0]?.messages[0]?.createdAt)} |{" "}
-                </>
-              ) : (
-                "Never messaged | "
-              )}
-
-              <Link
-                href={{
-                  pathname: router.asPath,
-                  query: { edit: true },
-                }}
-              >
-                <a className="lbh-link lbh-link--no-visited-state">
-                  Change details
-                </a>
-              </Link>
-            </p>
-          </header>
+          <ContactHeader contact={contact} messages={messages} />
 
           {messages[0]?.messages?.length !== 0 ? (
             <Conversation data={messages} size={size} setSize={setSize} />
