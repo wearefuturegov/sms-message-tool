@@ -5,6 +5,7 @@ import TextField from "./TextField"
 interface InitialValues {
   number: string
   nickname: string
+  socialCareId: number
 }
 
 interface Props {
@@ -16,6 +17,7 @@ const MessageForm = ({
   initialValues = {
     nickname: "",
     number: "",
+    socialCareId: null,
   },
   onSubmit,
 }: Props): React.ReactElement => {
@@ -40,6 +42,15 @@ const MessageForm = ({
             name="number"
             label="Mobile number"
             type="tel"
+          />
+
+          <TextField
+            touched={touched}
+            errors={errors}
+            name="socialCareId"
+            label="Social care ID"
+            className="govuk-input--width-10"
+            hint="Link this contact with their social care person record."
           />
 
           <button disabled={isSubmitting} className="govuk-button lbh-button">

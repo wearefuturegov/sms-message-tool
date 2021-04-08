@@ -8,11 +8,12 @@ export default verifySession(async (req, res) => {
 
     if (req.method === "POST") {
       // CREATE
-      const { nickname, number } = JSON.parse(req.body)
+      const { nickname, number, socialCareId } = JSON.parse(req.body)
       result = await prisma.contact.create({
         data: {
           nickname,
           number: parsePhoneNumber(number, "GB").number,
+          socialCareId: Number(socialCareId),
         },
       })
       res.json(result)

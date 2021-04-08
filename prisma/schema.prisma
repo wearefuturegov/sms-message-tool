@@ -35,12 +35,13 @@ model Message {
 }
 
 model Contact {
-  id        Int       @id @default(autoincrement())
-  number    String    @unique
-  nickname  String?
-  messages  Message[]
-  createdAt DateTime  @default(now()) @map(name: "created_at")
-  updatedAt DateTime  @updatedAt @map(name: "updated_at")
+  id           Int       @id @default(autoincrement())
+  number       String    @unique
+  nickname     String?
+  messages     Message[]
+  createdAt    DateTime  @default(now()) @map(name: "created_at")
+  updatedAt    DateTime  @updatedAt @map(name: "updated_at")
+  socialCareId Int?
 }
 
 model User {

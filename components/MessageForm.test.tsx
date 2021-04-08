@@ -9,16 +9,14 @@ describe("MessageForm", () => {
     expect(screen.getByLabelText("Body"))
   })
 
-  // it("validates input", async () => {
-  //   render(<MessageForm onSubmit={submitHandler} />)
-  //   await waitFor(() => {
-  //     await fireEvent.click(screen.getByText("Send"))
-  //   })
-  //   await waitFor(() => {
-  //     expect(screen.getAllByRole("alert")).toHaveLength(1)
-  //   })
-  //   expect(submitHandler).toBeCalledTimes(0)
-  // })
+  it("validates input", async () => {
+    render(<MessageForm onSubmit={submitHandler} />)
+    await fireEvent.click(screen.getByText("Send"))
+    await waitFor(() => {
+      expect(screen.getAllByRole("alert")).toHaveLength(1)
+    })
+    expect(submitHandler).toBeCalledTimes(0)
+  })
 
   it("submits", async () => {
     render(<MessageForm onSubmit={submitHandler} />)

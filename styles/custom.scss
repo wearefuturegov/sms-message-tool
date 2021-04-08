@@ -1,5 +1,9 @@
 @import "node_modules/lbh-frontend/lbh/settings/all";
 
+* {
+  word-wrap: break-word;
+}
+
 // main conversation message area
 .conversation-header {
   margin-bottom: 15px;
