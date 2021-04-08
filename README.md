@@ -74,9 +74,9 @@ All data is read and operated on through the internal API, which is at `/api`. I
 
 - As a council officer, I need to record metadata against a contact (eg. their name or social care ID)
 
-# 🛣 Roadmap
+## 🛣 Roadmap
 
-## Now
+### Now
 
 1. ~~fix inconsistent focus state for message bubbles~~ (DONE)
 2. ~~fix bug with entire layout reloading while session is fetched~~ (DONE)
@@ -90,7 +90,7 @@ All data is read and operated on through the internal API, which is at `/api`. I
 9. improve load more messages (IN PROGRESS)
 10. improve loading skeletons (IN PROGRESS)
 
-## Next
+### Next
 
 1. quick reply templates (array per organisation)
 2. auto signature (custom content per user, checkbox on/off)
@@ -99,7 +99,7 @@ All data is read and operated on through the internal API, which is at `/api`. I
 4. unread message notices
 5. archive conversations (unarchive on new message)
 
-# Later
+### Later
 
 - support for multiple isolated teams/organisations (store notify config on database for distinguishing services?)
 - add metadata to contact from other apis (IN PROGRESS)
