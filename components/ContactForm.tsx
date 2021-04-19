@@ -1,6 +1,7 @@
 import { Formik, Form } from "formik"
 import { contactSchema } from "../lib/validators"
 import TextField from "./TextField"
+import Banner from "./Banner"
 
 interface InitialValues {
   number: string
@@ -30,15 +31,13 @@ const MessageForm = ({
       {({ touched, errors, isSubmitting, values, status }) => (
         <Form className="contact-form">
           {status && (
-            <section className="lbh-page-announcement lbh-page-announcement--warning">
-              <h3 className="lbh-page-announcement__title">
-                There was a problem saving the contact
-              </h3>
-              <div className="lbh-page-announcement__content">
-                <p>Please refresh the page or try again later.</p>
-                <p className="lbh-body-xs">{status}</p>
-              </div>
-            </section>
+            <Banner
+              title="There was a problem submitting the form"
+              className="lbh-page-announcement--warning"
+            >
+              <p>Please refresh the page or try again later.</p>
+              <p className="lbh-body-xs">{status}</p>
+            </Banner>
           )}
 
           <TextField
