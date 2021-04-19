@@ -1,7 +1,8 @@
 import { PrismaClient } from "@prisma/client"
 
-let prisma
+let prisma: PrismaClient
 
+// from: https://pris.ly/d/help/next-js-best-practices
 if (process.env.NODE_ENV === "production") {
   prisma = new PrismaClient()
 } else {
@@ -12,3 +13,11 @@ if (process.env.NODE_ENV === "production") {
 }
 
 export default prisma
+
+declare global {
+  namespace NodeJS {
+    interface Global {
+      prisma: any
+    }
+  }
+}

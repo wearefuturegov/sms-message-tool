@@ -10,6 +10,7 @@ import Header from "./Header"
 import SearchForm from "./SearchForm"
 import NewContactLink from "./NewContactLink"
 import ConversationNav from "./ConversationNav"
+import { setNestedObjectValues } from "formik"
 
 const DashboardLayout = ({
   children,
@@ -26,20 +27,22 @@ const DashboardLayout = ({
   const router = useRouter()
   const [session, loading] = useSession()
 
-  const handleSubmit = async ({ number, nickname }) => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_HOST}/api/contacts/`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          number,
-          nickname,
-        }),
-      }
-    )
-    const data = await res.json()
-    mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/conversations`)
-    router.push(`/conversations/${data.id}`)
+  const handleSubmit = async (values, { setStatus }) => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_HOST}/api/contacts/`,
+        {
+          method: "POST",
+          body: JSON.stringify(values),
+        }
+      )
+      const data = await res.json()
+      if (data.error) throw data.error
+      mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/conversations`)
+      router.push(`/conversations/${data.id}`)
+    } catch (e) {
+      setStatus(e)
+    }
   }
 
   if (session)

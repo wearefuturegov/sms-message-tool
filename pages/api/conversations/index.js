@@ -24,6 +24,6 @@ export default verifySession(async (req, res) => {
     })
   } catch (e) {
     console.error(e)
-    res.status(500).json({ error: e })
+    res.status(500).json({ error: e.toString() })
   }
 })

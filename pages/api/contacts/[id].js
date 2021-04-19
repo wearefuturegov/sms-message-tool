@@ -2,6 +2,7 @@ import parsePhoneNumber from "libphonenumber-js"
 import prisma from "../../../lib/prisma"
 import { verifySession } from "../../../lib/middleware"
 import { getContactMetadata } from "../../../lib/socialCareApi"
+import { contactSchema } from "../../../lib/validators"
 
 export default verifySession(async (req, res) => {
   try {
@@ -11,11 +12,12 @@ export default verifySession(async (req, res) => {
     if (req.method === "PUT") {
       // UPDATE
       const { nickname, number, socialCareId } = JSON.parse(req.body)
+      await contactSchema.validate({ nickname, number, socialCareId })
       result = await prisma.contact.update({
         data: {
           nickname,
           number: parsePhoneNumber(number, "GB").number,
-          socialCareId: Number(socialCareId),
+          socialCareId,
         },
         where: {
           id: Number(id),
@@ -42,6 +44,6 @@ export default verifySession(async (req, res) => {
     }
   } catch (e) {
     console.error(e)
-    res.status(500).json({ error: e })
+    res.status(500).json({ error: e.toString() })
   }
 })

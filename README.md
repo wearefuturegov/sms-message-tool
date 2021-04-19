@@ -78,17 +78,18 @@ All data is read and operated on through the internal API, which is at `/api`. I
 
 ### Now
 
-1. ~~fix inconsistent focus state for message bubbles~~ (DONE)
-2. ~~fix bug with entire layout reloading while session is fetched~~ (DONE)
-3. ~~refactor layouts~~ (DONE)
-4. ~~settings form~~ (DONE)
-5. ~~search conversations~~ (DONE)
-6. ~~fix bug with "just sent" messages~~ (DONE)
-7. ~~fix bug with search hanging on "no results" while loading~~ (DONE)
-8. ~~proper custom login screen~~ (DONE)
+- ~~fix inconsistent focus state for message bubbles~~ (DONE)
+- ~~fix bug with entire layout reloading while session is fetched~~ (DONE)
+- ~~refactor layouts~~ (DONE)
+- ~~settings form~~ (DONE)
+- ~~search conversations~~ (DONE)
+- ~~fix bug with "just sent" messages~~ (DONE)
+- ~~fix bug with search hanging on "no results" while loading~~ (DONE)
+- ~~proper custom login screen~~ (DONE)
 
-9. improve load more messages (IN PROGRESS)
-10. improve loading skeletons (IN PROGRESS)
+1. fix bug with new contact creation
+2. improve load more messages (IN PROGRESS)
+3. improve loading skeletons (IN PROGRESS)
 
 ### Next
 

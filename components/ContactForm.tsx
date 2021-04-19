@@ -5,7 +5,7 @@ import TextField from "./TextField"
 interface InitialValues {
   number: string
   nickname: string
-  socialCareId: number
+  socialCareId: string
 }
 
 interface Props {
@@ -17,7 +17,7 @@ const MessageForm = ({
   initialValues = {
     nickname: "",
     number: "",
-    socialCareId: null,
+    socialCareId: "",
   },
   onSubmit,
 }: Props): React.ReactElement => {
@@ -27,8 +27,20 @@ const MessageForm = ({
       initialValues={initialValues}
       onSubmit={onSubmit}
     >
-      {({ touched, errors, isSubmitting }) => (
+      {({ touched, errors, isSubmitting, values, status }) => (
         <Form className="contact-form">
+          {status && (
+            <section className="lbh-page-announcement lbh-page-announcement--warning">
+              <h3 className="lbh-page-announcement__title">
+                There was a problem saving the contact
+              </h3>
+              <div className="lbh-page-announcement__content">
+                <p>Please refresh the page or try again later.</p>
+                <p className="lbh-body-xs">{status}</p>
+              </div>
+            </section>
+          )}
+
           <TextField
             touched={touched}
             errors={errors}

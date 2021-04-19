@@ -41,7 +41,7 @@ model Contact {
   messages     Message[]
   createdAt    DateTime  @default(now()) @map(name: "created_at")
   updatedAt    DateTime  @updatedAt @map(name: "updated_at")
-  socialCareId Int?
+  socialCareId String?
 }
 
 model User {

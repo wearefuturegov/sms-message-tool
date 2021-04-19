@@ -10,6 +10,7 @@ import Message from "../../components/Message"
 import ContactForm from "../../components/ContactForm"
 import Dialog from "../../components/Dialog"
 import ContactHeader from "../../components/ContactHeader"
+import { setNestedObjectValues } from "formik"
 
 const ConversationPage = () => {
   const router = useRouter()
@@ -63,18 +64,24 @@ const ConversationPage = () => {
     mutateMessages()
   }
 
-  const handleContactUpdate = async (id, values) => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_HOST}/api/contacts/${id}`,
-      {
-        method: "PUT",
-        body: JSON.stringify(values),
-      }
-    )
-    const data = await res.json()
-    mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/contacts/${id}`)
-    mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/conversations`)
-    router.back()
+  const handleContactUpdate = async (id, values, setStatus) => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_HOST}/api/contacts/${id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify(values),
+        }
+      )
+      const data = await res.json()
+      if (data.error) throw data.error
+      mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/contacts/${id}`)
+      mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/conversations`)
+      router.back()
+    } catch (e) {
+      console.log(e)
+      setStatus(e)
+    }
   }
 
   return (
@@ -105,7 +112,9 @@ const ConversationPage = () => {
           >
             <ContactForm
               initialValues={contact}
-              onSubmit={values => handleContactUpdate(contact.id, values)}
+              onSubmit={(values, { setStatus }) =>
+                handleContactUpdate(contact.id, values, setStatus)
+              }
             />
 
             {contact.metadata && (

@@ -1,6 +1,7 @@
 import prisma from "../../../lib/prisma"
 import { verifySession } from "../../../lib/middleware"
 import parsePhoneNumber from "libphonenumber-js"
+import { contactSchema } from "../../../lib/validators"
 
 export default verifySession(async (req, res) => {
   try {
@@ -9,11 +10,12 @@ export default verifySession(async (req, res) => {
     if (req.method === "POST") {
       // CREATE
       const { nickname, number, socialCareId } = JSON.parse(req.body)
+      await contactSchema.validate({ nickname, number, socialCareId })
       result = await prisma.contact.create({
         data: {
           nickname,
           number: parsePhoneNumber(number, "GB").number,
-          socialCareId: Number(socialCareId),
+          socialCareId,
         },
       })
       res.json(result)
@@ -54,6 +56,6 @@ export default verifySession(async (req, res) => {
     }
   } catch (e) {
     console.error(e)
-    res.status(500).json({ error: e })
+    res.status(500).json({ error: e.toString() })
   }
 })
