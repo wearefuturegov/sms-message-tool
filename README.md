@@ -87,9 +87,14 @@ All data is read and operated on through the internal API, which is at `/api`. I
 - ~~fix bug with search hanging on "no results" while loading~~ (DONE)
 - ~~proper custom login screen~~ (DONE)
 
-1. fix bug with new contact creation
-2. improve load more messages (IN PROGRESS)
-3. improve loading skeletons (IN PROGRESS)
+- ~~fix bug with new contact creation~~
+
+1. improve load more messages (IN PROGRESS)
+2. improve loading skeletons (IN PROGRESS)
+3. make sure all form submit handlers handle errors gracefully
+4. refactor APIs to use consistent error handling and to use same validation schemas as forms
+5. add missing unit tests
+6. make sure pages gracefully 404 if conversation or contact can't be found
 
 ### Next
 
