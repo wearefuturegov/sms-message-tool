@@ -10,7 +10,7 @@ interface InitialValues {
 
 interface Props {
   initialValues?: InitialValues
-  onSubmit: (values: any) => Promise<void>
+  onSubmit: (values: any, { setStatus }) => Promise<void>
 }
 
 const MessageForm = ({
