@@ -47,12 +47,14 @@ const SettingsForm = ({
           hint="This setting only affects you."
         />
 
-        <TextareaField
-          name="signature"
-          label="Signature text"
-          touched={touched}
-          errors={errors}
-        />
+        {values.useSignature && (
+          <TextareaField
+            name="signature"
+            label="Signature text"
+            touched={touched}
+            errors={errors}
+          />
+        )}
 
         <h2>Out of hours</h2>
 
@@ -66,12 +68,14 @@ const SettingsForm = ({
           name="outOfHoursAutoreply"
         />
 
-        <TextareaField
-          name="outOfHoursMessage"
-          label="Reply message"
-          touched={touched}
-          errors={errors}
-        />
+        {values.outOfHoursAutoreply && (
+          <TextareaField
+            name="outOfHoursMessage"
+            label="Reply message"
+            touched={touched}
+            errors={errors}
+          />
+        )}
 
         <FieldArray
           name="messageTemplates"

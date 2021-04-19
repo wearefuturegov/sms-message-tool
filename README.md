@@ -95,6 +95,7 @@ All data is read and operated on through the internal API, which is at `/api`. I
 4. refactor APIs to use consistent error handling and to use same validation schemas as forms
 5. add missing unit tests
 6. make sure pages gracefully 404 if conversation or contact can't be found
+7. don't show "go to bottom" button when the conversation is too short to scroll
 
 ### Next
 
