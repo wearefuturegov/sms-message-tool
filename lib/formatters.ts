@@ -1,7 +1,7 @@
 import { DateTime } from "luxon"
 import parsePhoneNumber from "libphonenumber-js"
 
-export const prettyDate = rawTimeDate => {
+export const prettyDate = (rawTimeDate: string | Date): string => {
   let now = DateTime.now()
   let then = DateTime.fromISO(rawTimeDate)
   // if difference is less than 1 minutes, say "just now"
@@ -9,5 +9,5 @@ export const prettyDate = rawTimeDate => {
   return then.toRelative()
 }
 
-export const prettyPhone = rawPhone =>
+export const prettyPhone = (rawPhone: string): string =>
   parsePhoneNumber(rawPhone, "GB").formatNational()
