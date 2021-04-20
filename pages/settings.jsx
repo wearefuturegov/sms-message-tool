@@ -1,11 +1,18 @@
+import { useState } from "react"
 import SettingsForm from "../components/SettingsForm"
 import { Router, useRouter } from "next/router"
-import { useSession } from "next-auth/client"
+import { useSession, getSession } from "next-auth/client"
 import useSWR, { mutate } from "swr"
+import { useEffect } from "react"
 
 const Settings = () => {
-  const [session, loading] = useSession()
   const router = useRouter()
+  const [session, setSession] = useState(false)
+
+  useEffect(async () => {
+    // explicitly grab a fresh session on page load
+    setSession(await getSession())
+  }, [])
 
   const { data: team } = useSWR(
     `${process.env.NEXT_PUBLIC_API_HOST}/api/settings`
@@ -22,7 +29,6 @@ const Settings = () => {
         }),
       }
     )
-    const data = await res.json()
     mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/settings`)
     router.push("/")
   }
@@ -35,6 +41,7 @@ const Settings = () => {
         <SettingsForm
           onSubmit={values => handleSubmit(team.id, values)}
           initialValues={{
+            useSignature: session?.user?.useSignature,
             signature: session?.user?.signature,
             outOfHoursAutoreply: team?.outOfHoursAutoreply,
             outOfHoursMessage: team?.outOfHoursMessage,

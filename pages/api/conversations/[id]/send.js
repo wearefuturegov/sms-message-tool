@@ -2,12 +2,12 @@ import prisma from "../../../../lib/prisma"
 import { sendMessage } from "../../../../lib/notify"
 import { verifySession } from "../../../../lib/middleware"
 
-export default async (req, res) => {
-  const session = await verifySession(req, res)
-
+export default verifySession(async (req, res, session) => {
   if (req.method === "POST") {
-    const { body } = JSON.parse(req.body)
+    let { body } = JSON.parse(req.body)
     const { id } = req.query
+
+    if (session.user.useSignature) body = `${body} ${session.user.signature}`
 
     const result = await prisma.message.create({
       data: {
@@ -28,9 +28,10 @@ export default async (req, res) => {
         contact: true,
       },
     })
+
     await sendMessage(result.contact.number, body, result.id)
     res.json(result)
   } else {
     res.status(401)
   }
-}
+})

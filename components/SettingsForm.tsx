@@ -1,18 +1,15 @@
-import {
-  Formik,
-  Form,
-  Field,
-  FieldArray,
-  FormikErrors,
-  FormikTouched,
-} from "formik"
+import { Formik, Form, FieldArray, FormikErrors, FormikTouched } from "formik"
 import { isValidNumber } from "libphonenumber-js"
 import React from "react"
 import { settingsSchema } from "../lib/validators"
 import CheckboxField from "./CheckboxField"
+import TextField from "./TextField"
+import TextareaField from "./TextareaField"
+import ReplyTemplateField from "./ReplyTemplateField"
 
 interface FormValues {
-  signature: boolean
+  useSignature: boolean
+  signature: string
   outOfHoursAutoreply: boolean
   outOfHoursMessage: string
   messageTemplates: string[]
@@ -31,32 +28,6 @@ interface Props {
   initialValues?: FormValues
 }
 
-const ReplyTemplate = ({ touched, errors, i, arrayHelpers }) => (
-  <div className="repeater-field">
-    <div className="repeater-field__inner">
-      {touched && errors && (
-        <p className="govuk-error-message lbh-error-message" role="alert">
-          <span className="govuk-visually-hidden">Error:</span> {errors}
-        </p>
-      )}
-      <Field
-        name={`messageTemplates.${i}`}
-        as="textarea"
-        className={`govuk-textarea lbh-textarea ${
-          touched && errors && "govuk-textarea--error"
-        }`}
-      />
-    </div>
-    <button
-      type="button"
-      className="govuk-link lbh-link"
-      onClick={() => arrayHelpers.remove(i)}
-    >
-      Remove
-    </button>
-  </div>
-)
-
 const SettingsForm = ({
   initialValues,
   onSubmit,
@@ -72,10 +43,20 @@ const SettingsForm = ({
         <h2>Signature</h2>
 
         <CheckboxField
-          label="Include your first name at the end of messages you send"
-          name="signature"
+          label="Include a signature at the end of messages you send"
+          name="useSignature"
           hint="This setting only affects you."
         />
+
+        {values.useSignature && (
+          <TextField
+            name="signature"
+            label="Signature text"
+            touched={touched}
+            errors={errors}
+            className="govuk-input--width-10"
+          />
+        )}
 
         <h2>Out of hours</h2>
 
@@ -89,27 +70,14 @@ const SettingsForm = ({
           name="outOfHoursAutoreply"
         />
 
-        <label htmlFor="outOfHoursReply" className="govuk-label lbh-label">
-          Reply message
-        </label>
-
-        {touched.outOfHoursReply && errors.outOfHoursReply && (
-          <p className="govuk-error-message lbh-error-message" role="alert">
-            <span className="govuk-visually-hidden">Error:</span>{" "}
-            {errors.outOfHoursReply}
-          </p>
+        {values.outOfHoursAutoreply && (
+          <TextareaField
+            name="outOfHoursMessage"
+            label="Reply message"
+            touched={touched}
+            errors={errors}
+          />
         )}
-
-        <Field
-          name="outOfHoursMessage"
-          id="outOfHoursMessage"
-          as="textarea"
-          className={`govuk-textarea lbh-textarea ${
-            touched.outOfHoursReply &&
-            errors.outOfHoursReply &&
-            `govuk-textarea--error `
-          }`}
-        />
 
         <FieldArray
           name="messageTemplates"
@@ -124,7 +92,7 @@ const SettingsForm = ({
               </p>
 
               {values?.messageTemplates?.map((template, i) => (
-                <ReplyTemplate
+                <ReplyTemplateField
                   errors={errors.messageTemplates && errors.messageTemplates[i]}
                   touched={
                     touched.messageTemplates && touched.messageTemplates[i]

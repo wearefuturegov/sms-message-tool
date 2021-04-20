@@ -1,5 +1,9 @@
 @import "node_modules/lbh-frontend/lbh/settings/all";
 
+* {
+  word-wrap: break-word;
+}
+
 // main conversation message area
 .conversation-header {
   margin-bottom: 15px;
@@ -43,15 +47,54 @@
   }
 }
 
+.conversation-holder {
+  position: relative;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+  display: flex;
+  margin-top: 0;
+  background: lbh-colour("lbh-grey-3");
+
+  &--no-messages {
+    align-items: center;
+    justify-content: center;
+  }
+
+  &__scroll-to-end {
+    position: absolute;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    padding: 10px;
+    animation: fadeUpIn 0.1s ease-out;
+    z-index: 2;
+
+    &:active {
+      top: inherit;
+      bottom: 18px;
+    }
+  }
+}
+
+@keyframes fadeUpIn {
+  from {
+    opacity: 0;
+    transform: translateY(20px) translateX(-50%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0px) translateX(-50%);
+  }
+}
+
 .conversation {
   position: relative;
-  margin-top: 0;
   padding: 5px 25px 25px 25px;
-  background: lbh-colour("lbh-grey-3");
-  flex: 1;
   overflow-y: auto;
   min-height: 0;
-  scroll-behavior: smooth;
+  width: 100%;
 
   &__inner {
     display: flex;
@@ -59,13 +102,6 @@
     flex-flow: column-reverse;
     list-style: none;
     margin-top: 0;
-  }
-
-  &__scroll-to-end {
-    position: fixed;
-    bottom: 20px;
-    left: 50%;
-    transform: translateX(-50%);
   }
 
   // firefox overflow scroll fix
@@ -127,7 +163,6 @@
   &__load-more,
   &__no-older {
     display: block;
-    width: auto;
     margin: 30px auto 20px auto;
   }
 

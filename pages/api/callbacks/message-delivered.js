@@ -2,10 +2,8 @@ import prisma from "../../../lib/prisma"
 import { verifyCallbackToken } from "../../../lib/middleware"
 
 // https://docs.notifications.service.gov.uk/node.html#delivery-receipts
-export default async (req, res) => {
+export default verifyCallbackToken(async (req, res) => {
   if (req.method === "POST") {
-    verifyCallbackToken(req, res)
-
     const { reference, status, completed_at } = req.body
 
     await prisma.message.update({
@@ -20,4 +18,4 @@ export default async (req, res) => {
 
     res.status(200).send("OK")
   }
-}
+})

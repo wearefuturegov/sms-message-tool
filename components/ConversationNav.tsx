@@ -1,11 +1,21 @@
 import { useState } from "react"
 import SearchForm from "./SearchForm"
 import ConversationTile from "./ConversationTile"
+import { Prisma, Contact } from "@prisma/client"
+
+type MessageWithContact = Prisma.MessageGetPayload<{
+  include: { contact: true }
+}>
+
+interface Props {
+  conversations: MessageWithContact[]
+  neverMessaged: Contact[]
+}
 
 const ConversationNav = ({
   conversations,
   neverMessaged,
-}): React.ReactElement => {
+}: Props): React.ReactElement => {
   const [searching, setSearching] = useState(false)
   const [loading, setLoading] = useState(false)
   const [results, setResults] = useState([])

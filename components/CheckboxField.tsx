@@ -6,7 +6,11 @@ interface CheckboxProps {
   hint?: string
 }
 
-const CheckboxField = ({ name, label, hint }: CheckboxProps) => (
+const CheckboxField = ({
+  name,
+  label,
+  hint,
+}: CheckboxProps): React.ReactElement => (
   <div className="govuk-form-group lbh-form-group">
     <div className="govuk-checkboxes lbh-checkboxes">
       <div className="govuk-checkboxes__item">

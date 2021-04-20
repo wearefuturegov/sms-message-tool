@@ -19,7 +19,7 @@
     "@prisma/client": "^2.20.1",
     "@reach/dialog": "^0.13.2",
     "formik": "^2.2.6",
-    "lbh-frontend": "^3.3.1",
+    "lbh-frontend": "^3.5.2",
     "libphonenumber-js": "^1.9.15",
     "luxon": "^1.26.0",
     "next": "^10.0.9",
@@ -35,6 +35,7 @@
   },
   "devDependencies": {
     "@testing-library/react": "^11.2.5",
+    "@types/jest": "^26.0.22",
     "@types/next-auth": "^3.13.0",
     "@types/node": "^14.14.37",
     "@types/react": "^17.0.3",

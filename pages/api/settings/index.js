@@ -1,13 +1,12 @@
 import prisma from "../../../lib/prisma"
 import { verifySession } from "../../../lib/middleware"
 
-export default async (req, res) => {
+export default verifySession(async (req, res, session) => {
   try {
-    const session = await verifySession(req, res)
-
     if (req.method === "POST") {
       const {
         teamId,
+        useSignature,
         signature,
         outOfHoursAutoreply,
         outOfHoursMessage,
@@ -20,6 +19,7 @@ export default async (req, res) => {
             id: session.user.id,
           },
           data: {
+            useSignature,
             signature,
           },
         }),
@@ -40,6 +40,6 @@ export default async (req, res) => {
     }
   } catch (e) {
     console.error(e)
-    res.status(500).json({ error: e })
+    res.status(500).json({ error: e.toString() })
   }
-}
+})

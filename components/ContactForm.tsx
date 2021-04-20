@@ -1,32 +1,45 @@
 import { Formik, Form } from "formik"
 import { contactSchema } from "../lib/validators"
 import TextField from "./TextField"
+import Banner from "./Banner"
 
 interface InitialValues {
   number: string
   nickname: string
+  socialCareId: string
 }
 
-interface FormProps {
+interface Props {
   initialValues?: InitialValues
-  onSubmit: (values: any) => Promise<void>
+  onSubmit: (values: any, { setStatus }) => Promise<void>
 }
 
 const MessageForm = ({
   initialValues = {
     nickname: "",
     number: "",
+    socialCareId: "",
   },
   onSubmit,
-}: FormProps): React.ReactElement => {
+}: Props): React.ReactElement => {
   return (
     <Formik
       validationSchema={contactSchema}
       initialValues={initialValues}
       onSubmit={onSubmit}
     >
-      {({ touched, errors, isSubmitting }) => (
+      {({ touched, errors, isSubmitting, values, status }) => (
         <Form className="contact-form">
+          {status && (
+            <Banner
+              title="There was a problem submitting the form"
+              className="lbh-page-announcement--warning"
+            >
+              <p>Please refresh the page or try again later.</p>
+              <p className="lbh-body-xs">{status}</p>
+            </Banner>
+          )}
+
           <TextField
             touched={touched}
             errors={errors}
@@ -40,6 +53,15 @@ const MessageForm = ({
             name="number"
             label="Mobile number"
             type="tel"
+          />
+
+          <TextField
+            touched={touched}
+            errors={errors}
+            name="socialCareId"
+            label="Social care ID"
+            className="govuk-input--width-10"
+            hint="Link this contact with their social care person record."
           />
 
           <button disabled={isSubmitting} className="govuk-button lbh-button">

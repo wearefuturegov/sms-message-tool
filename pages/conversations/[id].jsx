@@ -1,7 +1,6 @@
-import Link from "next/link"
 import useSWR, { mutate, useSWRInfinite } from "swr"
 import { useRouter } from "next/router"
-import { prettyDate, prettyPhone } from "../../lib/formatters"
+import { prettyPhone } from "../../lib/formatters"
 import Head from "next/head"
 
 import DashboardLayout from "../../components/_DashboardLayout"
@@ -10,6 +9,8 @@ import Conversation from "../../components/Conversation"
 import Message from "../../components/Message"
 import ContactForm from "../../components/ContactForm"
 import Dialog from "../../components/Dialog"
+import ContactHeader from "../../components/ContactHeader"
+import { setNestedObjectValues } from "formik"
 
 const ConversationPage = () => {
   const router = useRouter()
@@ -32,17 +33,22 @@ const ConversationPage = () => {
     size,
     setSize,
     mutate: mutateMessages,
-  } = useSWRInfinite((pageIndex, previousPageData) => {
-    // last page
-    if (previousPageData && !previousPageData.messages) return null
+  } = useSWRInfinite(
+    (pageIndex, previousPageData) => {
+      // last page
+      if (previousPageData && !previousPageData.messages) return null
 
-    // first page
-    if (pageIndex === 0)
-      return `${process.env.NEXT_PUBLIC_API_HOST}/api/conversations/${id}`
+      // first page
+      if (pageIndex === 0)
+        return `${process.env.NEXT_PUBLIC_API_HOST}/api/conversations/${id}`
 
-    // every other page
-    return previousPageData.nextCursor
-  })
+      // every other page
+      return previousPageData.nextCursor
+    },
+    {
+      refreshInterval: 30000,
+    }
+  )
 
   const handleSubmit = async (id, values) => {
     const res = await fetch(
@@ -58,17 +64,24 @@ const ConversationPage = () => {
     mutateMessages()
   }
 
-  const handleContactUpdate = async (id, values) => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_HOST}/api/contacts/${id}`,
-      {
-        method: "PUT",
-        body: JSON.stringify(values),
-      }
-    )
-    const data = await res.json()
-    mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/contact/${id}`)
-    mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/conversations`)
+  const handleContactUpdate = async (id, values, setStatus) => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_HOST}/api/contacts/${id}`,
+        {
+          method: "PUT",
+          body: JSON.stringify(values),
+        }
+      )
+      const data = await res.json()
+      if (data.error) throw data.error
+      mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/contacts/${id}`)
+      mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/conversations`)
+      router.back()
+    } catch (e) {
+      console.log(e)
+      setStatus(e)
+    }
   }
 
   return (
@@ -82,45 +95,13 @@ const ConversationPage = () => {
             </title>
           </Head>
 
-          <header className="conversation-header">
-            <h1 className="lbh-heading-h4 conversation-header__headline">
-              {contact.nickname || prettyPhone(contact.number)}
-            </h1>
-            <p className="lbh-body-xs conversation-header__caption">
-              {contact.nickname && `${prettyPhone(contact.number)} | `}
-
-              {messages[0] ? (
-                <>
-                  Last messaged{" "}
-                  {prettyDate(messages[0]?.messages[0]?.createdAt)} |{" "}
-                </>
-              ) : (
-                "Never messaged | "
-              )}
-
-              <Link
-                href={{
-                  pathname: router.asPath,
-                  query: { edit: true },
-                }}
-              >
-                <a className="lbh-link lbh-link--no-visited-state">
-                  Change details
-                </a>
-              </Link>
-            </p>
-          </header>
-
-          {/* {JSON.stringify(messages)}
-          {console.log(messages)} */}
+          <ContactHeader contact={contact} messages={messages} />
 
           {messages[0]?.messages?.length !== 0 ? (
             <Conversation data={messages} size={size} setSize={setSize} />
           ) : (
-            <div className="conversation">
-              <p className="lbh-body-xs conversation__no-older">
-                No messages to show
-              </p>
+            <div className="conversation-holder conversation-holder--no-messages">
+              <p className="lbh-body-xs conversation__no-older">No messages</p>
             </div>
           )}
 
@@ -131,8 +112,26 @@ const ConversationPage = () => {
           >
             <ContactForm
               initialValues={contact}
-              onSubmit={values => handleContactUpdate(contact.id, values)}
+              onSubmit={(values, { setStatus }) =>
+                handleContactUpdate(contact.id, values, setStatus)
+              }
             />
+
+            {contact.metadata && (
+              <>
+                <p>
+                  <code>{JSON.stringify(contact?.metadata)}</code>
+                </p>
+                <p>
+                  <a
+                    className="govuk-link lbh-link lbh-link--no-visited-state"
+                    href={`https://social-care-service-staging.hackney.gov.uk/people/${contact?.metadata?.mosaicId}`}
+                  >
+                    See on case recording app
+                  </a>
+                </p>
+              </>
+            )}
           </Dialog>
         </>
       ) : (
@@ -141,7 +140,7 @@ const ConversationPage = () => {
             <div></div>
             <div></div>
           </div>
-          <ul className="conversation"></ul>
+          <div className="conversation-holder"></div>
         </>
       )}
       <MessageForm onSubmit={values => handleSubmit(contact.id, values)} />

@@ -1,7 +1,7 @@
 import { useRouter } from "next/router"
 import Link from "next/link"
 
-const NewContactLink = () => {
+const NewContactLink = (): React.ReactElement => {
   const router = useRouter()
   return (
     <Link

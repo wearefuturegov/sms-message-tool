@@ -1,6 +1,6 @@
-import useSWR from "swr"
+import useSWR, { mutate } from "swr"
 import { useSession } from "next-auth/client"
-import { useRouter } from "next/router"
+import { Router, useRouter } from "next/router"
 import Link from "next/link"
 
 import ConversationTile from "./ConversationTile"
@@ -10,16 +10,7 @@ import Header from "./Header"
 import SearchForm from "./SearchForm"
 import NewContactLink from "./NewContactLink"
 import ConversationNav from "./ConversationNav"
-
-const handleSubmit = async number => {
-  const res = await fetch(`${process.env.NEXT_PUBLIC_API_HOST}/api/contacts/`, {
-    method: "POST",
-    body: JSON.stringify({
-      number,
-    }),
-  })
-  const data = await res.json()
-}
+import { setNestedObjectValues } from "formik"
 
 const DashboardLayout = ({
   children,
@@ -35,6 +26,24 @@ const DashboardLayout = ({
 
   const router = useRouter()
   const [session, loading] = useSession()
+
+  const handleSubmit = async (values, { setStatus }) => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_HOST}/api/contacts/`,
+        {
+          method: "POST",
+          body: JSON.stringify(values),
+        }
+      )
+      const data = await res.json()
+      if (data.error) throw data.error
+      mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/conversations`)
+      router.push(`/conversations/${data.id}`)
+    } catch (e) {
+      setStatus(e)
+    }
+  }
 
   if (session)
     return (
@@ -59,7 +68,7 @@ const DashboardLayout = ({
             isOpen={!!router.query.new_conversation}
             onDismiss={() => router.back()}
           >
-            <ContactForm onSubmit={values => handleSubmit(values.number)} />
+            <ContactForm onSubmit={handleSubmit} />
           </Dialog>
         </main>
       </div>
