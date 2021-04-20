@@ -9,7 +9,7 @@ export interface ApiRequestWithSession extends NextApiRequest {
 export const verifySession = handler => {
   return async (req: ApiRequestWithSession, res: NextApiResponse) => {
     const session = await getSession({ req })
-    if (!session) return res.status(401).json({ message: "Not authorised" })
+    if (!session) return res.status(401).json({ error: "Not authorised" })
     req.session = session
     return handler(req, res, session)
   }
@@ -24,7 +24,7 @@ export const verifyCallbackToken = handler => {
     ) {
       return handler(req, res)
     } else {
-      res.status(401).json({ message: "Not authorised" })
+      res.status(401).json({ error: "Not authorised" })
     }
   }
 }
