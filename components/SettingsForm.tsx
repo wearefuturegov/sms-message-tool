@@ -3,6 +3,7 @@ import { isValidNumber } from "libphonenumber-js"
 import React from "react"
 import { settingsSchema } from "../lib/validators"
 import CheckboxField from "./CheckboxField"
+import TextField from "./TextField"
 import TextareaField from "./TextareaField"
 import ReplyTemplateField from "./ReplyTemplateField"
 
@@ -42,17 +43,18 @@ const SettingsForm = ({
         <h2>Signature</h2>
 
         <CheckboxField
-          label="Include your first name at the end of messages you send"
+          label="Include a signature at the end of messages you send"
           name="useSignature"
           hint="This setting only affects you."
         />
 
         {values.useSignature && (
-          <TextareaField
+          <TextField
             name="signature"
             label="Signature text"
             touched={touched}
             errors={errors}
+            className="govuk-input--width-10"
           />
         )}
 
