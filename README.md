@@ -88,6 +88,7 @@ All data is read and operated on through the internal API, which is at `/api`. I
 - ~~proper custom login screen~~ (DONE)
 - ~~fix bug with new contact creation~~ (DONE)
 - ~~auto signature (custom content per user, checkbox on/off)~~ (DONE)
+- ~~don't show "go to bottom" button when the conversation is too short to scroll~~ (DONE)
 
 1. improve load more messages (IN PROGRESS)
 2. improve loading skeletons (IN PROGRESS)
@@ -95,7 +96,6 @@ All data is read and operated on through the internal API, which is at `/api`. I
 4. refactor APIs to use consistent error handling and to use same validation schemas as forms
 5. add missing unit tests
 6. make sure pages gracefully 404 if conversation or contact can't be found
-7. don't show "go to bottom" button when the conversation is too short to scroll
 
 ### Next
 

@@ -29,6 +29,9 @@ const Index = ({ data, size, setSize }: Props): React.ReactElement => {
     return () => scroll.disconnect()
   }, [])
 
+  const scrollable =
+    ref.current && ref.current.scrollHeight > ref.current.clientHeight
+
   // scroll to latest messages when loading
   useEffect(() => {
     ref.current.scrollTo({ top: ref.current.scrollHeight })
@@ -36,6 +39,7 @@ const Index = ({ data, size, setSize }: Props): React.ReactElement => {
 
   return (
     <div className="conversation-holder">
+      {atLatest.toString()} {scrollable.toString()}
       <div className="conversation" ref={ref}>
         <div ref={intersectorRef}>
           {data[data.length - 1].nextCursor ? (
@@ -66,8 +70,7 @@ const Index = ({ data, size, setSize }: Props): React.ReactElement => {
           )}
         </ul>
       </div>
-
-      {!atLatest && (
+      {scrollable && !atLatest && (
         <button
           className="govuk-button lbh-button conversation-holder__scroll-to-end"
           onClick={goToLatest}

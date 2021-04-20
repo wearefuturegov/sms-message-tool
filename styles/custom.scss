@@ -69,6 +69,7 @@
     display: flex;
     padding: 10px;
     animation: fadeUpIn 0.1s ease-out;
+    z-index: 2;
 
     &:active {
       top: inherit;
