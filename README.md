@@ -86,8 +86,8 @@ All data is read and operated on through the internal API, which is at `/api`. I
 - ~~fix bug with "just sent" messages~~ (DONE)
 - ~~fix bug with search hanging on "no results" while loading~~ (DONE)
 - ~~proper custom login screen~~ (DONE)
-
-- ~~fix bug with new contact creation~~
+- ~~fix bug with new contact creation~~ (DONE)
+- ~~auto signature (custom content per user, checkbox on/off)~~ (DONE)
 
 1. improve load more messages (IN PROGRESS)
 2. improve loading skeletons (IN PROGRESS)
@@ -100,11 +100,10 @@ All data is read and operated on through the internal API, which is at `/api`. I
 ### Next
 
 1. quick reply templates (array per organisation)
-2. auto signature (custom content per user, checkbox on/off)
-3. out of hours autoreply (custom content, checkbox on/off with background job processing)
+2. out of hours autoreply (custom content, checkbox on/off with background job processing)
 
-4. unread message notices
-5. archive conversations (unarchive on new message)
+3. unread message notices
+4. archive conversations (unarchive on new message)
 
 ### Later
 
