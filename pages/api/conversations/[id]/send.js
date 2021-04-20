@@ -1,8 +1,8 @@
 import prisma from "../../../../lib/prisma"
 import { sendMessage } from "../../../../lib/notify"
-import { verifySession } from "../../../../lib/middleware"
+import { verifySession, errorHandler } from "../../../../lib/middleware"
 
-export default verifySession(async (req, res, session) => {
+const handler = async (req, res, session) => {
   if (req.method === "POST") {
     let { body } = JSON.parse(req.body)
     const { id } = req.query
@@ -32,6 +32,10 @@ export default verifySession(async (req, res, session) => {
     await sendMessage(result.contact.number, body, result.id)
     res.json(result)
   } else {
-    res.status(401)
+    res.status(400).json({
+      error: "Method not supported on this endpoint",
+    })
   }
-})
+}
+
+export default errorHandler(verifySession(handler))
