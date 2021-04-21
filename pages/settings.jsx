@@ -42,9 +42,9 @@ const Settings = () => {
           onSubmit={values => handleSubmit(team.id, values)}
           initialValues={{
             useSignature: session?.user?.useSignature,
-            signature: session?.user?.signature,
+            signature: session?.user?.signature || "",
             outOfHoursAutoreply: team?.outOfHoursAutoreply,
-            outOfHoursMessage: team?.outOfHoursMessage,
+            outOfHoursMessage: team?.outOfHoursMessage || "",
             messageTemplates: team?.messageTemplates,
           }}
         />
