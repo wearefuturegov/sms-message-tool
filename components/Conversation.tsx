@@ -39,7 +39,6 @@ const Index = ({ data, size, setSize }: Props): React.ReactElement => {
 
   return (
     <div className="conversation-holder">
-      {atLatest.toString()} {scrollable.toString()}
       <div className="conversation" ref={ref}>
         <div ref={intersectorRef}>
           {data[data.length - 1].nextCursor ? (
