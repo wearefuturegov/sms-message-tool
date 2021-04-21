@@ -53,6 +53,7 @@ const MessageForm = ({
             name="number"
             label="Mobile number"
             type="tel"
+            className="govuk-width--length-10"
           />
 
           <TextField
