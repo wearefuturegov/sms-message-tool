@@ -1,8 +1,8 @@
 import prisma from "../../../lib/prisma"
-import { verifyCallbackToken } from "../../../lib/middleware"
+import { errorHandler, verifyCallbackToken } from "../../../lib/middleware"
 
 // https://docs.notifications.service.gov.uk/node.html#delivery-receipts
-export default verifyCallbackToken(async (req, res) => {
+const handler = async (req, res) => {
   if (req.method === "POST") {
     const { reference, status, completed_at } = req.body
 
@@ -18,4 +18,6 @@ export default verifyCallbackToken(async (req, res) => {
 
     res.status(200).send("OK")
   }
-})
+}
+
+export default errorHandler(verifyCallbackToken(handler))
