@@ -1,5 +1,6 @@
 import prisma from "../../../lib/prisma"
 import { verifySession, errorHandler } from "../../../lib/middleware"
+import { settingsSchema } from "../../../lib/validators"
 
 const handler = async (req, res, session) => {
   if (req.method === "POST") {
@@ -11,6 +12,15 @@ const handler = async (req, res, session) => {
       outOfHoursMessage,
       messageTemplates,
     } = JSON.parse(req.body)
+
+    await settingsSchema.validate({
+      teamId,
+      useSignature,
+      signature,
+      outOfHoursAutoreply,
+      outOfHoursMessage,
+      messageTemplates,
+    })
 
     Promise.all([
       prisma.user.update({

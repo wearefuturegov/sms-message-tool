@@ -91,12 +91,12 @@ All data is read and operated on through the internal API, which is at `/api`. I
 - ~~don't show "go to bottom" button when the conversation is too short to scroll~~ (DONE)
 - ~~refactor APIs to use consistent error handling~~ (DONE)
 - ~~make sure all form submit handlers handle errors gracefully~~ (DONE)
+- ~~refactor APIs to use same validation schemas as forms~~ (DONE)
 
 1. improve load more messages (IN PROGRESS)
 2. improve loading skeletons (IN PROGRESS)
-3. refactor APIs to use same validation schemas as forms
-4. add missing unit tests
-5. make sure pages gracefully 404 if conversation or contact can't be found
+3. add missing unit tests
+4. make sure pages gracefully 404 if conversation or contact can't be found
 
 ### Next
 

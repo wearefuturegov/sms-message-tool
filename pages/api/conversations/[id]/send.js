@@ -1,11 +1,14 @@
 import prisma from "../../../../lib/prisma"
 import { sendMessage } from "../../../../lib/notify"
 import { verifySession, errorHandler } from "../../../../lib/middleware"
+import { messageSchema } from "../../../../lib/validators"
 
 const handler = async (req, res, session) => {
   if (req.method === "POST") {
     let { body } = JSON.parse(req.body)
     const { id } = req.query
+
+    await messageSchema.validate({ body })
 
     if (session.user.useSignature) body = `${body} ${session.user.signature}`
 
