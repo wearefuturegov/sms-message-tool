@@ -1,3 +1,4 @@
+import Head from "next/head"
 import { providers, signIn, getSession } from "next-auth/client"
 
 export const getServerSideProps = async context => {
@@ -19,6 +20,9 @@ export const getServerSideProps = async context => {
 
 const SignIn = ({ provider }) => (
   <>
+    <Head>
+      <title>Sign in | SMS | Hackney Council</title>
+    </Head>
     <h1 className="lbh-heading-h1">Sign in</h1>
     <button
       onClick={() => signIn(provider.id)}

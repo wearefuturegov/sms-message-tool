@@ -1,3 +1,4 @@
+import Head from "next/head"
 import { useState } from "react"
 import SettingsForm from "../components/SettingsForm"
 import { Router, useRouter } from "next/router"
@@ -41,8 +42,13 @@ const Settings = () => {
 
   return (
     <div className="govuk-grid-row">
+      <Head>
+        <title>Settings | SMS | Hackney Council</title>
+      </Head>
       <div className="govuk-grid-column-two-thirds">
-        <h1 className="lbh-heading-h1 govuk-!-margin-bottom-8">Settings</h1>
+        <h1 className="lbh-heading-h1 govuk-!-margin-bottom-8">
+          Settings and preferences
+        </h1>
 
         <SettingsForm
           onSubmit={(values, { setStatus }) =>

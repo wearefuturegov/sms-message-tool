@@ -92,6 +92,7 @@ All data is read and operated on through the internal API, which is at `/api`. I
 - ~~refactor APIs to use consistent error handling~~ (DONE)
 - ~~make sure all form submit handlers handle errors gracefully~~ (DONE)
 - ~~refactor APIs to use same validation schemas as forms~~ (DONE)
+- ~~add proper titles to each page using next/head~~ (DONE)
 
 1. improve load more messages (IN PROGRESS)
 2. improve loading skeletons (IN PROGRESS)
