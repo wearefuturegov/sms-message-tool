@@ -62,7 +62,7 @@ const MessageForm = ({
             name="socialCareId"
             label="Social care ID"
             className="govuk-input--width-10"
-            hint="Link this contact with their social care person record."
+            hint="Link this contact with their single view person record."
           />
 
           <button disabled={isSubmitting} className="govuk-button lbh-button">
