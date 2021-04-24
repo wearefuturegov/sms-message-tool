@@ -18,19 +18,24 @@ const Settings = () => {
     `${process.env.NEXT_PUBLIC_API_HOST}/api/settings`
   )
 
-  const handleSubmit = async (id, values) => {
-    const res = await fetch(
-      `${process.env.NEXT_PUBLIC_API_HOST}/api/settings`,
-      {
-        method: "POST",
-        body: JSON.stringify({
-          teamId: id,
-          ...values,
-        }),
-      }
-    )
-    mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/settings`)
-    router.push("/")
+  const handleSubmit = async (id, values, setStatus) => {
+    try {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_HOST}/api/settings`,
+        {
+          method: "POST",
+          body: JSON.stringify({
+            teamId: id,
+            ...values,
+          }),
+        }
+      )
+      if (res.status !== 200) throw "Error"
+      mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/settings`)
+      router.push("/")
+    } catch (e) {
+      setStatus(e.toString())
+    }
   }
 
   return (
@@ -39,7 +44,9 @@ const Settings = () => {
         <h1 className="lbh-heading-h1 govuk-!-margin-bottom-8">Settings</h1>
 
         <SettingsForm
-          onSubmit={values => handleSubmit(team.id, values)}
+          onSubmit={(values, { setStatus }) =>
+            handleSubmit(team.id, values, setStatus)
+          }
           initialValues={{
             useSignature: session?.user?.useSignature,
             signature: session?.user?.signature || "",

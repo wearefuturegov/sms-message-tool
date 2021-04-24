@@ -79,8 +79,7 @@ const ConversationPage = () => {
       mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/conversations`)
       router.back()
     } catch (e) {
-      console.log(e)
-      setStatus(e)
+      setStatus(e.toString())
     }
   }
 

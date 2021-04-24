@@ -6,6 +6,7 @@ import CheckboxField from "./CheckboxField"
 import TextField from "./TextField"
 import TextareaField from "./TextareaField"
 import ReplyTemplateField from "./ReplyTemplateField"
+import Banner from "./Banner"
 
 interface FormValues {
   useSignature: boolean
@@ -38,8 +39,25 @@ const SettingsForm = ({
     onSubmit={onSubmit}
     enableReinitialize={true}
   >
-    {({ values, touched, errors, isSubmitting, isValid, submitCount }) => (
+    {({
+      values,
+      touched,
+      errors,
+      isSubmitting,
+      isValid,
+      submitCount,
+      status,
+    }) => (
       <Form>
+        {status && (
+          <Banner
+            title="There was a problem submitting the form"
+            className="lbh-page-announcement--warning"
+          >
+            <p>Please refresh the page or try again later.</p>
+          </Banner>
+        )}
+
         <h2>Signature</h2>
 
         <CheckboxField

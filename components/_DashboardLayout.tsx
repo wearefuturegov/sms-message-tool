@@ -41,7 +41,7 @@ const DashboardLayout = ({
       mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/conversations`)
       router.push(`/conversations/${data.id}`)
     } catch (e) {
-      setStatus(e)
+      setStatus(e.toString())
     }
   }
 
