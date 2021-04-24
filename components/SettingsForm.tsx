@@ -55,6 +55,7 @@ const SettingsForm = ({
             className="lbh-page-announcement--warning"
           >
             <p>Please refresh the page or try again later.</p>
+            <p className="lbh-body-xs">{status}</p>
           </Banner>
         )}
 

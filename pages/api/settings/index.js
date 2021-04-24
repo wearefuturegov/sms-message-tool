@@ -3,6 +3,8 @@ import { verifySession, errorHandler } from "../../../lib/middleware"
 import { settingsSchema } from "../../../lib/validators"
 
 const handler = async (req, res, session) => {
+  // throw "example error"
+
   if (req.method === "POST") {
     const {
       teamId,
@@ -14,7 +16,6 @@ const handler = async (req, res, session) => {
     } = JSON.parse(req.body)
 
     await settingsSchema.validate({
-      teamId,
       useSignature,
       signature,
       outOfHoursAutoreply,
@@ -22,7 +23,7 @@ const handler = async (req, res, session) => {
       messageTemplates,
     })
 
-    Promise.all([
+    await Promise.all([
       prisma.user.update({
         where: {
           id: session.user.id,

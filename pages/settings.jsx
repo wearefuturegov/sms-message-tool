@@ -25,12 +25,13 @@ const Settings = () => {
         {
           method: "POST",
           body: JSON.stringify({
-            teamId: id,
+            // teamId: id,
             ...values,
           }),
         }
       )
-      if (res.status !== 200) throw "Error"
+      const data = await res.json()
+      if (data.error) throw data.error
       mutate(`${process.env.NEXT_PUBLIC_API_HOST}/api/settings`)
       router.push("/")
     } catch (e) {
