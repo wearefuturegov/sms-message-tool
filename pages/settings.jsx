@@ -25,7 +25,7 @@ const Settings = () => {
         {
           method: "POST",
           body: JSON.stringify({
-            // teamId: id,
+            teamId: id,
             ...values,
           }),
         }
