@@ -1,4 +1,4 @@
-@import "node_modules/lbh-frontend/lbh/settings/all";
+@import "lbh-frontend/lbh/base";
 
 * {
   word-wrap: break-word;
@@ -202,12 +202,30 @@
 
 // new message form
 .message-form {
+  // display: grid;
+  // grid-template-columns: 1fr 10fr 3fr;
+  // gap: 15px;
+
   display: grid;
   grid-template-columns: 4fr 1fr;
   gap: 15px;
 
-  button {
+  * {
     margin-top: 0;
+  }
+
+  &__actions {
+    display: flex;
+    flex-direction: row;
+
+    button {
+      width: 100%;
+    }
+
+    details + button {
+      border-top-left-radius: 0px;
+      border-bottom-left-radius: 0px;
+    }
   }
 }
 

@@ -32,10 +32,10 @@ const Index = ({ data, size, setSize }: Props): React.ReactElement => {
   const scrollable =
     ref.current && ref.current.scrollHeight > ref.current.clientHeight
 
-  // scroll to latest messages when loading
+  // scroll to latest messages when loading, and when a new message is send or recieved
   useEffect(() => {
     ref.current.scrollTo({ top: ref.current.scrollHeight })
-  }, [])
+  }, [data])
 
   return (
     <div className="conversation-holder">

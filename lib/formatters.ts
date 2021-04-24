@@ -11,3 +11,13 @@ export const prettyDate = (rawTimeDate: string | Date): string => {
 
 export const prettyPhone = (rawPhone: string): string =>
   parsePhoneNumber(rawPhone, "GB").formatNational()
+
+export const truncate = (str, noWords) => {
+  if (str && noWords > 1) {
+    if (str.split(" ").length > noWords) {
+      return str.split(" ").splice(0, noWords).join(" ") + "..."
+    } else {
+      return str
+    }
+  }
+}

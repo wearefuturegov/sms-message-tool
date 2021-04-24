@@ -93,6 +93,7 @@ All data is read and operated on through the internal API, which is at `/api`. I
 - ~~make sure all form submit handlers handle errors gracefully~~ (DONE)
 - ~~refactor APIs to use same validation schemas as forms~~ (DONE)
 - ~~add proper titles to each page using next/head~~ (DONE)
+- ~~quick reply templates (array per organisation)~~ (DONE)
 
 1. improve load more messages (IN PROGRESS)
 2. improve loading skeletons (IN PROGRESS)
@@ -101,11 +102,9 @@ All data is read and operated on through the internal API, which is at `/api`. I
 
 ### Next
 
-1. quick reply templates (array per organisation)
-2. out of hours autoreply (custom content, checkbox on/off with background job processing)
-
-3. unread message notices
-4. archive conversations (unarchive on new message)
+1. out of hours autoreply (custom content, checkbox on/off with background job processing)
+2. unread message notices
+3. archive conversations (unarchive on new message)
 
 ### Later
 

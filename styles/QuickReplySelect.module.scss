@@ -1,0 +1,72 @@
+@import "lbh-frontend/lbh/base";
+
+.details {
+  margin-top: 0;
+  position: relative;
+}
+
+.summary {
+  margin-top: 0;
+  @include govuk-font($size: 14);
+  padding: 10px;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-top-right-radius: 0px;
+  border-bottom-right-radius: 0px;
+  border-right: 1px solid #002d18;
+
+  &:focus svg path {
+    stroke: lbh-colour("lbh-text");
+  }
+  &:hover svg path {
+    stroke: lbh-colour("lbh-white");
+  }
+}
+
+.choices {
+  position: absolute;
+  bottom: 70px;
+  width: max-content;
+  max-width: 300px;
+  right: 0;
+  border-radius: 5px;
+  border: 1px solid lbh-colour("lbh-border");
+  background: lbh-colour("lbh-grey-4");
+  box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  z-index: 2;
+}
+
+.choice {
+  text-align: left;
+  background: none;
+  background: none;
+  padding: 15px;
+  border: none;
+  border-bottom: 1px solid lbh-colour("lbh-border");
+  cursor: pointer;
+  @include govuk-font($size: 16);
+
+  &:first-of-type {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+  }
+
+  &:last-of-type {
+    border-bottom: none;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+  }
+
+  &:hover {
+    background: lbh-colour("lbh-white");
+  }
+
+  &:focus {
+    outline: none;
+    box-shadow: 0px 0px 0px 3px lbh-colour("lbh-primary-focus");
+  }
+}
