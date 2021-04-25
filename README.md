@@ -94,6 +94,7 @@ All data is read and operated on through the internal API, which is at `/api`. I
 - ~~refactor APIs to use same validation schemas as forms~~ (DONE)
 - ~~add proper titles to each page using next/head~~ (DONE)
 - ~~quick reply templates (array per organisation)~~ (DONE)
+- ~~out of hours autoreply (custom content, checkbox on/off)~~ (DONE)
 
 1. improve load more messages (IN PROGRESS)
 2. improve loading skeletons (IN PROGRESS)
@@ -102,12 +103,12 @@ All data is read and operated on through the internal API, which is at `/api`. I
 
 ### Next
 
-1. out of hours autoreply (custom content, checkbox on/off with background job processing)
-2. unread message notices
-3. archive conversations (unarchive on new message)
+1. unread message notices
+2. archive conversations (unarchive on new message)
 
 ### Later
 
 - support for multiple isolated teams/organisations (store notify config on database for distinguishing services?)
 - add metadata to contact from other apis (IN PROGRESS)
+- make messages publicly queryable, or archive them in other systems?
 - email notifications?

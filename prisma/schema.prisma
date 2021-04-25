@@ -16,7 +16,7 @@ enum Direction {
 model Team {
   id                  Int      @id @default(autoincrement())
   outOfHoursAutoreply Boolean  @default(false)
-  outOfHoursMessage   String?
+  outOfHoursMessage   String?  @default("We're out of the office right now. We'll reply as soon as we can during our normal hours - 9am to 5pm weekdays.")
   messageTemplates    String[]
 }
 
