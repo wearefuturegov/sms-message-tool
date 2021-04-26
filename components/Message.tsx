@@ -21,7 +21,7 @@ const Metadata = ({ message }: { message: MessageWithUser }) => (
     ) : (
       <>
         <p className="lbh-body-xs">
-          Sent {prettyDate(message.createdAt)}
+          Sent {prettyDate(message.createdAt)}{" "}
           {message.user && (
             <>
               by <strong>{message?.user?.name}</strong>
