@@ -22,7 +22,7 @@ const ConversationTile = ({
   return (
     <li className="conversation-list__item">
       <NavLink href={`/conversations/${id}`}>
-        {nickname || prettyPhone(number)}
+        <>{nickname || prettyPhone(number)}</>
         <span className="lbh-body-xs conversation-list__last-message">
           {snippet || "No messages"}
         </span>
